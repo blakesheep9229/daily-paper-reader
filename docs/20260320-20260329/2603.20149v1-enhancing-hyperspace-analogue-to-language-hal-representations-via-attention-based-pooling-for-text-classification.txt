@@ -1,0 +1,148 @@
+Title: Enhancing Hyperspace Analogue to Language (HAL) Representations via Attention-Based Pooling for Text Classification
+
+URL Source: https://arxiv.org/pdf/2603.20149v1
+
+Published Time: Mon, 23 Mar 2026 01:11:19 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# Enhancing Hyperspace Analogue to Language (HAL) Representations via Attention-Based Pooling for Text Classification 
+
+Ali Sakour ∗1 and Zoalfekar Sakour 11Undergraduate Students, Department of Computer and Automatic Control Engineering, Faculty of Mechanical and Electrical Engineering, Lattakia University, Lattakia, Syria 
+
+Abstract 
+
+The Hyperspace Analogue to Language (HAL) model relies on global word co-occurrence matrices to construct distributional semantic representations. While these representations capture lexical relationships effectively, aggregating them into sentence-level embeddings via standard mean pooling often results in information loss. Mean pooling assigns equal weight to all tokens, thereby diluting the impact of contextually salient words with uninforma-tive structural tokens. In this paper, we address this limitation by integrating a learnable, temperature-scaled additive attention mechanism into the HAL representation pipeline. To mitigate the sparsity and high dimensionality of the raw co-occurrence matrices, we apply Truncated Singular Value Decomposition (SVD) to project the vectors into a dense latent space prior to the attention layer. We evaluate the proposed architecture on the IMDB sentiment analysis dataset. Empirical results demonstrate that the attention-based pool-ing approach achieves a test accuracy of 82.38%, yielding an absolute improvement of 6.74 percentage points over the traditional mean pooling baseline (75.64%). Furthermore, quali-tative analysis of the attention weights indicates that the mechanism successfully suppresses stop-words and selectively attends to sentiment-bearing tokens, improving both classification performance and model interpretability. 
+
+Keywords: Distributional Semantics, Hyperspace Analogue to Language, Attention Mecha-nism, Text Classification, Sentiment Analysis. 
+
+# 1 Introduction 
+
+Distributional semantic models operate on the premise that words occurring in similar contexts possess similar meanings. The Hyperspace Analogue to Language (HAL) model [3] operational-izes this concept by constructing a high-dimensional word co-occurrence matrix based on a sliding window. By inversely weighting co-occurrences according to the distance between target and context words, HAL generates robust lexical representations that capture both syntactic and semantic word properties. However, deploying word-level representations for sequence-level tasks, such as document classification or sentiment analysis, necessitates a vector aggregation strategy. The standard historical approach, mean pooling, computes the unweighted average of all constituent word 
+
+> ∗Corresponding Author. Email: alisakour78@gmail.com
+
+1
+
+> arXiv:2603.20149v1 [cs.CL] 20 Mar 2026
+
+vectors in a sequence. This uniform weighting assumes that all tokens contribute equally to the overall meaning of the text. Consequently, the semantic signal of highly discriminative tokens (e.g., sentiment-bearing adjectives) is systematically diluted by the inclusion of high-frequency, uninformative structural tokens (stop-words). To address this limitation, we propose an architecture that integrates classical distributional semantics with a learnable attention mechanism. Prior to aggregation, the raw, sparse HAL co-occurrence matrix—which scales linearly with the vocabulary size (2 V )—is projected into a lower-dimensional dense latent space using Truncated Singular Value Decomposition (SVD). This step resolves the curse of dimensionality and reduces the computational overhead required for neural network training. Following dimensionality reduction, we replace standard mean pooling with a parameterized additive attention layer [2]. Instead of a static average, the network learns to dynamically assign scalar weights to each word representation based on its relevance to the classification objective. To regulate the attention distribution and prevent the network from overfitting to single trigger words, we incorporate a temperature scaling factor into the softmax function. The primary contributions of this paper are as follows: 
+
+• We introduce a hybrid architecture that enhances static HAL representations by replacing traditional mean pooling with a learnable, temperature-scaled attention mechanism. 
+
+• We detail a preprocessing pipeline utilizing Truncated SVD to compress high-dimensional, sparse co-occurrence matrices into dense embeddings suitable for end-to-end neural net-work training. 
+
+• We provide empirical validation on the IMDB sentiment analysis dataset, demonstrating that the attention-based pooling mechanism yields an absolute accuracy improvement of 6.74 percentage points over the mean pooling baseline. 
+
+• We conduct a qualitative analysis of the attention weights, confirming that the proposed mechanism successfully filters out structural noise and correctly identifies salient tokens in mixed-sentiment contexts. 
+
+# 2 Related Work 
+
+2.1 Distributional Semantics and Co-occurrence Models 
+
+Early approaches to semantic representation relied extensively on word co-occurrence statistics derived from large corpora. Latent Semantic Analysis (LSA) [4] applies Singular Value Decom-position (SVD) to document-term matrices to extract latent semantic structures. In contrast, the Hyperspace Analogue to Language (HAL) [3] constructs a word-word co-occurrence ma-trix by passing a sliding window over the text, assigning weights inversely proportional to the distance between target and context words. While these count-based models effectively cap-ture lexical semantics, their raw representations are highly dimensional and sparse. Subsequent predictive models, such as Word2Vec [7] and GloVe [8], popularized dense, low-dimensional embeddings. However, classical distance-weighted co-occurrence matrices remain theoretically robust foundations for distributional semantics when appropriately compressed. 
+
+2.2 Sentence Representation and Pooling Strategies 
+
+Transforming word-level embeddings into fixed-length sequence representations requires an ag-gregation mechanism. Standard baselines, such as the fastText classifier [5], compute a simple unweighted average of word vectors. While computationally efficient, this linear aggregation is agnostic to word importance, assigning equal weight to discriminative terms and semantically 2vacant structural tokens. This uniform weighting restricts the model’s capacity to focus on sentiment-critical triggers, a limitation our proposed attention mechanism explicitly addresses. 
+
+2.3 Attention Mechanisms in Text Classification 
+
+Attention mechanisms, originally formalized for sequence-to-sequence neural machine transla-tion [2], mitigate the information bottleneck by allowing models to dynamically weight input tokens. This concept was subsequently adapted for sequence classification. For example, Yang et al. [11] introduced Hierarchical Attention Networks (HAN), demonstrating that learnable attention layers significantly outperform static pooling operations by selectively focusing on informative words. 
+
+2.4 The Current Gap 
+
+Contemporary natural language processing architectures predominantly pair attention mech-anisms with predictive embeddings or fully contextualized Transformer models [10]. The in-tegration of parameterized attention pooling directly with classical, count-based co-occurrence matrices, such as HAL, remains underexplored. This paper addresses this specific gap by demon-strating that HAL representations, when subjected to dimensionality reduction via SVD, can be effectively and efficiently aggregated using a temperature-scaled additive attention mechanism. 
+
+# 3 Methodology 
+
+The proposed architecture bridges static distributional semantics with dynamic neural aggrega-tion. The pipeline comprises four sequential stages: (1) HAL co-occurrence matrix construction, (2) dimensionality reduction, (3) temperature-scaled attention pooling, and (4) classification. 
+
+3.1 HAL Co-occurrence Matrix Construction 
+
+Let V denote the vocabulary of size V = |V| . To capture global word associations, we construct a co-occurrence matrix by passing a sliding window of size W over the training corpus. For a given target word wi and a context word wj separated by a distance d = |i − j|, we assign a co-occurrence weight inversely proportional to their distance: 
+
+f (wi, w j ) = 
+
+( 1 
+
+> d
+
+if 0 < d ≤ W
+
+0 otherwise (1) Directionality is preserved by maintaining two separate sparse matrices: a left co-occurrence matrix L ∈ RV ×V and a right co-occurrence matrix R ∈ RV ×V . The raw representation for a word w ∈ V is obtained by concatenating its corresponding row vectors from both matrices, resulting in a high-dimensional vector vraw ∈ R2V .
+
+3.2 Dimensionality Reduction via Truncated SVD 
+
+The raw matrix Mraw = [ L ⊕ R] ∈ RV ×2V exhibits extreme sparsity and a dimensionality that scales linearly with the vocabulary size. Utilizing Mraw directly in a neural network induces severe memory constraints and increases the risk of overfitting. To mitigate this, we apply Truncated Singular Value Decomposition (SVD) to project Mraw into a dense, continuous latent space: 
+
+Mraw ≈ UkΣkV Tk (2) where k ≪ 2V is the target embedding dimension. Each word w is subsequently mapped to a dense vector x ∈ Rk. In our experiments, we set W = 5 and k = 300. These fixed embeddings are utilized as inputs to the subsequent neural layers. 33.3 Temperature-Scaled Attention Pooling 
+
+Given a sequence of length T , let X = ( x1, x 2, . . . , x T ) represent the sequence of dense HAL embeddings. Standard mean pooling aggregates X via an unweighted average, s = 1
+
+> T
+
+PTt=1 xt,assigning equal importance to all tokens. To extract contextually salient features, we introduce a parameterized additive attention layer. For each token embedding xt, a scalar attention score et is computed via a single-layer feed-forward network: 
+
+et = v⊤ 
+
+> a
+
+tanh( Waxt + ba) (3) where Wa ∈ Rda×k, ba ∈ Rda , and va ∈ Rda are learnable parameters. Preliminary experiments indicated that standard softmax normalization often results in extreme weight concentrations on single tokens, leading to poor generalization. To explicitly regularize the attention distribution, we introduce a temperature scaling hyperparameter τ > 1. The normalized attention weight αt for each token is computed as: 
+
+αt = exp( et/τ )
+
+PTj=1 exp( ej /τ ) (4) The final sequence representation s ∈ Rk is the attention-weighted sum of the constituent token embeddings: 
+
+s =
+
+> T
+
+X
+
+> t=1
+
+αtxt (5) 
+
+3.4 Classification and Regularization 
+
+The aggregated vector s is passed through a Multi-Layer Perceptron (MLP) for final classifica-tion. To ensure training stability and further prevent overfitting, we apply Layer Normalization [1] and Dropout [9] prior to the final linear projection: 
+
+h = Dropout(ReLU(LayerNorm( Wcs + bc)) , p ) (6) ˆy = Softmax( Woh + bo) (7) where Wc, b c, W o, b o are trainable parameters, and p denotes the dropout probability. The entire architecture (comprising the attention mechanism and the classifier) is optimized end-to-end minimizing the standard cross-entropy loss function, augmented with L2 weight decay regularization. 
+
+# 4 Experiments and Results 
+
+4.1 Experimental Setup 
+
+We evaluate the proposed architecture on the IMDB binary sentiment classification dataset [6], comprising 25,000 training samples and 25,000 testing samples. Text preprocessing included lowercasing, HTML tag removal, and restricting the vocabulary to the V = 10 , 000 most frequent tokens. Sequences were truncated or padded to a fixed length of T = 200 tokens. For the HAL matrix construction, we defined a context window of W = 5. The raw co-occurrence matrix was compressed to k = 300 dimensions using Truncated SVD. The fixed embeddings were fed into both the baseline and the proposed model. The baseline model employs standard mean pooling followed by the classifier, while the proposed model utilizes the temperature-scaled attention layer ( τ = 2 .0) prior to the identical classifier. Both networks were trained using the Adam optimizer with a learning rate of 5 × 10 −4, a batch size of 64, and an L2 weight decay of 1 × 10 −4. To prevent overfitting, early stopping was implemented with a patience of 5 epochs based on validation accuracy. Classifier dropout was set to p = 0 .6. 44.2 Quantitative Results 
+
+Table 1 summarizes the classification performance. The traditional HAL representation com-bined with mean pooling achieves a test accuracy of 75.64%. In contrast, integrating the parameterized attention mechanism yields a peak test accuracy of 82.38%. This constitutes an absolute improvement of 6.74 percentage points under identical classifier configurations and embedding dimensions. Table 1: Comparative performance metrics: Initial (Epoch 1) vs. Peak accuracy on the IMDB test set. 
+
+Model Architecture Pooling Strategy Initial Acc. (E1) Peak Test Acc. 
+
+Traditional HAL (1996) Mean Pooling 63.83% 75.64% 
+
+HAL-Attention (Proposed) Attention Pooling 78.70% 82.38% 
+
+The learning dynamics further emphasize the efficacy of the proposed mechanism. As illus-trated in Figure 1, the attention-augmented model demonstrates rapid convergence, reaching 78.70% accuracy within the first epoch. Conversely, the mean pooling baseline converges slowly and plateaus, primarily due to the persistent noise introduced by structural stop-words during the unweighted aggregation phase. 
+
+4.3 Qualitative Analysis and Interpretability 
+
+Beyond performance metrics, attention-based pooling affords model interpretability. Mean pooling obscures the relative contribution of individual tokens. The proposed attention layer, however, outputs a normalized probability distribution over the sequence, quantifying token salience. To validate this behavior, we examined a syntactically complex, mixed-sentiment sentence: 
+
+”the cinematography was brilliant but the acting was completely awful and ruined the experi-ence” . A standard pooling mechanism would typically aggregate the positive token ( ”brilliant” )and negative tokens ( ”awful”, ”ruined” ), risking a neutral or misclassified vector. Our regularized attention mechanism successfully isolates the discriminative features and weighs the contrasting sentiments. The model assigned high attention weights to both the primary positive term, brilliant (α = 0 .2960), and the primary negative modifiers, awful (α =0.2662) and completely (α = 0 .2354). The temperature scaling factor ( τ = 2 .0) prevented the distribution from collapsing onto a single trigger word, allowing the model to capture the competing sentiments before correctly classifying the document as negative. This confirms that the proposed architecture not only filters out structural noise but also mimics a more holistic, context-aware reading strategy. 
+
+# 5 Conclusion 
+
+This paper presented an enhanced architecture for aggregating distributional semantic repre-sentations derived from the Hyperspace Analogue to Language (HAL) model. By replacing the conventional mean pooling strategy with a parameterized, temperature-scaled attention mechanism, we addressed the inherent information loss associated with unweighted sequence aggregation. The application of Truncated SVD effectively mitigated the extreme dimensional-ity and sparsity of the raw co-occurrence matrices, enabling efficient end-to-end neural network training. Empirical evaluation on the IMDB sentiment analysis dataset demonstrated that the pro-posed attention-based pooling mechanism yields an absolute accuracy improvement of 6.74 percentage points over the traditional baseline. Furthermore, qualitative analysis confirmed that the attention layer provides an interpretable aggregation scheme, successfully filtering out 5Figure 1: Test accuracy convergence over training epochs. uninformative structural tokens while dynamically weighting context-salient features, even in semantically complex sequences. Future work will investigate the scalability of this attention-augmented distributional frame-work across diverse natural language processing tasks, including document categorization and natural language inference. Additionally, we aim to explore the integration of this mechanism with sub-word tokenization strategies to handle out-of-vocabulary terms in highly specialized corpora. 
+
+# Declarations 
+
+Author Contributions: A. Sakour conceptualized the proposed attention-based pooling architecture, developed the codebase, conducted the experiments, and served as the primary author of the manuscript. Z. Sakour assisted in refining the methodology, performing code review, and proofreading the manuscript. 
+
+Declaration of AI Usage: During the preparation of this manuscript and the associated codebase, the authors utilized Large Language Models (LLMs) to assist with code optimization, the generation of data visualizations, and the refinement of academic English prose. Following the use of these tools, the authors rigorously reviewed, validated, and edited all AI-assisted outputs, taking full responsibility for the final content and integrity of the research. 
+
+# References 
+
+[1] J. L. Ba, J. R. Kiros, and G. E. Hinton. Layer normalization. arXiv preprint arXiv:1607.06450 , 2016. 6[2] D. Bahdanau, K. Cho, and Y. Bengio. Neural machine translation by jointly learning to align and translate. In Proceedings of the 3rd International Conference on Learning Representations (ICLR) , San Diego, CA, 2015. (arXiv:1409.0473, 2014). [3] K. Lund and C. Burgess. Producing high-dimensional semantic spaces from lexical co-occurrence. Behavior Research Methods, Instruments, & Computers , 28(2):203–208, 1996. [4] S. Deerwester, S. T. Dumais, G. W. Furnas, T. K. Landauer, and R. Harshman. Indexing by latent semantic analysis. Journal of the American Society for Information Science ,41(6):391–407, 1990. [5] A. Joulin, E. Grave, P. Bojanowski, and T. Mikolov. Bag of tricks for efficient text classi-fication. In Proceedings of the 15th Conference of the European Chapter of the Association for Computational Linguistics (EACL) , pages 427–431, Valencia, Spain, 2017. [6] A. L. Maas, R. E. Daly, P. T. Pham, D. Huang, A. Y. Ng, and C. Potts. Learning word vectors for sentiment analysis. In Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics (ACL) , pages 142–150, Portland, Oregon, 2011. [7] T. Mikolov, I. Sutskever, K. Chen, G. S. Corrado, and J. Dean. Distributed representa-tions of words and phrases and their compositionality. In Advances in Neural Information Processing Systems (NIPS) , volume 26, 2013. [8] J. Pennington, R. Socher, and C. D. Manning. GloVe: Global vectors for word represen-tation. In Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP) , pages 1532–1543, 2014. [9] N. Srivastava, G. Hinton, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov. Dropout: a simple way to prevent neural networks from overfitting. The Journal of Machine Learning Research , 15(1):1929–1958, 2014. [10] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, L. Kaiser, and I. Polosukhin. Attention is all you need. In Advances in Neural Information Processing Systems (NIPS) , volume 30, 2017. [11] Z. Yang, D. Yang, C. Dyer, X. He, A. Smola, and E. Hovy. Hierarchical attention networks for document classification. In Proceedings of the 2016 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL) , pages 1480–1489, San Diego, California, 2016. 7

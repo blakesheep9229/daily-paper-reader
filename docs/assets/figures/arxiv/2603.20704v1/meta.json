@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-001.webp",
+      "caption": "TABLE IV: Learned Lambda Values for the SST-2 Dataset",
+      "page": 6,
+      "index": 1,
+      "width": 500,
+      "height": 346
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-002.webp",
+      "caption": "TABLE VI: Learned Lambda Values for the YELP Reviews Dataset",
+      "page": 6,
+      "index": 2,
+      "width": 500,
+      "height": 346
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-003.webp",
+      "caption": "TABLE V: Accuracy and Classification Metrics on YELP Reviews Dataset",
+      "page": 6,
+      "index": 3,
+      "width": 396,
+      "height": 402
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-004.webp",
+      "caption": "TABLE VII: Accuracy and Classification Metrics on Twitter Financial News Dataset",
+      "page": 7,
+      "index": 4,
+      "width": 396,
+      "height": 402
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-005.webp",
+      "caption": "TABLE VIII: Learned Lambda Values for the Twitter Financial News Dataset",
+      "page": 7,
+      "index": 5,
+      "width": 500,
+      "height": 344
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-006.webp",
+      "caption": "TABLE IX: Silhouette Scores across Datasets",
+      "page": 8,
+      "index": 6,
+      "width": 450,
+      "height": 421
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-007.webp",
+      "caption": "Fig. 3: t-SNE visualizations of the learned embeddings for the best performing NDT model on each dataset. Distinct and compact clusters indicate effective class separation in the embedding space.",
+      "page": 9,
+      "index": 7,
+      "width": 520,
+      "height": 506
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-008.webp",
+      "caption": "TABLE III: Accuracy and Classification Metrics on SST-2 Dataset",
+      "page": 5,
+      "index": 8,
+      "width": 396,
+      "height": 402
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-009.webp",
+      "caption": "TABLE I: Accuracy and Classification Metrics on IMDB Dataset",
+      "page": 5,
+      "index": 9,
+      "width": 396,
+      "height": 404
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20704v1/fig-010.webp",
+      "caption": "TABLE II: Learned Lambda Values for the IMDB Dataset",
+      "page": 5,
+      "index": 10,
+      "width": 500,
+      "height": 346
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-001.webp",
+      "caption": "Table 4: Ablation study on token-wise embeddings and model pre-training.",
+      "page": 7,
+      "index": 1,
+      "width": 900,
+      "height": 207
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-002.webp",
+      "caption": "Table 3: Experimental results on Twitter15 and Twitter16 dataset.",
+      "page": 7,
+      "index": 2,
+      "width": 921,
+      "height": 287
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-003.webp",
+      "caption": "Table 2: Experimental results on Weibo and DRWeibo dataset.",
+      "page": 7,
+      "index": 3,
+      "width": 919,
+      "height": 508
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-004.webp",
+      "caption": "Figure 1: The impact of information flow in different directions.",
+      "page": 3,
+      "index": 4,
+      "width": 946,
+      "height": 268
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-005.webp",
+      "caption": "Table 6: Conversation chain examples. Segments in tweets that express strong stances or sentiments are highlighted in red.",
+      "page": 13,
+      "index": 5,
+      "width": 950,
+      "height": 1154
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-006.webp",
+      "caption": "Figure 5: Results of few-shot experiments.",
+      "page": 8,
+      "index": 6,
+      "width": 458,
+      "height": 569
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-007.webp",
+      "caption": "Table 5: The impact of pre-training on various models.",
+      "page": 8,
+      "index": 7,
+      "width": 439,
+      "height": 283
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-008.webp",
+      "caption": "Table 1: Statistics of the datasets.",
+      "page": 4,
+      "index": 8,
+      "width": 937,
+      "height": 283
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-009.webp",
+      "caption": "Figure 2: The impact of model layer numbers.",
+      "page": 4,
+      "index": 9,
+      "width": 946,
+      "height": 257
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22854v1/fig-010.webp",
+      "caption": "Figure 3: The input of P2T3. Different colors represent chain identifiers. Color shades represent depth embeddings.",
+      "page": 5,
+      "index": 10,
+      "width": 929,
+      "height": 344
+    }
+  ]
+}

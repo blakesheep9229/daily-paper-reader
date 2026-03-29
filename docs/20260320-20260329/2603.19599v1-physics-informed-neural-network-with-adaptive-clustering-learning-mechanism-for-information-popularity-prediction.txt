@@ -1,0 +1,449 @@
+Title: Physics-Informed Neural Network with Adaptive Clustering Learning Mechanism for Information Popularity Prediction
+
+URL Source: https://arxiv.org/pdf/2603.19599v1
+
+Published Time: Mon, 23 Mar 2026 00:25:22 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+> 1
+
+# Physics-Informed Neural Network with Adaptive Clustering Learning Mechanism for Information Popularity Prediction 
+
+Guangyin Jin*, Senior Member, IEEE , Xiaohan Ni*, Yanjie Song, Member, IEEE ,Kun Wei, Jie Zhao, Leiming Jia, Witold Pedrycz, Fellow, IEEE 
+
+Abstract —With society entering the Internet era, the volume and speed of data and information have been increasing. Pre-dicting the popularity of information cascades can help with high-value information delivery and public opinion monitoring on the internet platforms. The current state-of-the-art models for predicting information popularity utilize deep learning methods such as graph convolution networks (GCNs) and recurrent neural networks (RNNs) to capture early cascades and temporal features to predict their popularity increments. However, these previous methods mainly focus on the micro features of infor-mation cascades, neglecting their general macroscopic patterns. Furthermore, they also lack consideration of the impact of information heterogeneity on spread popularity. To overcome these limitations, we propose a physics-informed neural network with adaptive clustering learning mechanism, PIACN, for pre-dicting the popularity of information cascades. Our proposed model not only models the macroscopic patterns of information dissemination through physics-informed approach for the first time but also considers the influence of information heterogeneity through an adaptive clustering learning mechanism. Extensive experimental results on three real-world datasets demonstrate that our model significantly outperforms other state-of-the-art methods in predicting information popularity. 
+
+Index Terms —Popularity Prediction, information cascade, physical-informed neural network, adaptive clustering learning 
+
+I. I NTRODUCTION 
+
+# WE are in an era of information explosion. According to the statistics 1, from 2010 to 2023, the amount of information generated wordwide every day has increased by 60 times, from about 2 zettabytes to about 120 zettabytes. 
+
+This research was supported by the National Natural Science Foundation of China No. 72501042, 72501214, 72601001. The Science and Technology Innovation Program of Hunan Province(2025RC3111). Guangyin Jin, Kun Wei, Jie Zhao and Leiming Jia are with National Innovative Institute of Defense Technology, Academy of Military Science, Beijing 100071, China (E-mail: jinguangyin18@alumni.nudt.edu.cn, weikun@pku.edu.cn, zhaojie12@alumni.nudt.edu.cn, lm jia@foxmail.com). Xiaohan Ni is with Capital Normal University, Beijing, China (E-mail: nixiaohan97@163.com). Yanjie Song is with the School of Information Science and Technology, Dalian Maritime University, Dalian 116026, China (E-mail: songyj 2017@163.com). Witold Pedrycz is with the Silesian University of Technology (SUT), Department of Measurement and Control Systems, Gliwice, Akademicka 2, 44-100 Poland, Department of Electrical and Computer Engineering, University of Alberta, Edmonton, AB T6G 2R3, Canada, Constructor University, Bremen, Germany, also with the Research Center of Performance and Productivity Analysis, Istinye University, Istanbul, T¨ urkiye (E-mail: wpedrycz@ualberta.ca).(Corresponding author: Yanjie Song) 
+
+∗ Both authors contributed equally to this research. 
+
+> 1
+
+https://www.statista.com 
+
+Fig. 1: Nonlinear function fitting and clustering performance on Twitter, Weibo and APS dataset. Therefore, screening high-value or potentially disseminating information plays an important role in online media platform information recommendation and public opinion pre-warning applications. The core of these applications is to accurately predict the popularity of information cascades. Predicting the popularity of information cascades is a fundamental yet chal-lenging task.Over the past extended period, various methods based on mathematical modeling with social physics [1], and machine learning with feature engineering [2] have been successively applied in this field. However, due to the highly nonlinear nature and noise impact during the information propagation process in complex networks [3], combined with complex network characteristics such as small-world and power-law properties [4], these traditional methods struggle to achieve breakthroughs in accuracy. In recent years, more and more deep learning models have been proposed for predicting information popularity [5]. In particular, some recent state-of-the-art methods [6]–[10] capture the topological features of information cascades using models from graph convolutional networks (GCNs) series, and combine them with sequence modeling methods such as recurrent neural networks (RNNs) to capture the dynamics within observable time intervals. Although these deep learning models have been demonstrated effective in information popularity prediction, there are still at least two limitations. (a) Lack of modeling of universal physical patterns. 
+
+The most advanced deep learning models recently used for predicting information popularity have focused more on how to better learn micro-level features, such as cascade patterns and temporal patterns within observable intervals. However, they have overlooked the macroscopic physical laws, such 
+
+> arXiv:2603.19599v1 [cs.SI] 20 Mar 2026 2
+
+as the temporal dynamics of information propagation, whose physical characteristics may be one of the most crucial factors determining the upper limit of information popularity. Based on some previous works [11]–[13], the spread of information is similar to the growth process of a biological organism, where the spread initially increases rapidly, then gradually levels off and reaches an upper limit. The curve of information spread resembles an irregular S-shape. Many studies on rumor dynamics have also utilized classic epidemic models such as SI and SIR to model the spread of rumors [14]–[16]. In these models, the growth pattern of rumor spreaders also approximates an S-curve. As shown in Fig. 1, the blue data points represent the average popularity of information at each time step in different datasets. We fit these data points using the flexible S-shaped curve model called Richards model [17]. The Richards model effectively fits the data points in the Weibo, Twitter, and APS datasets, as shown by the solid red line. The R-squared values for all datasets reached 0.99. This indicates that information propagation at the macroscopic level conforms to the physical laws represented by the Richards function. (b) Lack of consideration of the impact of information heterogeneity. The patterns of information propagation exhibit both universality and diversity. While the macroscopic patterns of information propagation may follow variants of the S-shaped curve, the influence of information heterogeneity on its popularity cannot be ignored. According to previous stud-ies [18], [19], different categories of news information, such as political news, entertainment news, and lifestyle information, exhibit significant differences in their propagation patterns. The dissemination of scientific information follows a similar trend. For example, in the APS dataset, it has been found that scientific literature of different categories may display significantly different propagation life-cycles [2]. As shown in Fig 1, we employ hierarchical clustering algorithm to divide the data into five clusters on three different datasets. We found that the average propagation popularity varies significantly among different clusters, indicating the significant impact of information category heterogeneity. In recent deep learning research related to information popularity prediction, exploring and uncovering the impact of these factors is still an ongoing endeavor. To address the above problems, we propose a novel frame-work physics-informed neural network with adaptive cluster-ing learning mechanism (PIACN) for information popularity prediction. To be specific, we first utilize a self attention-based cascade embedding network for learning the microscopic cas-cade dynamics and lightweight CNN-based temporal learning network to capture the macroscopic temporal dynamics of information propagation within observable intervals. Then we design a physical modeling network to approximate the adjustable parameters of the Richards function, aiming to model macroscopic physical laws and constrain the training loss function. Furthermore, we propose incorporating adaptive deep clustering mechanism in the model, where cluster centers are adopted as crucial features supporting the final predictions, taking into account the impact of information heterogeneity. Our main contributions in this paper are summarized as follows:  
+
+> •
+
+We first propose to employ the Richards function to model the physical laws of information propagation at a macroscopic level and design a physics-informed network to nonlinearly approximate the learnable parameters of Richards function. During the model training process, we embedded physical constraints into the loss function to guide the neural network towards learning in a direction that aligns with the objective laws.  
+
+> •
+
+We first propose to involve the adaptive clustering learn-ing mechanism into the information popularity prediction model, fully considering the impact of information cate-gory heterogeneity on the prediction results.  
+
+> •
+
+We conduct extensive experiments on three public datasets. The experimental results demonstrates that our model can obtain more than 12% improvements com-pared with the state-of-art baselines. The rest of this paper is organized as follows. We first re-view the related works about information popularity prediction and physical-informed neural networks in Section II. Then the definition of information popularity prediction is formulated in Section III. Motivated by the presented challenges, we introduce the details of our methodology in Section IV. After that, we design sufficient experiments to evaluate our model from multiple perspectives in Section V, where the ablation studies, case studies, efficiency analysis and parameter studies are conducted. Finally, we conclude our contributions and future directions in Section VI. II. R ELATED WORK 
+
+A. Information Popularity Prediction 
+
+According to the line of existing works, the methods in this field can be roughly divided into three categories: math-ematical modeling methods, feature-based machine learning methods, and deep learning methods. 
+
+Mathematical modeling methods: The series of math-ematical modeling methods adopted dynamics equations to simulate the process of information diffusion. For instances, Zhao et al. [20] proposed a self-exciting point process to model the dynamic evolution of information popularity, Shen et al. [21] utilized a self-enhancing Poisson process to capture forwarding behavior in social networks. Rizoiu et al. [22] explored the correlation between internal and external infor-mation dissemination dynamics by combining the self-exciting point process with the SIR epidemic model. The advantage of these methods is that they can establish explicit dynamic models, but they struggle to effectively learn the entanglement and highly nonlinear characteristics information propagation. 
+
+Feature-based machine learning methods: With the de-velopment of gradient boosting tree approaches [23], machine learning models can better equipped to automatically capture the influencing factors of information popularity from diverse sources of heterogeneous features. Huang et al. [24] extracted features by combining both metadata of the posts and users and adopted random forest model to effectively predict the social media popularity. Tavazoee et al. [25] proposed arecurrent random forest for the assessment of popularity based 3
+
+on the characteristics of content or sentiment information extracted from the tweets. Wang et al. [26] address the issue of missing features in the popularity prediction by utilizing two CatBoost trainers. In general, feature-based machine learning methods can achieve a data-driven paradigm without relying on dynamic equations, but they are limited by cumbersome feature engineering. 
+
+Deep learning methods: In recent years, deep learning has emerged as a mainstream approach for predicting information popularity. DeepCas [27] is the pioneering deep learning model for information popularity prediction, which leveraged a random walk algorithm to transform the cascade graph into multiple forwarding paths. DeepHawkes [28] achieved a balance between prediction performance and interpretability by utilizing deep learning techniques to capture three crucial factors of the self-exciting point process. DFTC [6] combines content features of online articles on WeChat with the long-short term dynamics of the diffusion process for popularity prediction. CasCN [10] introduced a novel approach by treat-ing the cascade graph as a sequence of sub-graphs and em-ployed a recursive GCN to encode the structural representation in each snapshot. CoupledGNN [29] proposed to use two cou-pled graph neural networks to capture the interaction between node activation states and social relationships. CasFlow [30] introduced a hierarchical cascade normalizing flow approach to capture both the cascade representation uncertainty and node infection uncertainty. TEDDY [8] enabled GCN to collaborate with multiple sequences temporal encoder and gated recur-rent networks to capture multi-scale temporal dynamics of information cascades. Similarly, PiGCN [31] adopted GCN to collaborate with a dynamic neural network for information cascade size prediction. CasHAN [9] introduced a neural network framework with hierarchical attention mechanisms to integrate node-level attention based on user influence and sequence-level attention based on community redundancy. I3T [7] partition the information cascade into sequences using DeepWalk and refine the node embeddings concurrently with both GCN and DeepWalk, capturing both inter-path and intra-path influence transitivity. Although deep learning methods have made significant breakthroughs in predicting information popularity, they still overlook the macroscopic physical laws and heterogeneity of information categories, thus hindering further improvement in predictive performance. 
+
+B. Physics-informed Neural Networks 
+
+In recent years, physics-informed neural networks (PINN) has been increasingly applied in the intersection of artificial intelligence, natural sciences, and social sciences [32]. The aim is to combine the nonlinear computational capabilities of neural networks with the fundamental laws that can be math-ematically represented in related scientific fields to achieve superior and more interpretable predictive results. Currently, PINN have made significant breakthroughs in fields such as transportation, epidemiology, fluid mechanics and some other dynamical systems. In transportation field, traffic flow differential equations [33]–[35] and energy-based differential equations [36] were embedded into deep learning models to 
+
+Fig. 2: The formulation of information popularity prediction. guide training phase for traffic state estimation. In addition, gravity models and Hawkes processes are respectively applied in the physics-informed neural network (PINN) models for OD flow prediction [37], [38] and traffic congestion event prediction [39]–[42]. In epidemiology, Kapoor et al. [43] and Gao et al. [44] combined SIR equation with neural networks for worldwide Covid-19 forecasting. Xie et al. [45] embedded the meta-population model into a spatio-temporal graph neural network model to predict the spread of epidemics in different spatial locations. In fluid mechanics field, many PINN-based models embed classical equations such as Navier-Stokes and Cahn-Hilliard into neural networks to simulate or complete incompressible high-speed flows or turbulent flows [46]–[49]. In some other dynamic systems, such as power systems [50], Gray-Scott systems [51] and industrial control systems [52], PINNs have demonstrated their advantages by outperforming simple dynamic models and pure neural network methods in prediction or simulation. III. P RELIMINARY 
+
+A. Problem Definition 
+
+The description of the information cascade popularity pre-diction task in this paper is illustrated in Fig. 2. As shown in this figure, a message is initially posted by the original user 
+
+u1 and then forwarded by other users. For each message, an observable time interval To and a prediction time interval Tp
+
+are set. We utilize the historical cascading features of infor-mation propagation occurring before To to train the prediction model. Let Po and Pp represent the information popularity at moments To and Tp respectively. The main task of this study is to predict the incremental popularity ∆P = Pp −Po. It should be noted that in most previous works, due to concerns about significant differences in data scales, it is common practice to logarithmically transform both the predicted results and the labels. In most deep learning frameworks, to facilitate data re-trieval, it is common practice to divide continuous time intervals into multiple non-overlapping time snapshots. Simul-taneously, various features of information cascades evolving with time snapshots need to be considered, such as user char-acteristics ut, propagation cascade structures Gt, and current popularity pt in time snapshot t. Through this series of input features and the deep learning predictor f (·) parameterized by 
+
+θ, future popularity is predicted: 
+
+f (⟨u1, p 1, G 1⟩ , · · · , ⟨ut, p t, G t⟩ , θ | t < T o) → ∆P (1) 4
+
+Fig. 3: The shape of the Richards growth curve changes with the variation of the parameter δ.
+
+B. Richards Growth Equation 
+
+Richards growth equation is a mathematical model origi-nally used in hydrology and soil science to describe the move-ment of water in unsaturated soils [53]. This model provides a non-linear equation that captures the dynamics of water flow through soil under varying moisture conditions, which balances the fluxes of water due to gravity, capillarity, and soil water content gradients within the soil profile. Richards growth equation can be seen as a member of the logistic model family, but can be used to model asymmetric S-shaped curves in a more flexible manner, with the following formula: 
+
+Y = α/ 1 + eβ−γ·x 1 
+
+> δ
+
+(2) where α denotes the upper asymptote, β denotes the growth rate, γ and δ respectively represent the inflection point control parameter and steepness control parameter. Assuming α = 1 ,
+
+β = 1 , γ = 1 , and only adjusting the value of δ, the shape of Richards curve changes as shown in the Fig. 3. IV. M ETHODOLOGY 
+
+The overview of our proposed model PIACN is illustrated in Fig. 4. The proposed model consists primarily of five mod-ules: cascade embedding network, temporal learning network, adaptive clustering network, prediction network, and physical network. Cascade embedding network is the first module, which takes as input the features of information cascades from multiple non-overlapping time snapshots, aiming to learn latent representations within the micro-level information cascade in each time snapshot. Temporal learning network is designed to capture the macroscopic evolutionary dynamics of information popularity across different time snapshots. It takes as input the popularity time series and the information cascade representations output by cascade embedding network. The multi-scale hidden representations of each piece of information obtained through cascade embedding network and temporal learning network serve as the input to the adaptive clustering network. This module adaptively clusters the obtained hidden representations and outputs their clustering center representa-tions as distinctive features for discerning the heterogeneity of information categories. The clustering center represen-tations output by adaptive clustering network are summed with the corresponding hidden representations and passed to prediction network and physical modeling network, which respectively output neural predictions and physical predictions. The physical modeling network can automatically learn the parameters of physical equations that represent macroscopic laws and guide the training of the model through the physical boundaries. The loss function of our model comprises three parts: prediction loss, physical constraint loss, and clustering loss. 
+
+A. Cascade Embedding Network 
+
+According to many previous works [54]–[56], opinion lead-ers often play a crucial role in information dissemination in social networks. Information disseminated by them is more likely to be retweeted by a larger number of ordinary users. Additionally, information that is rapidly retweeted in the early stages of dissemination is more likely to stand out and become potentially highly popular information. Therefore, factors such as who spreads the information and how quickly it is retweeted in the early stages significantly influence its future popularity. Cascade embedding network aims to embed the important characteristics of information cascades (eg., user features and propagation speed) of each time snapshot into the high-dimensional latent space, enhancing the capability of representation learning. We first embed the micro-temporal features of the propagation cascade as follows: 
+
+ϕ(∆ t)[ s] = 
+
+
+
+∆t, if s = 0 sin ( ωk∆t) , if s = 2 k + 1 cos ( ωk∆t) , if s = 2 k + 2 
+
+(3) where ∆t represents the time difference in the propagation of information from the previous user to the next user, ωk
+
+is the learnable parameter for each time difference. Similar to the time positional encoding in Transformer [57], we employ sine and cosine functions to differentiate odd and even positions. The continuity and monotonicity of the sine and cosine functions ensure that for any two adjacent positions, their corresponding encoding vectors have only minor changes in each dimension, while for any two distant positions, their corresponding encoding vectors exhibit significant differences in each dimension. Based on the temporal embedding operation, we adopt self-attention architecture to embed the cascades of information propagation, which is formulated as follows: 
+
+Q = Wq · [ue, ϕ (∆ t)] , (4) 
+
+K = Wk · [ue, ϕ (∆ t)] , (5) 
+
+V = Wv · [ue, ϕ (∆ t)] , (6) 
+
+Att (Q, K, V ) = Sof tmax ( Q · KT
+
+√d ) · V (7) where Q, K, V respectively denote the query, key and value in self-attention, Wq , Wk and Wv are corresponding learnable weights, ue denotes the embedding of users in information cascades, d is the dimension of self-attention network. In this case, the user embedding ue can be initialized by random vectors if no specific features are provided. To stabilize the 5
+
+Fig. 4: The overview of our proposed deep learning model PIACN. PIACN is composed of cascade embedding network, temporal learning network, adaptive clustering network, prediction network and physical modeling network. There are two parts of input, information cascades and popularity time series, which are put forward into cascade embedding network and temporal learning network respectively. The loss function of our proposed model consists of three parts: prediction loss Lpred ,physical constraint loss Lphy , and clustering loss Lclu .
+
+Fig. 5: The architecture of cascade embedding network. The dynamics of information cascades are embedded into the latent space by self-attention architecture. training process of self-attention network, we can also employ the multi-head attention strategy as follows: 
+
+M ultiAtt (Q, K, V ) = ∥hi=1 [Sof tmax ( (Q · KT
+
+pd|h ) · V ] (8) where h denotes the number of attention heads and ∥ denotes the concentration operation. The architecture of cascade embedding network is shown as Fig. 5. The output of the network is to put forward the hidden representation corresponding to each user through a sum pooling operation, and finally obtain the cascade embedding of each time snapshot. 
+
+B. Temporal Learning Network 
+
+To obtain the multi-scale hidden representation of informa-tion cascades, We should not only focus on the micro-level cascading dynamics within each time snapshot, but also pay attention to the long-term temporal dependencies of informa-tion propagation. Considering the high resource consumption and low computational efficiency of RNN-based model and Transformer-based model in capturing long sequence depen-dencies, we employ a CNN-based architecture in this case for long-term temporal learning. As illustrated in Fig. 6, we utilize a multi-layer dilated temporal convolution architecture for capturing the long-range 
+
+Fig. 6: The architecture of temporal learning network. This network consists of multiple layers of gated TCN, residual connections, and skip connections, achieving the learning of long-term temporal dependencies through layer-wise increas-ing dilation factors. temporal dynamics. The diagram of multi-layer dilated convo-lution is shown in Fig. 6(a), where each circle represents an in-put at an independent time step, and white circles represent the dilation intervals, with the dilation interval equal to the value of the dilation factor minus one. By involving the dilation factor, the receptive field of the convolution increases, allowing the model to shift its focus from short-range dependencies among neighboring time steps to long-range dependencies across larger intervals. Similar to [58], we can obtain the larger receptive field by expanding the dilation factor in temporal convolution when the layer goes deeper. In this manner, the temporal learning network can capture the short and long-range dependencies in information cascades layer-by-layer. The dilated temporal convolution operation is defined as: 
+
+x ⋆ f (t) = 
+
+> k−1
+
+X
+
+> s=0
+
+f (θ) · x(t − d × s), (9) where x ∈ RT denotes the given 1D sequence input, f ∈ RK
+
+denotes a temporal convolutional filter at step t, θ denotes the learnable weights of the filter and d denotes the dilation factor. The specific architecture of the temporal learning network is shown in Fig. 6(b), where each layer consists of a gated temporal convolutional network and a residual connection. The gating mechanism controls the flow of information put forward 6
+
+to the next layer, while the residual connection preserves shallow features of the neural network. By stacking the same neural architecture for k layers with an increasing dilation factor per layer, the temporal learning network have the capa-bility to effectively capture short-term and long-term informa-tion cascades. The multi-layer network ultimately outputs its learned hidden representations through skip connections and a fully connected layer. The computational process of the entire network is as follows: 
+
+z0 = Wi · [zt, p t] + bi, (10) 
+
+zk = tanh (θ1k ⋆ z k−1) ⊙ σ(θ2k ⋆ z k−1) + zk−1, (11) 
+
+Zh = Wo · (X 
+
+> k
+
+Wk · zk) + bo (12) where zt and pt are respectively the hidden representation from cascade embedding network and the popularity time series, Wi
+
+and bi are the parameters of the input fully connected layer, z0
+
+and zk are respectively the initial input of the gated temporal convolutional network and the output of the kth layer. θ1k and 
+
+θ2k denote the parameters of convolutional kernel, ⊙ is the element-wise product, tanh (·) is the tanh activation function of the outputs, and σ(·) is the sigmoid function which controls the ratio of information flow put forward to the next layer. Wk
+
+is the weight parameter of the skip connection of the kth layer, 
+
+Wo and bo are the parameters of the output fully connected layer, and Zh denotes the hidden representation output from the temporal learning network. 
+
+C. Adaptive Clustering Network 
+
+Due to the heterogeneity of information categories, which may lead to significant differences in information propagation patterns, we attempt to use information category as an im-portant feature to facilitate model learning. However, lacking labels for information categories, we can only perform cluster-ing learning on them in an unsupervised manner. Therefore, we need to develop an adaptive clustering method that surpasses classic algorithms like K-means, allowing for integration into end-to-end deep learning frameworks. We propose to use the Student’s t-distribution [59] as a kernel to measure the similarity between the data representation and the cluster center vector. For the ith sample and jth cluster, the similarity measurement is formulated as follows: 
+
+qij =
+
+
+
+1 + zi − μj 
+
+> 2
+
+/v 
+
+− v+1 2
+
+P
+
+> j′
+
+
+
+1 + zi − μj′ 
+
+> 2
+
+/v 
+
+− v+1 2
+
+, (13) where zi is the hidden representation of an information sam-ple, μj is the adaptive cluster center vector that can be learned during the neural back-propagation process, P 
+
+> j′
+
+denotes the the collective set of all cluster center vectors. v is the degree of freedom of the Student’s t-distribution and qij can be treated as the probability of assigning data representation sample i to cluster j.After obtaining the cluster probability distribution qij , our goal is to optimize data representation by learning from high-confidence assignments. To be specific, we aim to push the data representation closer to the cluster centers, thereby enhancing clustering cohesion. Therefore, we compute the target distribution pij as follows: 
+
+pij = q2 
+
+> ij
+
+/ P 
+
+> i
+
+qij 
+
+P 
+
+> j′
+
+q2 
+
+> ij ′
+
+/ P 
+
+> i
+
+qij ′
+
+, (14) where P 
+
+> i
+
+qij ′ denotes the soft cluster frequencies. In the target distribution, each assignment qij is squared and then normalized to increase the confidence of the assignments. To make the student t-distribution more approximate to the target distribution, the objective function is formulated using the Kullback-Leibler (KL) divergence and defined as follows: 
+
+Lclu = X
+
+> i
+
+X
+
+> j
+
+pij log pij 
+
+qij 
+
+(15) By minimizing the KL divergence loss between Student’s t-distribution and the target distribution, the neural network can adaptively optimize the cluster center vector μj , thus thus achieving end-to-end data representation clustering. As shown in Fig. 4, the clustering center vectors output from adaptive clustering network are added to the corresponding class-specific hidden representations output from temporal learning network, enhancing the original hidden representations. The calculation process is as follows: 
+
+Zp = Zh
+
+M Ce (16) where Ce and Zh are respectively the clustering center tensor and the hidden representations output from temporal learning network, L means the class-specific sum, Zp is the output representation that will be fed into prediction network and physical modeling network. 
+
+D. Prediction & Physical Modeling Network 
+
+In order to incorporate macroscopic physical constraints into the deep learning model for prediction, we propose to design the prediction network and physics modeling network to respectively output neural predictions and physical predictions. The prediction network is a simple two-layer fully connected network, which directly output the predictions based on the hidden representation Zp, which is expressed as: 
+
+Ypred = Wp2 · (ReLU (Wp1 · Zp + bp1)) + bp2, (17) The physics modeling network approximates the learnable parameters in Eq. 2 Richards growth equation through multiple fully connected neural networks, enabling adaptive learning of physical parameters through the back-propagation training process of neural networks. Since the physical parameters in this equation need to be strictly positive to ensure physical significance, we use Softplus function to transform the output layer of the results, which are formulated as follows: 
+
+α = ln (1 + exp (Wα · Zp + bα)) , (18) 
+
+β = ln (1 + exp (Wβ · Zp + bβ )) , (19) 
+
+γ = ln (1 + exp (Wγ · Zp + bγ )) , (20) 
+
+δ = ln (1 + exp (Wδ · Zp + bδ )) , (21) where α, β, γ and δ are the four important parameters in the Richards equation, representing upper asymptote, growth 7
+
+rate, inflection point control parameter, and steepness control parameter respectively. Wα, bα, Wβ , bβ , Wγ , bγ , Wδ and bδ
+
+are weights and bias of fully connected neural networks in the physics modeling network. Based on these learned parameters, the incremental popularity can be computed by the physics modeling network as follows: 
+
+Yphy = ln (α/ [1 + exp (β − γ · t)] 1 
+
+> δ
+
+− YT ) (22) where t denotes the time steps. Based on the learned Richards growth equation, the corresponding incremental popularity 
+
+Yphy can be output in a generative manner by providing the corresponding time step index. 
+
+E. Loss Function 
+
+In our model, the loss function consists of three compo-nents: prediction loss, physical constraint loss, and clustering loss. The prediction loss is the mean absolute error between the ground truths and prediction results, which is as follows: 
+
+Lpred = 1
+
+N
+
+> N
+
+X
+
+> i=0
+
+∥Y i − Y ipred ∥, (23) where N denotes the number of samples, Y i and Y ipred are respectively the real incremental popularity and the neural prediction. The physical constraint loss can be further divided into two parts: reconstruction constraint part and prediction constraint part, which is formulated as: 
+
+Lrc = 1
+
+N
+
+1
+
+T
+
+> N
+
+X
+
+> iT
+
+X
+
+> t
+
+∥Y it − ˆY it ∥, (24) 
+
+Lpc = 1
+
+N
+
+> N
+
+X
+
+> i
+
+∥Y ipred − Y iphy ∥, (25) 
+
+Lphy = Lrc + Lpc (26) where Lrc denotes the reconstruction constraint part, Y it is the ground truths in the observable interval [0 : T ], ˆY it is the reconstructed results in the observable interval by the learned Richards equation. The reconstruction constraint part aims to ensure the consistency between the learned macroscopic physical laws and the observable values. Lpc denotes the prediction constraint part. This part is expressed by the mean absolute error between the neural prediction and physical prediction, which aims to lead the neural predictions closer to the physical laws. The significance of the superposition of these two parts of the loss function is to enable the physical equation with learnable parameters to better approximate the real information propagation patterns. Lrc is used to make the generated values of the physical model close to the popularity of information flow within our observation interval, while Lpc 
+
+is used to make the generated values of the physical model close to the predictions of the neural network. The clustering loss is expressed by eq. 15. The total loss function is the weighted sum of these parts, which is defined as follows: 
+
+Ltotal = αLpred + βLphy + γLclu (27) where α, β and γ are trade-off weights of different parts in the loss function, which are all set to 1 by default. V. E XPERIMENTS 
+
+In this section, we conduct extensive experiments to demon-strate our proposed model on three public datasets to answer the following research questions:  
+
+> •
+
+RQ1: How does our proposed PIACN perform compared with other state-of-the-art baselines in information popu-larity prediction?  
+
+> •
+
+RQ2: How does our model perform compared with different variants in the ablation study?  
+
+> •
+
+RQ3: What macroscopic patterns of information cascades does our model capture through physical network mod-eling? How does the adaptive clustering learning mecha-nism capture the heterogeneity of information categories?  
+
+> •
+
+RQ4: How do the model parameters (e.g., the hidden dimensions) affect the performance of our model? 
+
+A. Datasets and Settings 
+
+In this paper, we evaluate our model on three public dataset: Sina Weibo, Twitter and American Physical Society (APS). The description of these three datasets are as follows:  
+
+> •
+
+Sina Weibo: This dataset was collected from the largest microblog platform in China 2. It comprises 119,313 tweets shared on June 1, 2016, with subsequent tracking of all retweets for each post over the following 24 hours. Each tweet and its retweets create an information retweet cascade. We designated the observation time interval as 1 hour, 2 hours and 3 hours, and the prediction time as 24 hours. To mitigate the impact of users’ diurnal patterns on Sina Weibo, we restrict our analysis to cascades published between 8:00 and 18:00.  
+
+> •
+
+Twitter: This dataset was collected from the largest world-wide social media platform 3. It comprises publicly available English tweets written between March 24 and April 25, 2012. An information cascade is formed by a hashtag and its adopters. We specified the observation time interval as 2 days, 4 days and 6 days, and the prediction time as 32 days.  
+
+> •
+
+APS: This dataset is sourced from the American Physical Society 4 and encompasses all papers published in 17 APS journals from 1893 to 2017. Each paper and its citing papers contribute to an information citation cascade. We defined the observation time interval as 3 years, 6 years and 9 years, and the prediction time as 20 years. To ensure adequate prediction intervals, we only consider papers published before 1997. Each dataset is split with 70% for training, 15% for val-idation and 15% for testing. Our model is implemented by Pytorch 1.5 with NVIDIA TESLA V100 GPU. On Weibo dataset, we set the granularity of time snapshots in observable 
+
+> 2https://bit.ly/weibodataset
+> 3https://carl.cs.indiana.edu/data/#virality2013
+> 4https://journals.aps.org/datasets 8
+
+interval as 10 minutes. On Twitter dataset, we set the gran-ularity of time snapshots in observable interval as 8 hours. On APS dataset, we set the granularity of time snapshots in observable interval as 0.5 years. The number of attention heads is set as 4, the maximum number of clusters is set as 5, and the hidden dimension of our model is set as 32. The optimizer of our model is set as Adam [60]. The batch size is 64 and the learning rate is 0.0001. Our model is evaluated five times on each dataset. During training process, we utilize the early stopping strategy with tolerance 30 for 100 epochs. For each algorithm, we conduct 5 independent experiments to take the average of its metrics. 
+
+B. Overall Performance (RQ1) 
+
+We compare our model with several state-of-art baselines, including Feature-Linear [28], XGBoost [61], MLP, Deep-Cas [27], DeepHawkes [28] , CasCN [10] , CasFlow [30], CasGCN [62], CCASGNN [63], I3T [7], TEDDY [8] and POFHP [64]. The descriptions of these baselines are as follows: Similar to the work [28], the evaluation metrics are mean square log-transformed error (MSLE) and mean absolute percentage error (MAPE) averaged over five times for incremental popularity prediction. MSLE can be used to measure the overall error level of the dataset, while MAPE can measure the relative error of the dataset. The smaller the values of MSLE and MAPE, the better the performance of the model. The comparative experimental results are shown in Table I. From the results in these tables, we can observe that our model PIACN consistently outperforms the sub-optimal baselines with 6.45% ∼12.64% improvements in terms of MSLE and 3.05% ∼7.01% improvements in terms of MAPE on the three datasets, which demonstrates the superiority of our proposed method. In this subsection, we analyze and compare the strengths of our proposed model with other state-of-art base-lines. Among them, Feature-Linear, XGBoost, and MLP are relatively simple methods that directly input relevant features to predict incremental popularity, neglecting the learning of complex dynamics in information cascades. Therefore, their predictive performance is consistently inferior to the model we proposed. DeepCas is the first attempt to use a recurrent neural architecture to capture the temporal dynamics of information cascades in deep learning methods. Based on DeepCas, CasCN and CasGCN further considers learning dynamic cascade structures and implements this through GCN. Although their predictive performance has improved compared to the simple methods, the lack of consideration for the physical laws governing information diffusion may be a limiting factor in their further enhancement. DeepHawkes bridges the gap between adaptive nonlinear modeling and physical modeling through deep learning and Hawkes processes. However, since Hawkes processes only consider the microscopic dynamics of the propagation process and neglect the macroscopic patterns, they cannot accurately predict future incremental popularity. The methods proposed in recent two years, CasFlow, I3T, TEDDY and POFHP, have improved upon previous methods by constructing more complex neural network architectures to better capture the microscopic dynamics in information cascades. However, as they focus primarily on enhancing the learning of microscopic dynamics and overlook the importance of modeling macroscopic physical laws, as well as lack attention to the heterogeneity of information categories, their predictive performance is weaker than our proposed model. 
+
+C. Ablation Study (RQ2) 
+
+To verity the effectiveness of key components in our model, we conduct ablation studies on the three datasets. As shown in Table, we compared PIACN with following variants: 1) w/o PMN , which removes the physical modeling network from our model 2) w/o PN , which removes the prediction network from our model 3) w/o ACN , which removes the adaptive clustering network from our model 4) w/o TLN , which replaces the temporal learning network with the simple MLP 5) w/o CEN , which removes the cascade embedding network from our model. From the experimental results, we can observe that PI-ACN outperforms all the ablation variants. Compared to w/o PMN , PIACN significantly improves performance on Weibo, Twitter, and APS, indicating that macroscopic physical law modeling is effective for information popularity. Compared to w/o PN , PIACN also shows significant improvements in metrics on Weibo, Twitter, and APS. This indicates that without the neural network prediction module, it is difficult to capture the uncertainties in information popularity prediction beyond macroscopic patterns. Therefore, both the prediction network and the physical modeling network are indispensable, they complement each other and jointly improve prediction performance. Compared to w/o ACN , PIACN shows some improvements in performance on Weibo, Twitter, and APS, indicating that the adaptive clustering learning mechanism is effective for heterogeneous information learning. There is also a significant fall of the performance without cascade embedding network and temporal learning network ( w/o CEN 
+
+and w/o TLN ), demonstrating the effectiveness of these two parts for learning the dynamics of information cascades. 
+
+D. Case Study (RQ3) 
+
+We conduct the case study on these three datasets to further investigate how the physical modeling network and adaptive clustering network work and contribute to the effectiveness of our model. As shown in Fig. 7, we compare the curve output from physical modeling network with the real curve of information popularity. In Fig. 7(a)-(c), we select a post from Weibo that was published at 10 a.m. on June 1, 2016, and visualized the output curves from the physical modeling network when the observable time interval is 1 hour, 2 hours, and 3 hours. In Fig. 7(d)-(f), we select a post from Twitter that was published at 10 a.m. on April 20, 2012, and visualized the output curves from the physical modeling network when the observable time interval is 2 days, 4 days, and 6 days. In Fig. 7(e)-(i), we select an article from APS that was published in 1995, and visualized the output curves from the physical modeling network when the observable time interval is 3 years, 6 years, and 9 years. From the visualizations on the three 9
+
+TABLE I: Comparison of our model with other baseline models for predicting information popularity on Weibo, Twitter and APS. The optimal metrics are highlighted in bold, while the sub-optimal metrics are underscored.                                                                                              
+
+> Dataset Weibo (1h / 2h / 3h) Twitter (2d / 4d / 6d) APS (3y / 6y / 9y) Metircs MSLE MAPE MSLE MAPE MSLE MAPE Feature-Linear 3.701 / 3.365 / 3.328 0.529 / 0.491 / 0.457 2.670 / 2.139 / 1.945 0.433 / 0.397 / 0.361 3.411 / 3.116 / 2.887 0.532 / 0.471 / 0.427 XGBoost 3.625 / 3.410 / 3.242 0.501 / 0.473 / 0.437 2.491 / 1.989 / 1.824 0.417 / 0.383 / 0.344 3.073 / 2.674 / 2.307 0.491 / 0.448 / 0.391 MLP 3.468 / 3.102 / 2.811 0.481 / 0.459 / 0.412 2.327 / 1.971 / 1.840 0.396 / 0.351 / 0.326 2.974 / 2.520 / 2.187 0.488 / 0.439 / 0.381 DeepCas 3.631 / 3.213 / 3.107 0.492 / 0.461 / 0.418 2.019 / 1.784 / 1.539 0.389 / 0.337 / 0.313 2.719 / 2.388 / 2.018 0.471 / 0.424 / 0.379 DeepHawkes 2.448 / 2.279 / 2.223 0.468 / 0.438 / 0.382 1.813 / 1.507 / 1.322 0.358 / 0.309 / 0.291 2.511 / 2.174 / 1.720 0.442 / 0.397 / 0.334 CasCN 2.316 / 2.254 / 2.131 0.442 / 0.421 / 0.361 1.758 / 1.437 / 1.290 0.339 / 0.296 / 0.280 2.348 / 2.029 / 1.675 0.429 / 0.386 / 0.312 CasFlow 2.206 / 2.113 / 2.084 0.435 / 0.418 / 0.353 1.660 / 1.354 / 1.205 0.328 / 0.288 / 0.266 2.298 / 1.918 / 1.577 0.419 / 0.377 / 0.301 CasGCN 2.374 / 2.197 / 2.108 0.449 / 0.421 / 0.373 1.714 / 1.396 / 1.281 0.337 / 0.291 / 0.274 2.288 / 2.112 / 1.659 0.430 / 0.389 / 0.319 CCASGNN 2.213 / 2.128 / 2.078 0.431 / 0.417 / 0.362 1.689 / 1.349 / 1.231 0.325 / 0.284 / 0.269 2.249 / 2.027 / 1.610 0.414 / 0.374 / 0.306 I3T 2.023 / 2.156 / 1.934 0.436 / 0.405 / 0.353 1.621 / 1.376 / 1.219 0.323 / 0.280 / 0.265 2.230 / 1.706 / 1.438 0.415 / 0.369 / 0.298 TEDDY 2.131 / 1.978 / 1.820 0.428 / 0.397 / 0.350 1.522 / 1.303 / 1.197 0.311 / 0.271 / 0.260 2.124 / 1.772 / 1.401 0.408 / 0.353 / 0.299 POFHP 2.078 / 1.963 / 1.842 0.425 / 0.394 / 0.348 1.503 / 1.327 / 1.184 0.312 / 0.273 / 0.258 2.189 / 1.814 / 1.475 0.409 / 0.351 / 0.298 PIACN 1.821 / 1.728 / 1.684 0.411 / 0.382 / 0.334 1.358 / 1.148 / 1.062 0.295 / 0.252 / 0.241 1.917 / 1.486 / 1.232 0.389 / 0.335 / 0.283
+> Improvement (%) +9.98 / +12.64 / +7.47 +3.29 / +3.05 / +4.02 +9.64 / +11.90 / +10.30 +5.14 / +7.01 / +6.59 +9.75 / +11.97 / +12.06 +4.66 / +4.56 / +5.03
+
+TABLE II: Ablation Study. 
+
+Dataset Weibo (1h / 2h / 3h) Twitter (2d / 4d / 6d) APS (3y / 6y / 9y) Metircs MSLE MAPE MSLE MAPE MSLE MAPE w/o PMN 2.075 / 1.986 / 1.827 0.447 / 0.397 / 0.369 1.556 / 1.291 / 1.270 0.334 / 0.288 / 0.268 2.138 / 1.685 / 1.422 0.428 / 0.364 / 0.318 w/o PN 2.117 / 2.042 / 1.930 0.452 / 0.409 / 0.374 1.652 / 1.367 / 1.298 0.342 / 0.293 / 0.277 2.245 / 1.773 / 1.561 0.435 / 0.372 / 0.326 w/o ACN 1.917 / 1.794 / 1.736 0.427 / 0.394 / 0.350 1.439 / 1.196 / 1.128 0.297 / 0.261 / 0.248 2.034 / 1.547 / 1.295 0.398 / 0.345 / 0.296 w/o TLN 1.959 / 1.847 / 1.802 0.432 / 0.404 / 0.356 1.496 / 1.274 / 1.197 0.306 / 0.269 / 0.257 2.156 / 1.615 / 1.339 0.411 / 0.351 / 0.298 w/o CEN 1.928 / 1.814 / 1.753 0.426 / 0.395 / 0.347 1.472 / 1.239 / 1.188 0.298 / 0.264 / 0.251 2.142 / 1.603 / 1.348 0.402 / 0.346 / 0.293 PIACN 1.821 / 1.728 / 1.684 0.411 / 0.386 / 0.340 1.358 / 1.148 / 1.062 0.295 / 0.257 / 0.243 1.917 / 1.486 / 1.232 0.393 / 0.338 / 0.287 
+
+datasets, we can observe that as the observable time interval increases, the curves obtained from the physical modeling net-work become increasingly similar to the real popularity curves, especially the estimation of the final popularity becomes more and more accurate, which demonstrates the effectiveness of the physical modeling network. Next, we use the T-SNE algorithm to map the high-dimensional hidden representations onto a 2D plane for vi-sualizing the clustering clusters conveniently. In Fig. 8, we visualize the clustering performance of the adaptive clustering network on hidden representations across different datasets. Fig. 8 (a)-(c) show the clustering performance on Weibo when the observable time interval is set to 1 hour, 2 hours, and 3 hours, respectively. Fig. 8 display the clustering performance on Twitter with observable time intervals set to 2 days, 4 days, and 6 days. Finally, Fig. 8 demonstrate the clustering performance on APS with observable time intervals set to 3 years, 6 years, and 9 years. We can observe that under the condition of setting the maximum cluster number to 5, the adaptive clustering network in our model consistently partitions the hidden representations into 5 clusters with clear boundaries, thereby demonstrating the effectiveness of this module. 
+
+E. Parameters Study (RQ4) 
+
+To further investigate the effectiveness of our model, we conduct parameter study on the three datasets, including the dimension of hidden representations D, the maximum number of clusters C and the ratio βα between prediction loss and physical loss. The range of D is set as [16 , 32 , 48 , 64 , 80] , the range of C is set as [2 , 3, 4, 5, 6] and the range of βα is set as 
+
+[0 .5, 1, 2, 3, 4] . The experimental results are shown in Fig. 9. We can find that MSLE metrics on Weibo are the optimal when D is equal to 32, MSLE metrics on Twitter are the optimal when D is equal to 48, MSLE metrics on APS are 
+
+Fig. 7: The visualization on physical modeling curves. the optimal when D is equal to 32. If D is too small, the learning capability of our model deteriorates, leading to subpar prediction performance. Conversely, when D is excessively large, the metrics on the three datasets deteriorate due to over-fitting caused by an overly large hidden dimension. For parameter C, we can observe that MSLE metrics on Weibo achieve the optimal results when C is equal to 4. On Twitter and APS, MSLE metrics obtain the best values when C is equal to 5. This reveals that clustering the hidden representa-tions into a moderate number of clusters can better distinguish the heterogeneity of information categories, thereby enhanc-ing predictive performance. Given the maximum number of clusters too small or too large may both affect the learning of information category heterogeneity. For parameter βα , we fix the weight of clustering loss γ as 1 and adjust the ratio between 
+
+β and α. We can observe that MSLE metrics on Weibo, Twitter 10 
+
+Fig. 8: The visualization on adaptive hidden representation clustering. and APS achieve the optimal results when βα is equal to 2 or 3. This reveals that appropriately increasing the weight of physical loss during training may enable the model to achieve better prediction performance. 
+
+Fig. 9: Impact of hyper-parameters on the performance of method. VI. CONCLUSION 
+
+We propose a novel physics-informed neural network with adaptive clustering learning mechanism for information popu-larity prediction. Our model not only involve the macroscopic physical laws to guide the training process by physical mod-eling network, but also consider the impact of information category heterogeneity through adaptive clustering network. Extensive experiments on three real-world datasets demon-strate the superiority of our proposed model in prediction accuracy compared with other state-of-art baselines. In this paper, we give the first attempt to integrate macroscopic physical laws into deep learning models for predicting in-formation popularity. However, our work still has two main limitations. Firstly, the Richards growth equation can only describe the general pattern of information popularity, neglect-ing information that may exhibit multi-modal characteristics, such as public sentiment triggered by major events. Secondly, the datasets used in our experiments does not contain the true category labels of the information, thus limiting the interpretability of the adaptive clustering learning mechanism. In the future, we will further optimize the physical modeling and deep model architecture, and mine more data rich in label information, so that the deep learning model can not only cope with more special cases of information propagation but also possess stronger interpretability. REFERENCES [1] M. Jusup, P. Holme, K. Kanazawa, M. Takayasu, I. Romi´ c, Z. Wang, S. Geˇ cek, T. Lipi´ c, B. Podobnik, L. Wang, et al. , “Social physics,” 
+
+Physics Reports , vol. 948, pp. 1–148, 2022. [2] F. Zhou, X. Xu, G. Trajcevski, and K. Zhang, “A survey of information cascade analysis: Models, predictions, and recent advances,” ACM Computing Surveys (CSUR) , vol. 54, no. 2, pp. 1–36, 2021. [3] P. Ji, J. Ye, Y. Mu, W. Lin, Y. Tian, C. Hens, M. Perc, Y. Tang, J. Sun, and J. Kurths, “Signal propagation in complex networks,” Physics reports ,vol. 1017, pp. 1–96, 2023. [4] O. Artime, M. Grassia, M. De Domenico, J. P. Gleeson, H. A. Makse, G. Mangioni, M. Perc, and F. Radicchi, “Robustness and resilience of complex networks,” Nature Reviews Physics , vol. 6, no. 2, pp. 114–131, 2024. [5] L. Gao, B. Zhou, Y. Jia, H. Tu, Y. Wang, C. Chen, H. Wang, and H. Zhuang, “Deep learning for social network information cascade analysis: a survey,” in 2020 IEEE Fifth International Conference on Data Science in Cyberspace (DSC) . IEEE, 2020, pp. 89–97. [6] D. Liao, J. Xu, G. Li, W. Huang, W. Liu, and J. Li, “Popularity prediction on online articles with deep fusion of temporal process and content features,” in Proceedings of the AAAI conference on artificial intelligence , vol. 33, no. 01, 2019, pp. 200–207. [7] Y. Tai, H. He, W. Zhang, H. Yang, X. Wu, and Y. Wang, “Predicting information diffusion using the inter-and intra-path of influence transi-tivity,” Information Sciences , vol. 651, p. 119705, 2023. [8] B. Peng, R. Yan, and C. Yang, “Popularity prediction on social plat-forms with coupled graph neural networks,” in IEEE Transactions on Knowledge and Data Engineering , 2024. [9] C. Zhong, F. Xiong, S. Pan, L. Wang, and X. Xiong, “Hierarchical at-tention neural network for information cascade prediction,” Information Sciences , vol. 622, pp. 1109–1127, 2023. [10] X. Chen, F. Zhou, K. Zhang, G. Trajcevski, T. Zhong, and F. Zhang, “Information diffusion prediction via recurrent cascades convolution,” in 
+
+2019 IEEE 35th international conference on data engineering (ICDE) .IEEE, 2019, pp. 770–781. [11] F. Wang, H. Wang, and K. Xu, “Diffusive logistic model towards predicting information diffusion in online social networks,” in 2012 32nd international conference on distributed computing systems workshops .IEEE, 2012, pp. 133–139. [12] S. Sarkar, R. Guo, and P. Shakarian, “Understanding and forecasting lifecycle events in information cascades,” Social Network Analysis and Mining , vol. 7, pp. 1–22, 2017. [13] G. Jin, X. Ni, K. Wei, J. Zhao, H. Zhang, and L. Jia, “Will the technological singularity come soon? modeling the dynamics of artificial intelligence development via multi-logistic growth process,” Physica A: Statistical Mechanics and its Applications , vol. 664, p. 130450, 2025. [14] Y. Moreno, M. Nekovee, and A. F. Pacheco, “Dynamics of rumor spread-ing in complex networks,” Physical Review E—Statistical, Nonlinear, and Soft Matter Physics , vol. 69, no. 6, p. 066130, 2004. [15] Z. Yu, S. Lu, D. Wang, and Z. Li, “Modeling and analysis of rumor propagation in social networks,” Information Sciences , vol. 580, pp. 857–873, 2021. [16] J. Wang, H. Jiang, T. Ma, and C. Hu, “Global dynamics of the multi-lingual sir rumor spreading model with cross-transmitted mechanism,” 
+
+Chaos, Solitons & Fractals , vol. 126, pp. 148–157, 2019. [17] M. W. Farthing and F. L. Ogden, “Numerical solution of richards’ equation: A review of advances and challenges,” Soil Science Society of America Journal , vol. 81, no. 6, pp. 1257–1269, 2017. [18] M. Kim, D. Newth, and P. Christen, “Modeling dynamics of diffusion across heterogeneous social networks: News diffusion in social media,” 
+
+Entropy , vol. 15, no. 10, pp. 4215–4242, 2013. 11 
+
+[19] M. Si, L. Cui, W. Guo, Q. Li, L. Liu, X. Lu, and X. Lu, “A comparative analysis for spatio-temporal spreading patterns of emergency news,” 
+
+Scientific Reports , vol. 10, no. 1, p. 19472, 2020. [20] Q. Zhao, M. A. Erdogdu, H. Y. He, A. Rajaraman, and J. Leskovec, “Seismic: A self-exciting point process model for predicting tweet popularity,” in Proceedings of the 21th ACM SIGKDD international conference on knowledge discovery and data mining , 2015, pp. 1513– 1522. [21] H. Shen, D. Wang, C. Song, and A.-L. Barab´ asi, “Modeling and predicting popularity dynamics via reinforced poisson processes,” in 
+
+Proceedings of the AAAI conference on artificial intelligence , vol. 28, no. 1, 2014. [22] M.-A. Rizoiu, L. Xie, S. Sanner, M. Cebrian, H. Yu, and P. Van Hen-tenryck, “Expecting to be hip: Hawkes intensity processes for social media popularity,” in Proceedings of the 26th international conference on world wide web , 2017, pp. 735–744. [23] A. Natekin and A. Knoll, “Gradient boosting machines, a tutorial,” 
+
+Frontiers in neurorobotics , vol. 7, p. 21, 2013. [24] F. Huang, J. Chen, Z. Lin, P. Kang, and Z. Yang, “Random forest ex-ploiting post-related and user-related features for social media popularity prediction,” in Proceedings of the 26th ACM international conference on Multimedia , 2018, pp. 2013–2017. [25] F. Tavazoee, C. Conversano, and F. Mola, “Recurrent random forest for the assessment of popularity in social media: 2016 us election as a case study,” Knowledge and Information Systems , vol. 62, pp. 1847–1879, 2020. [26] K. Wang, P. Wang, X. Chen, Q. Huang, Z. Mao, and Y. Zhang, “A feature generalization framework for social media popularity prediction,” in Proceedings of the 28th ACM international conference on multimedia ,2020, pp. 4570–4574. [27] C. Li, J. Ma, X. Guo, and Q. Mei, “Deepcas: An end-to-end predictor of information cascades,” in Proceedings of the 26th international conference on World Wide Web , 2017, pp. 577–586. [28] Q. Cao, H. Shen, K. Cen, W. Ouyang, and X. Cheng, “Deephawkes: Bridging the gap between prediction and understanding of information cascades,” in Proceedings of the 2017 ACM on Conference on Informa-tion and Knowledge Management , 2017, pp. 1149–1158. [29] Q. Cao, H. Shen, J. Gao, B. Wei, and X. Cheng, “Popularity prediction on social platforms with coupled graph neural networks,” in Proceedings of the 13th international conference on web search and data mining ,2020, pp. 70–78. [30] X. Xu, F. Zhou, K. Zhang, S. Liu, and G. Trajcevski, “Casflow: Exploring hierarchical structures and propagation uncertainty for cascade prediction,” IEEE Transactions on Knowledge and Data Engineering ,vol. 35, no. 4, pp. 3484–3499, 2021. [31] D. Yu, Y. Zhou, S. Zhang, W. Li, M. Small, and K.-k. Shang, “Informa-tion cascade prediction of complex networks based on physics-informed graph convolutional network,” New Journal of Physics , vol. 26, no. 1, p. 013031, 2024. [32] S. Cuomo, V. S. Di Cola, F. Giampaolo, G. Rozza, M. Raissi, and F. Piccialli, “Scientific machine learning through physics–informed neural networks: Where we are and what’s next,” Journal of Scientific Computing , vol. 92, no. 3, p. 88, 2022. [33] R. Shi, Z. Mo, and X. Di, “Physics-informed deep learning for traffic state estimation: A hybrid paradigm informed by second-order traffic models,” in Proceedings of the AAAI Conference on Artificial Intelli-gence , vol. 35, no. 1, 2021, pp. 540–547. [34] J. Zhang, S. Mao, L. Yang, W. Ma, S. Li, and Z. Gao, “Physics-informed deep learning for traffic state estimation based on the traffic flow model and computational graph method,” Information Fusion , vol. 101, p. 101971, 2024. [35] G. Jin, S. Lai, X. Hao, J. Zhang, and M. Zhang, “M3-net: A cost-effective graph-free mlp-based model for traffic prediction,” in Proceed-ings of the 34th ACM International Conference on Information and Knowledge Management , 2025, pp. 4847–4851. [36] J. Ji, J. Wang, Z. Jiang, J. Jiang, and H. Zhang, “Stden: Towards physics-guided neural networks for traffic flow prediction,” in Proceedings of the AAAI Conference on Artificial Intelligence , vol. 36, no. 4, 2022, pp. 4048–4056. [37] C. Rong, H. Wang, and Y. Li, “Origin-destination network generation via gravity-guided gan,” arXiv preprint arXiv:2306.03390 , 2023. [38] F. Simini, G. Barlacchi, M. Luca, and L. Pappalardo, “A deep gravity model for mobility flows generation,” Nature communications , vol. 12, no. 1, p. 6576, 2021. [39] G. Jin, L. Liu, F. Li, and J. Huang, “Spatio-temporal graph neural point process for traffic congestion event prediction,” in Proceedings of the AAAI Conference on Artificial Intelligence , vol. 37, no. 12, 2023, pp. 14 268–14 276. [40] T. Zhang, J. Wang, T. Wang, Y. Pang, P. Wang, and W. Wang, “A deep marked graph process model for citywide traffic congestion forecasting,” 
+
+Computer-Aided Civil and Infrastructure Engineering , vol. 39, no. 8, pp. 1180–1196, 2024. [41] S. Zhu, R. Ding, M. Zhang, P. Van Hentenryck, and Y. Xie, “Spatio-temporal point processes with attention for traffic congestion event modeling,” IEEE Transactions on Intelligent Transportation Systems ,vol. 23, no. 7, pp. 7298–7309, 2021. [42] G. Jin, X. Li, S. Guan, Y. Song, X. Hao, and J. Zhang, “Exploring to predict the tipping points in traffic flow: A lightweight spatio-temporal information-enhanced neural point process approach,” Physica A: Statistical Mechanics and its Applications , p. 131122, 2025. [43] A. Kapoor, X. Ben, L. Liu, B. Perozzi, M. Barnes, M. Blais, and S. O’Banion, “Examining covid-19 forecasting using spatio-temporal graph neural networks,” arXiv preprint arXiv:2007.03113 , 2020. [44] J. Gao, R. Sharma, C. Qian, L. M. Glass, J. Spaeder, J. Romberg, J. Sun, and C. Xiao, “Stan: spatio-temporal attention network for pandemic prediction using real-world evidence,” Journal of the American Medical Informatics Association , vol. 28, no. 4, pp. 733–743, 2021. [45] F. Xie, Z. Zhang, L. Li, B. Zhou, and Y. Tan, “Epignn: Exploring spatial transmission with graph neural network for regional epidemic forecasting,” in Joint European Conference on Machine Learning and Knowledge Discovery in Databases . Springer Nature Switzerland Cham, 2022, pp. 469–485. [46] Y. Yang and Y. Mesri, “Learning by neural networks under physical constraints for simulation in fluid mechanics,” Computers & Fluids , vol. 248, p. 105632, 2022. [47] S. Cai, Z. Mao, Z. Wang, M. Yin, and G. E. Karniadakis, “Physics-informed neural networks (pinns) for fluid mechanics: A review,” Acta Mechanica Sinica , vol. 37, no. 12, pp. 1727–1738, 2021. [48] H. Eivazi, Y. Wang, and R. Vinuesa, “Physics-informed deep-learning applications to experimental fluid mechanics,” Measurement science and technology , vol. 35, no. 7, p. 075303, 2024. [49] Y. Ren, Q. Li, Y. Zhang, J. Li, W. Pedrycz, P. N. Suganthan, R. Mallipeddi, and Y. Song, “An evolutionary algorithm with memory guidance for data transmission scheduling optimization in communi-cation satellite network,” IEEE Transactions on Systems, Man, and Cybernetics: Systems , 2026. [50] G. S. Misyris, J. Stiasny, and S. Chatzivasileiadis, “Capturing power sys-tem dynamics by physics-informed neural networks and optimization,” in 2021 60th IEEE Conference on Decision and Control (CDC) . IEEE, 2021, pp. 4418–4423. [51] F. Giampaolo, M. De Rosa, P. Qi, S. Izzo, and S. Cuomo, “Physics-informed neural networks approach for 1d and 2d gray-scott systems,” 
+
+Advanced Modeling and Simulation in Engineering Sciences , vol. 9, no. 1, p. 5, 2022. [52] F. Arnold and R. King, “State–space modeling for control based on physics-informed neural networks,” Engineering Applications of Artifi-cial Intelligence , vol. 101, p. 104195, 2021. [53] S. Weill, E. Mouche, and J. Patin, “A generalized richards equation for surface/subsurface flow modelling,” Journal of hydrology , vol. 366, no. 1-4, pp. 9–20, 2009. [54] P. S. Van Eck, W. Jager, and P. S. Leeflang, “Opinion leaders’ role in innovation diffusion: A simulation study,” Journal of Product Innovation Management , vol. 28, no. 2, pp. 187–203, 2011. [55] X. Song, Y. Chi, K. Hino, and B. Tseng, “Identifying opinion leaders in the blogosphere,” in Proceedings of the sixteenth ACM conference on Conference on information and knowledge management , 2007, pp. 971–974. [56] G. Flodgren, M. A. O’Brien, E. Parmelli, and J. M. Grimshaw, “Local opinion leaders: effects on professional practice and healthcare out-comes,” Cochrane Database of Systematic Reviews , no. 6, 2019. [57] A. Vaswani, “Attention is all you need,” Advances in Neural Information Processing Systems , 2017. [58] F. Yu and V. Koltun, “Multi-scale context aggregation by dilated convolutions,” in ICLR , 2016. [59] L. Van der Maaten and G. Hinton, “Visualizing data using t-sne.” Journal of machine learning research , vol. 9, no. 11, 2008. [60] D. P. Kingma, “Adam: A method for stochastic optimization,” arXiv preprint arXiv:1412.6980 , 2014. [61] T. Chen and C. Guestrin, “Xgboost: A scalable tree boosting system,” in Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining , 2016, pp. 785–794. 12 
+
+[62] Z. Xu, M. Qian, X. Huang, and J. Meng, “Casgcn: Predicting future cascade growth based on information diffusion graph,” arXiv preprint arXiv:2009.05152 , 2020. [63] Y. Wang, X. Wang, and T. Jia, “Ccasgnn: Collaborative cascade pre-diction based on graph neural networks,” in 2022 IEEE 25th Interna-tional Conference on Computer Supported Cooperative Work in Design (CSCWD) . IEEE, 2022, pp. 810–815. [64] J. Li, Y. Yang, Y. Zhang, Q. Hu, A. Zhao, and H. Gao, “Public opinion field effect and hawkes process join hands for information popularity prediction,” in Proceedings of the AAAI Conference on Artificial Intelligence , vol. 39, no. 11, 2025, pp. 12 076–12 083. 
+
+Guangyin Jin is an Assistant Research Fellow in National Innovative Institute of Defense Technol-ogy, and an IEEE Senior Member. He received a Ph.D degree at College of Systems Engineering of National University of Defense Technology. His research interest falls in the area of spatial-temporal data mining, graph neural networks and urban com-puting. So far, he has published more than 40 papers in top journals and conferences such as TKDE, TITS, TIST, TRC, TKDD, AAAI, CIKM, NIPS, ICCV, SIGSPATIL, accumulating more than 3,000 citations on Google Scholar. He is also an editorial board member for SCI-indexed journals such as Scientific Reports, Humanities & Social Sciences Communications, and Mathematics. 
+
+Xiaohan Ni is a postdoctoral fellow at the Capital Normal University, a lecturer at the Chinese Armed Police Force Command College, and holds a doc-toral degree from the Academy of Military Sciences. His main research interests include resources-targets matching optimization and command analysis of operations. So far, he has published several papers in JCR Q1-level international journals such as MAA. 
+
+Yanjie Song received double B.S. degrees in Man-agement from Tianjin University, Tianjin, China, in 2017 and the Ph.D. degree in Engineering from National University of Defense Technology, China, in 2023. He has published more than 60 papers in IEEE TEVC, IEEE TGRS, and other journals. He has authored 4 academic book, obtained 10 Na-tional Invention Patents, and hosted/participated in more than 15 projects. His research interests include computational intelligence, evolutionary algorithm, combinatorial optimization, and deep reinforcement learning. He is now the Guest Editor of the Swarm and Evolutionary Com-putation, Guest Editor of the Computers & Electrical Engineering, Associate Editor of the International Journal on Interactive Design and Manufacturing, Young Editorial Board Member of Data Science and Management, reviewer of the IEEE TEVC, IEE TCYB, and more than 30 other journals. 
+
+Kun Wei graduated from the School of Physics, Peking University in 2015 with a bachelor’s degree, and obtained his doctorate from the Department of Engineering Physics at Tsinghua University in 2021. During his doctoral studies, he mainly engaged in research related to the interaction between radiation and matter and the measurement and diagnosis of ra-diation. Now, he is engaged in research on complex systems, especially social physics, aiming to achieve the representation of individual and group behaviors in society through physical modeling and computa-tional simulation, and to explain and analyze related social phenomena to serve the strategic needs of national security and scientific governance. 
+
+Jie Zhao is a PhD in Physics with a robust interdis-ciplinary background in plasma physics and optics. His research encompasses the transport of carriers in topological insulators, gamma-vortex generation, and the production and acceleration of positrons. Jie possesses extensive expertise in large-scale nu-merical simulations, ultrafast spectroscopy charac-terization, Raman spectroscopy measurements, and fluorescence upconversion experiments. Recently, he proposed a novel physical scheme for all-optical positron production and acceleration, which has gar-nered widespread recognition in the field and was published in the presti-gious journal Communication Physics. Currently, Jie serves as an assistant researcher in the field of complex systems and social physics, where he investigates the intricate interactions and dynamics that govern these systems. 
+
+Leiming Jia is a Ph.D. in Nuclear Science and Technology with a solid interdisciplinary founda-tion, graduated from the Department of Engineer-ing Physics of Tsinghua University. Jia is mainly engaged in the field of complexity science and nonlinear dynamics, and has constructed theoretical calculation methods for shock wave propagation in complex environments. Recently, Jia mainly con-ducts researches on three-party (multi-party) game theory, including the research and establishment of physical models and computational models, to understand the dynamic behaviors and physical mechanisms behind complex games in the real world, and the important influence of complex factors such as information and cognition. 
+
+Witold Pedrycz (IEEE Life Fellow) is Professor in the Department of Electrical and Computer Engi-neering, University of Alberta, Edmonton, Canada. He is also with the Systems Research Institute of the Polish Academy of Sciences, Warsaw, Poland. Dr. Pedrycz is a foreign member of the Polish Academy of Sciences and a Fellow of the Royal Society of Canada. He is a recipient of several awards including Norbert Wiener award from the IEEE Systems, Man, and Cybernetics Society, IEEE Canada Computer Engineering Medal, a Cajastur Prize for Soft Com-puting from the European Centre for Soft Computing, a Killam Prize, a Fuzzy Pioneer Award from the IEEE Computational Intelligence Society, and 2019 Meritorious Service Award from the IEEE Systems Man and Cybernetics Society. His main research directions involve Computational Intelligence, Granular Computing, and Machine Learning, among others. Professor Pedrycz served as an Editor-in-Chief of Information Sciences, Editor-in-Chief of WIREs Data Mining and Knowledge Discovery (Wiley), and Co-editor-in-Chief of Int. J. of Granular Computing (Springer) and J. of Data Information and Management (Springer). Currently he serves as Editor-in-Chief of WIREs Data Mining and Knowledge Discovery (Wiley).

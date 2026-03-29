@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.19599v1/fig-001.webp",
+      "caption": "Fig. 1: Nonlinear function fitting and clustering performance on Twitter, Weibo and APS dataset.",
+      "page": 1,
+      "index": 1,
+      "width": 516,
+      "height": 271
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19599v1/fig-002.webp",
+      "caption": "Fig. 8: The visualization on adaptive hidden representation clustering.",
+      "page": 10,
+      "index": 2,
+      "width": 516,
+      "height": 396
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19599v1/fig-003.webp",
+      "caption": "Fig. 9: Impact of hyper-parameters on the performance of method.",
+      "page": 10,
+      "index": 3,
+      "width": 516,
+      "height": 409
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19599v1/fig-004.webp",
+      "caption": "Fig. 3: The shape of the Richards growth curve changes with the variation of the parameter δ.",
+      "page": 4,
+      "index": 4,
+      "width": 488,
+      "height": 346
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19599v1/fig-005.webp",
+      "caption": "TABLE I: Comparison of our model with other baseline models for predicting information popularity on Weibo, Twitter and APS. The optimal metrics are highlighted in bold, while the sub-optimal metrics are underscored.",
+      "page": 9,
+      "index": 5,
+      "width": 1081,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19599v1/fig-006.webp",
+      "caption": "Fig. 4: The overview of our proposed deep learning model PIACN. PIACN is composed of cascade embedding network, temporal learning network, adaptive clustering network, prediction network and physical modeling network. There are two parts of input, information cascades and popularity time series, which are put forward into cascade embedding network and temporal learning network respectively. The loss function of our proposed model consists of three parts: prediction loss Lpred, physical constraint loss Lphy , and clustering loss Lclu.",
+      "page": 5,
+      "index": 6,
+      "width": 968,
+      "height": 302
+    }
+  ]
+}

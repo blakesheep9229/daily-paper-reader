@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-001.webp",
+      "caption": "Table 2: Topics with their interpretive label, per-topic dominant-document count nk, and mean prevalence γ̄k.",
+      "page": 11,
+      "index": 1,
+      "width": 632,
+      "height": 211
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-002.webp",
+      "caption": "Figure 1: Top 20 terms per topic (prevalence-weighted). Panel area per topic is proportional to its mean prevalence; tile area per lemma is proportional to its within-topic weight. Italian lemmas (left); English glosses (right).",
+      "page": 11,
+      "index": 2,
+      "width": 882,
+      "height": 499
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-003.webp",
+      "caption": "Table 5: Evgenij’s reply — lexical hub card.",
+      "page": 15,
+      "index": 3,
+      "width": 906,
+      "height": 434
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-004.webp",
+      "caption": "Figure 4: Chord diagram showing interrelations between the five main themes (bottom) and their associated subthemes (top).",
+      "page": 14,
+      "index": 4,
+      "width": 976,
+      "height": 799
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-005.webp",
+      "caption": "Table 4: Tat’jana’s letter — lexical hub card. sPLS–DA lemmas are denoted by † or ‡; †, novel lemma (not in LDA top lists); ‡, porous lemma (appearing among the top terms of another topic).",
+      "page": 14,
+      "index": 5,
+      "width": 906,
+      "height": 289
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-006.webp",
+      "caption": "Figure 3: Cross-over heatmap between sPLS–DA core-exclusive lemmas and LDA top lemmas. Diagonal values indicate within-theme overlap; off-diagonal values indicate cross-theme overlap.",
+      "page": 13,
+      "index": 6,
+      "width": 590,
+      "height": 590
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-007.webp",
+      "caption": "Table 1: Selected list of narrative hubs in Evgenij Onegin, with corresponding chapter (ch.) and stanza ranges.",
+      "page": 4,
+      "index": 7,
+      "width": 978,
+      "height": 482
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-008.webp",
+      "caption": "Table 3: Cross-validated performance of sPLS–DA OvR classifiers by topic. Columns: mean accuracy (acc), balanced accuracy (bacc), and stratified random baselines (acc0, bacc0).",
+      "page": 12,
+      "index": 8,
+      "width": 718,
+      "height": 210
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-009.webp",
+      "caption": "Figure 2: Narrative map across documents. Grey bands mark the narrative hubs described in Table 1.",
+      "page": 12,
+      "index": 9,
+      "width": 1074,
+      "height": 270
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-010.webp",
+      "caption": "Table 7: Tat’jana’s reply — lexical hub card.",
+      "page": 16,
+      "index": 10,
+      "width": 932,
+      "height": 404
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19940v1/fig-011.webp",
+      "caption": "Table 6: Evgenij’s letter — lexical hub card.",
+      "page": 16,
+      "index": 11,
+      "width": 906,
+      "height": 373
+    }
+  ]
+}

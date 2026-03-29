@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-001.webp",
+      "caption": "Figure 4: Illustration of concept coefficient assignment and the resulting concept weights.",
+      "page": 6,
+      "index": 1,
+      "width": 890,
+      "height": 620
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-002.webp",
+      "caption": "Figure 7: Example of start and end values assigned to nodes in an XML document.",
+      "page": 11,
+      "index": 2,
+      "width": 922,
+      "height": 560
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-003.webp",
+      "caption": "Figure 11: Distribution of documents across domains in the XML collection.",
+      "page": 15,
+      "index": 3,
+      "width": 731,
+      "height": 418
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-004.webp",
+      "caption": "Figure 6: Concept propagation from text nodes to element nodes for index construction.",
+      "page": 10,
+      "index": 4,
+      "width": 887,
+      "height": 502
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-005.webp",
+      "caption": "Figure 10: General architecture of the developed prototype.",
+      "page": 14,
+      "index": 5,
+      "width": 906,
+      "height": 579
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-006.webp",
+      "caption": "Table 3: Experimental results for different users (recall R, precision P, and F1-score).",
+      "page": 18,
+      "index": 6,
+      "width": 964,
+      "height": 412
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-007.webp",
+      "caption": "Table 2: Experimental results for the same user.",
+      "page": 18,
+      "index": 7,
+      "width": 922,
+      "height": 481
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-008.webp",
+      "caption": "Figure 8: Representation of an XML document in a two-dimensional space based on start and end coordinates.",
+      "page": 12,
+      "index": 8,
+      "width": 1148,
+      "height": 515
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-009.webp",
+      "caption": "Figure 12: Most frequent ontology concepts in the XML collection.",
+      "page": 16,
+      "index": 9,
+      "width": 735,
+      "height": 356
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21139v1/fig-010.webp",
+      "caption": "Figure 13: Word cloud of the XML collection content.",
+      "page": 16,
+      "index": 10,
+      "width": 740,
+      "height": 370
+    }
+  ]
+}

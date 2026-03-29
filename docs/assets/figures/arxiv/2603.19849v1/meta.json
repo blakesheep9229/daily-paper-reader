@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.19849v1/fig-001.webp",
+      "caption": "Figure 4: Empath analysis of various human-written texts consistently identifies a small gap of intensity value between the leading two semantic categories, suggesting a more dynamic and less rigid topic structure.",
+      "page": 4,
+      "index": 1,
+      "width": 976,
+      "height": 296
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19849v1/fig-002.webp",
+      "caption": "Figure 3: Empath analysis of various AI generated dialogues consistently identifies a gap of intensity value between the leading two semantic categories, suggesting a high degree of thematic concentration in the model’s responses.",
+      "page": 4,
+      "index": 2,
+      "width": 976,
+      "height": 296
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19849v1/fig-003.webp",
+      "caption": "Figure 1: Our proposed metric fits into the broader AI detection methods ecosystem as a one-shot, \"white-box\" statistical tool.",
+      "page": 3,
+      "index": 3,
+      "width": 736,
+      "height": 327
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19849v1/fig-004.webp",
+      "caption": "Figure 2: Lexical Analysis Pipeline using the Empath Library. After initial Tokenization, each token is matched against a Pre-Defined Lexicon consisting of 200+ Pre-Built-in Clusters. The final output represents the statistical distribution of these semantic categories within the analyzed text.",
+      "page": 3,
+      "index": 4,
+      "width": 979,
+      "height": 425
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19849v1/fig-005.webp",
+      "caption": "Figure 6: AI generated dialogues consistently showed a larger delta between Top1 and Top2 categories, in comparison with Human dialogues. A Welch T-Test was conducted to test the null hypothesis that the observed difference between the mean values is attributable to random noise. Since the p < 0.05, the null hypothesis was rejected. There is a statistical significative difference between AI and Human dialogues.",
+      "page": 6,
+      "index": 5,
+      "width": 736,
+      "height": 411
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19849v1/fig-006.webp",
+      "caption": "Figure 5: Comparison of mean Shannon entropy between human-written texts (Friends, Shakespeare, Reddit; aggregated as “Human”) and AI-generated texts (“AI”). The Human bar includes the three underlying human datasets to show internal variability and the overall mean. AI exhibits a slightly lower entropy than Human, indicating marginally higher predictability; although the gap is small, it is consistent with the expected trend of reduced lexical diversity in AI-generated content.",
+      "page": 5,
+      "index": 6,
+      "width": 736,
+      "height": 485
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.23027v1/fig-001.webp",
+      "caption": "Figure 2: Estimated counts of replies received by men and by women political elites to their posts when controlling for covariates. Errorbars indicate 95% Credible Intervals.",
+      "page": 7,
+      "index": 1,
+      "width": 424,
+      "height": 425
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23027v1/fig-002.webp",
+      "caption": "Figure 3: Interaction of gender and political position for reply counts. Estimates are predicted counts of replies received by posts of political elites depending on their gender and political position. Errorbars indicate 95% Credible Intervals.",
+      "page": 7,
+      "index": 2,
+      "width": 529,
+      "height": 408
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23027v1/fig-003.webp",
+      "caption": "Figure 1: Predicted probabilities of using each of the 5 emotionsfor men and women political elites. The error bars indicate 95% Credible Intervals. Each sub-figure represents the estimated gender probabilities of using that emotion based on the respective Logistic Regression model fitted. For sadness and fear, we do not find evidence gender predicting their use in posts (Sub-figures D and E).",
+      "page": 6,
+      "index": 3,
+      "width": 529,
+      "height": 615
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23027v1/fig-004.webp",
+      "caption": "Figure 4: Estimated counts of upvotes received by men and by women to their posts when controlling for covariates. Errorbars indicate 95% Credible Intervals.",
+      "page": 8,
+      "index": 4,
+      "width": 424,
+      "height": 425
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23027v1/fig-005.webp",
+      "caption": "Figure 5: Interaction of gender and political position for upvote counts. Estimates are predicted counts of replies received by posts of political elites depending on their gender and political position. Errorbars indicate 95% Credible Intervals.",
+      "page": 8,
+      "index": 5,
+      "width": 529,
+      "height": 409
+    }
+  ]
+}

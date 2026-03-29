@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.20723v1/fig-001.webp",
+      "caption": "Figure 2: Ratio of videos for the polarising and cooking topics over time for users seeded with both topics (neutral+polarising). We can see that the neutral cooking topic completely dominates the personalisation across all polarisation topics.",
+      "page": 6,
+      "index": 1,
+      "width": 500,
+      "height": 334
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20723v1/fig-002.webp",
+      "caption": "Figure 3: Ratio of videos for the polarising and cooking topics over time for users seeded with the polarising topics only (polarising only). We observe a strong neutralising polarisation-topic drift for climate change and vaccines, while US politics show an equilibrium behaviour with a large ratio of political videos.",
+      "page": 7,
+      "index": 2,
+      "width": 818,
+      "height": 442
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20723v1/fig-003.webp",
+      "caption": "Figure 4: Average number of videos with specific stance across topics. We observe an equilibrium behaviour for polarising-stance drift with similar number of videos from the seeded stance over time and only few videos from opposing stance.",
+      "page": 8,
+      "index": 3,
+      "width": 1040,
+      "height": 446
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20723v1/fig-004.webp",
+      "caption": "Figure 5: Preference-aligned (left) and polarisation-stance (right) drift for users seeded equally with both stances for the US politics topic (mixed polarity). We observe a stronger tendency of the system to recommend videos from the oppose stance.",
+      "page": 8,
+      "index": 4,
+      "width": 818,
+      "height": 204
+    },
+    {
+      "url": "assets/figures/arxiv/2603.20723v1/fig-005.webp",
+      "caption": "Figure 1: Visualisation of the audit phases.",
+      "page": 5,
+      "index": 5,
+      "width": 500,
+      "height": 593
+    }
+  ]
+}

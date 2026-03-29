@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.19744v1/fig-001.webp",
+      "caption": "TABLE II DISAGREEMENT SUBSET EVALUATION",
+      "page": 2,
+      "index": 1,
+      "width": 654,
+      "height": 247
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19744v1/fig-002.webp",
+      "caption": "TABLE I AGREEMENT SUBSET EVALUATION",
+      "page": 2,
+      "index": 2,
+      "width": 716,
+      "height": 246
+    },
+    {
+      "url": "assets/figures/arxiv/2603.19744v1/fig-003.webp",
+      "caption": "Fig. 1. (Top) Correlation of runtime, output tokens generated and input frames per video. (Bottom) GPU memory usage across models. All models fit on a single H100 (96GB) except Qwen2.5-VL 72B, which required 3× H100 GPUs. We use HuggingFace to run our experiments. Total compute is approximately 80 GPU hours.",
+      "page": 5,
+      "index": 3,
+      "width": 434,
+      "height": 504
+    }
+  ]
+}

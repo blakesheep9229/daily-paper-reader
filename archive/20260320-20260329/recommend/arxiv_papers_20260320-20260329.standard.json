@@ -1,0 +1,696 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-29T15:38:26.676861+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 8,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 19,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.19711v1",
+      "source": "arxiv",
+      "title": "EvoTaxo: Building and Evolving Taxonomy from Social Media Streams",
+      "abstract": "Constructing taxonomies from social media corpora is challenging because posts are short, noisy, semantically entangled, and temporally dynamic. Existing taxonomy induction methods are largely designed for static corpora and often struggle to balance robustness, scalability, and sensitivity to evolving discourse. We propose EvoTaxo, a LLM-based framework for building and evolving taxonomies from temporally ordered social media streams. Rather than clustering raw posts directly, EvoTaxo converts each post into a structured draft action over the current taxonomy, accumulates structural evidence over time windows, and consolidates candidate edits through dual-view clustering that combines semantic similarity with temporal locality. A refinement-and-arbitration procedure then selects reliable edits before execution, while each node maintains a concept memory bank to preserve semantic boundaries over time. Experiments on two Reddit corpora show that EvoTaxo produces more balanced taxonomies than baselines, with clearer post-to-leaf assignment, better corpus coverage at comparable taxonomy size, and stronger structural quality. A case study on the Reddit community /r/ICE_Raids further shows that EvoTaxo captures meaningful temporal shifts in discourse. Our codebase is available here.",
+      "authors": [
+        "Yiyang Li",
+        "Tianyi Ma",
+        "Yanfang Ye"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-20T07:33:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.19711v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Building and evolving taxonomies from social media streams using LLMs and clustering.",
+      "llm_evidence_cn": "利用大模型和聚类从社交媒体流中构建和演化分类体系。",
+      "llm_evidence": "利用大模型和聚类从社交媒体流中构建和演化分类体系。",
+      "canonical_evidence": "利用大模型和聚类从社交媒体流中构建和演化分类体系。",
+      "llm_tldr_en": "Proposes EvoTaxo to build and evolve taxonomies from dynamic social media streams using LLMs.",
+      "llm_tldr_cn": "提出EvoTaxo框架，利用大模型从动态社交媒体流中构建和演化主题分类体系。",
+      "llm_tldr": "提出EvoTaxo框架，利用大模型从动态社交媒体流中构建和演化主题分类体系。",
+      "llm_tags": [
+        "query:profile-1:composite"
+      ],
+      "matched_query_tag": "query:profile-1:composite",
+      "matched_query_text": "Papers central to 识别与量化社交媒体平台中用户发帖内容主题领域的算法研究, especially work that connects or combines: topic modeling; m; i; 算法方法用于识别社交媒体帖子内容的主题领域; 基于文本分析的社交媒体内容自动分类技术; 社交媒体文本挖掘技术用于提取潜在话题模式; Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods; 如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例; 有哪些模型或方法可用于分析博主发布内容的主题分布与变化趋势; 哪类文本挖掘算法最适合社交平台的主题识别与分类任务.",
+      "matched_requirement_id": "req-composite-profile-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19940v1",
+      "source": "arxiv",
+      "title": "Hybrid topic modelling for computational close reading: Mapping narrative themes in Pushkin's Evgenij Onegin",
+      "abstract": "This study presents a hybrid topic modelling framework for computational literary analysis that integrates Latent Dirichlet Allocation (LDA) with sparse Partial Least Squares Discriminant Analysis (sPLS-DA) to model thematic structure and longitudinal dynamics in narrative poetry. As a case study, we analyse Evgenij Onegin-Aleksandr S. Pushkin's novel in verse-using an Italian translation, testing whether unsupervised and supervised lexical structures converge in a small-corpus setting. The poetic text is segmented into thirty-five documents of lemmatised content words, from which five stable and interpretable topics emerge. To address small-corpus instability, a multi-seed consensus protocol is adopted. Using sPLS-DA as a supervised probe enhances interpretability by identifying lexical markers that refine each theme. Narrative hubs-groups of contiguous stanzas marking key episodes-extend the bag-of-words approach to the narrative level, revealing how thematic mixtures align with the poem's emotional and structural arc. Rather than replacing traditional literary interpretation, the proposed framework offers a computational form of close reading, illustrating how lightweight probabilistic models can yield reproducible thematic maps of complex poetic narratives, even when stylistic features such as metre, phonology, or native morphology are abstracted away. Despite relying on a single lemmatised translation, the approach provides a transparent methodological template applicable to other high-density literary texts in comparative studies.",
+      "authors": [
+        "Angelo Maria Sabatini"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-20T13:37:08+00:00",
+      "link": "https://arxiv.org/pdf/2603.19940v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Hybrid topic modelling framework integrating LDA and sPLS-DA for thematic structure",
+      "llm_evidence_cn": "结合LDA和sPLS-DA的混合主题建模框架，用于分析主题结构",
+      "llm_evidence": "结合LDA和sPLS-DA的混合主题建模框架，用于分析主题结构",
+      "canonical_evidence": "结合LDA和sPLS-DA的混合主题建模框架，用于分析主题结构",
+      "llm_tldr_en": "Develops a hybrid topic modeling framework to map narrative themes and longitudinal dynamics in text.",
+      "llm_tldr_cn": "开发了一种混合主题建模框架，用于映射文本中的叙事主题和纵向动态。",
+      "llm_tldr": "开发了一种混合主题建模框架，用于映射文本中的叙事主题和纵向动态。",
+      "llm_tags": [
+        "query:q1"
+      ],
+      "matched_query_tag": "query:q1",
+      "matched_query_text": "topic modeling",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24933v1",
+      "source": "arxiv",
+      "title": "Decoding Market Emotions in Cryptocurrency Tweets via Predictive Statement Classification with Machine Learning and Transformers",
+      "abstract": "The growing prominence of cryptocurrencies has triggered widespread public engagement and increased speculative activity, particularly on social media platforms. This study introduces a novel classification framework for identifying predictive statements in cryptocurrency-related tweets, focusing on five popular cryptocurrencies: Cardano, Matic, Binance, Ripple, and Fantom. The classification process is divided into two stages: Task 1 involves binary classification to distinguish between Predictive and Non-Predictive statements. Tweets identified as Predictive proceed to Task 2, where they are further categorized as Incremental, Decremental, or Neutral. To build a robust dataset, we combined manual and GPT-based annotation methods and utilized SenticNet to extract emotion features corresponding to each prediction category. To address class imbalance, GPT-generated paraphrasing was employed for data augmentation. We evaluated a wide range of machine learning, deep learning, and transformer-based models across both tasks. The results show that GPT-based balancing significantly enhanced model performance, with transformer models achieving the highest F1-score in Task 1, while traditional machine learning models performed best in Task 2. Furthermore, our emotion analysis revealed distinct emotional patterns associated with each prediction category across the different cryptocurrencies.",
+      "authors": [
+        "Moein Shahiki Tash",
+        "Zahra Ahani",
+        "Mohim Tash",
+        "Mostafa Keikhay Farzaneh",
+        "Ari Y. Barrera-Animas",
+        "Olga Kolesnikova"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CE"
+      ],
+      "published": "2026-03-26T01:52:36+00:00",
+      "link": "https://arxiv.org/pdf/2603.24933v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "classification framework for cryptocurrency-related tweets",
+      "llm_evidence_cn": "加密货币相关推文的分类框架",
+      "llm_evidence": "加密货币相关推文的分类框架",
+      "canonical_evidence": "加密货币相关推文的分类框架",
+      "llm_tldr_en": "Classifies social media posts into predictive categories using machine learning and transformers.",
+      "llm_tldr_cn": "使用机器学习和Transformer将社交媒体帖子分类为预测性类别。",
+      "llm_tldr": "使用机器学习和Transformer将社交媒体帖子分类为预测性类别。",
+      "llm_tags": [
+        "query:q7"
+      ],
+      "matched_query_tag": "query:q7",
+      "matched_query_text": "Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25051v1",
+      "source": "arxiv",
+      "title": "Approaches to Analysing Historical Newspapers Using LLMs",
+      "abstract": "This study presents a computational analysis of the Slovene historical newspapers \\textit{Slovenec} and \\textit{Slovenski narod} from the sPeriodika corpus, combining topic modelling, large language model (LLM)-based aspect-level sentiment analysis, entity-graph visualisation, and qualitative discourse analysis to examine how collective identities, political orientations, and national belonging were represented in public discourse at the turn of the twentieth century. Using BERTopic, we identify major thematic patterns and show both shared concerns and clear ideological differences between the two newspapers, reflecting their conservative-Catholic and liberal-progressive orientations. We further evaluate four instruction-following LLMs for targeted sentiment classification in OCR-degraded historical Slovene and select the Slovene-adapted GaMS3-12B-Instruct model as the most suitable for large-scale application, while also documenting important limitations, particularly its stronger performance on neutral sentiment than on positive or negative sentiment. Applied at dataset scale, the model reveals meaningful variation in the portrayal of collective identities, with some groups appearing predominantly in neutral descriptive contexts and others more often in evaluative or conflict-related discourse. We then create NER graphs to explore the relationships between collective identities and places. We apply a mixed methods approach to analyse the named entity graphs, combining quantitative network analysis with critical discourse analysis. The investigation focuses on the emergence and development of intertwined historical political and socionomic identities. Overall, the study demonstrates the value of combining scalable computational methods with critical interpretation to support digital humanities research on noisy historical newspaper data.",
+      "authors": [
+        "Filip Dobranić",
+        "Tina Munda",
+        "Oliver Pejić",
+        "Vojko Gorjanc",
+        "Uroš Šmajdek",
+        "David Bordon",
+        "Jakob Lenardič",
+        "Tjaša Konovšek",
+        "Kristina Pahor de Maiti Tekavčič",
+        "Ciril Bohak",
+        "Darja Fišer"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-26T05:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.25051v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Uses BERTopic for topic modelling and thematic pattern identification in public discourse",
+      "llm_evidence_cn": "使用 BERTopic 进行主题建模并识别公共话语中的主题模式",
+      "llm_evidence": "使用 BERTopic 进行主题建模并识别公共话语中的主题模式",
+      "canonical_evidence": "使用 BERTopic 进行主题建模并识别公共话语中的主题模式",
+      "llm_tldr_en": "Analyzes historical newspapers using BERTopic and LLMs to identify thematic patterns and ideological differences.",
+      "llm_tldr_cn": "利用 BERTopic 和大模型分析历史报纸，识别主题模式和意识形态差异。",
+      "llm_tldr": "利用 BERTopic 和大模型分析历史报纸，识别主题模式和意识形态差异。",
+      "llm_tags": [
+        "query:q1"
+      ],
+      "matched_query_tag": "query:q1",
+      "matched_query_text": "topic modeling",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.19744v1",
+      "source": "arxiv",
+      "title": "Rethinking Ground Truth: A Case Study on Human Label Variation in MLLM Benchmarking",
+      "abstract": "Human Label Variation (HLV), i.e. systematic differences among annotators' judgments, remains underexplored in benchmarks despite rapid progress in large language model (LLM) development. We address this gap by introducing an evaluation protocol for multimodal large language model (MLLM) benchmarking that explicitly accounts for two conditions: (1) human label agreement and (2) disagreement. We apply this protocol to two state-of-the-art MLLM families (Gemma 3, Qwen 2.5 VL) using non-aggregated human annotations from a social media content classification dataset. Across tasks, we find that larger models tend to perform best on high-agreement subsets, yet often underperform medium-sized models when human disagreement is high, indicating that parameter count alone does not determine sensitivity to ambiguity and subjectivity. These results show that benchmarks based solely on consensus labels can overstate model capabilities in such domains and that incorporating human label variation yields more realistic and robust assessments of MLLMs in content moderation pipelines.",
+      "authors": [
+        "Tomas Ruiz",
+        "Tanalp Agustoslu",
+        "Carsten Schwemmer"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-03-20T08:29:05+00:00",
+      "link": "https://arxiv.org/pdf/2603.19744v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "social media content classification dataset",
+      "llm_evidence_cn": "社交媒体内容分类数据集",
+      "llm_evidence": "社交媒体内容分类数据集",
+      "canonical_evidence": "社交媒体内容分类数据集",
+      "llm_tldr_en": "Evaluates MLLMs on social media content classification while accounting for human label variation.",
+      "llm_tldr_cn": "在考虑人类标签差异的情况下，评估多模态大模型在社交媒体内容分类上的表现。",
+      "llm_tldr": "在考虑人类标签差异的情况下，评估多模态大模型在社交媒体内容分类上的表现。",
+      "llm_tags": [
+        "query:profile-1:composite"
+      ],
+      "matched_query_tag": "query:profile-1:composite",
+      "matched_query_text": "Papers central to 识别与量化社交媒体平台中用户发帖内容主题领域的算法研究, especially work that connects or combines: topic modeling; m; i; 算法方法用于识别社交媒体帖子内容的主题领域; 基于文本分析的社交媒体内容自动分类技术; 社交媒体文本挖掘技术用于提取潜在话题模式; Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods; 如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例; 有哪些模型或方法可用于分析博主发布内容的主题分布与变化趋势; 哪类文本挖掘算法最适合社交平台的主题识别与分类任务.",
+      "matched_requirement_id": "req-composite-profile-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21481v1",
+      "source": "arxiv",
+      "title": "TagLLM: A Fine-Grained Tag Generation Approach for Note Recommendation",
+      "abstract": "Large Language Models (LLMs) have shown promising potential in E-commerce community recommendation. While LLMs and Multimodal LLMs (MLLMs) are widely used to encode notes into implicit embeddings, leveraging their generative capabilities to represent notes with interpretable tags remains unexplored. In the field of tag generation, traditional close-ended methods heavily rely on the design of tag pools, while existing open-ended methods applied directly to note recommendations face two limitations: (1) MLLMs lack guidance during generation, resulting in redundant tags that fail to capture user interests; (2) The generated tags are often coarse and lack fine-grained representation of notes, interfering with downstream recommendations. To address these limitations, we propose TagLLM, a fine-grained tag generation method for note recommendation. TagLLM captures user interests across note categories through a User Interest Handbook and constructs fine-grained tag data using multimodal CoT Extraction. A Tag Knowledge Distillation method is developed to equip small models with competitive generation capabilities, enhancing inference efficiency. In online A/B test, TagLLM increases average view duration per user by 0.31%, average interactions per user by 0.96%, and page view click-through rate in cold-start scenario by 32.37%, demonstrating its effectiveness.",
+      "authors": [
+        "Zhijian Chen",
+        "Likai Wang",
+        "Lei Chen",
+        "Yaguang Dou",
+        "Jialiang Shi",
+        "Tian Qi",
+        "Dongdong Hao",
+        "Mengying Lu",
+        "Cheng Ye",
+        "Chao Wei"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-03-23T02:01:00+00:00",
+      "link": "https://arxiv.org/pdf/2603.21481v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Fine-grained tag generation for note representation in e-commerce communities",
+      "llm_evidence_cn": "电商社区笔记表示的细粒度标签生成",
+      "llm_evidence": "电商社区笔记表示的细粒度标签生成",
+      "canonical_evidence": "电商社区笔记表示的细粒度标签生成",
+      "llm_tldr_en": "Proposes TagLLM to generate interpretable, fine-grained tags for social media-like notes to improve recommendations.",
+      "llm_tldr_cn": "提出TagLLM为社交媒体笔记生成可解释的细粒度标签，以优化推荐效果。",
+      "llm_tldr": "提出TagLLM为社交媒体笔记生成可解释的细粒度标签，以优化推荐效果。",
+      "llm_tags": [
+        "query:q5"
+      ],
+      "matched_query_tag": "query:q5",
+      "matched_query_text": "基于文本分析的社交媒体内容自动分类技术",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.23027v1",
+      "source": "arxiv",
+      "title": "Gendered Communication Patterns of Political Elites on Truth Social",
+      "abstract": "The influence of gender on online political communication remains contested, with existing scholarship providing mixed evidence as to whether gender shapes political messaging in digital environments. However, this debate has largely centred on mainstream platforms such as X (formerly Twitter), leaving the dynamics of alt-tech social media underexamined. This paper addresses this gap by analysing gendered patterns of political communication on Truth Social, a hyper-partisan platform that functions as a hub for the most committed followers of the American far right, a community closely associated with hegemonic masculine norms. To address this gap, we present the first large-scale analysis of political elite communication on Truth Social, using a novel dataset of 107k posts from 129 U.S. political figures. We examine the extent to which gender influences rhetorical style, topic framing, and audience engagement. We find that many gendered communication patterns documented on mainstream platforms persist on Truth Social. In particular, women political elites tend to express more joy and less anger than men and receive significantly higher levels of audience engagement. At the same time, more nuanced differences emerge. Although men and women political elites discuss largely similar conservative themes, they differ in how these issues are framed and in the rhetorical strategies employed. Notably, posts associated with women political elites contain higher levels of fear-based rhetoric, potentially suggesting selective adaptation in communicative style to navigate gender norms on the platform. These findings suggest that on Truth Social, an alt-tech platform with distinct ideological characteristics, mainstream gendered constraints persist, but are expressed through platform-specific communicative patterns shaped by its partisan orientation and sociotechnical environment.",
+      "authors": [
+        "Tom Bidewell",
+        "Artemis Deligianni",
+        "Tuğrulcan Elmas",
+        "Clare Llewellyn",
+        "Björn Ross"
+      ],
+      "primary_category": "cs.SI",
+      "categories": [
+        "cs.SI"
+      ],
+      "published": "2026-03-24T10:09:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.23027v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "analysing patterns of political communication on social media",
+      "llm_evidence_cn": "分析社交媒体上的政治传播模式",
+      "llm_evidence": "分析社交媒体上的政治传播模式",
+      "canonical_evidence": "分析社交媒体上的政治传播模式",
+      "llm_tldr_en": "Analyzes gendered political messaging patterns on the Truth Social platform using large-scale data.",
+      "llm_tldr_cn": "利用大规模数据分析了 Truth Social 平台上的性别化政治信息传播模式。",
+      "llm_tldr": "利用大规模数据分析了 Truth Social 平台上的性别化政治信息传播模式。",
+      "llm_tags": [
+        "query:q7"
+      ],
+      "matched_query_tag": "query:q7",
+      "matched_query_text": "Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.19599v1",
+      "source": "arxiv",
+      "title": "Physics-Informed Neural Network with Adaptive Clustering Learning Mechanism for Information Popularity Prediction",
+      "abstract": "With society entering the Internet era, the volume and speed of data and information have been increasing. Predicting the popularity of information cascades can help with high-value information delivery and public opinion monitoring on the internet platforms. The current state-of-the-art models for predicting information popularity utilize deep learning methods such as graph convolution networks (GCNs) and recurrent neural networks (RNNs) to capture early cascades and temporal features to predict their popularity increments. However, these previous methods mainly focus on the micro features of information cascades, neglecting their general macroscopic patterns. Furthermore, they also lack consideration of the impact of information heterogeneity on spread popularity. To overcome these limitations, we propose a physics-informed neural network with adaptive clustering learning mechanism, PIACN, for predicting the popularity of information cascades. Our proposed model not only models the macroscopic patterns of information dissemination through physics-informed approach for the first time but also considers the influence of information heterogeneity through an adaptive clustering learning mechanism. Extensive experimental results on three real-world datasets demonstrate that our model significantly outperforms other state-of-the-art methods in predicting information popularity.",
+      "authors": [
+        "Guangyin Jin",
+        "Xiaohan Ni",
+        "Yanjie Song",
+        "Kun Wei",
+        "Jie Zhao",
+        "Leiming Jia",
+        "Witold Pedrycz"
+      ],
+      "primary_category": "cs.SI",
+      "categories": [
+        "cs.SI",
+        "cs.AI"
+      ],
+      "published": "2026-03-20T03:16:07+00:00",
+      "link": "https://arxiv.org/pdf/2603.19599v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Adaptive clustering for information popularity and public opinion monitoring on internet platforms",
+      "llm_evidence_cn": "用于互联网平台信息流行度预测和舆情监控的自适应聚类机制",
+      "llm_evidence": "用于互联网平台信息流行度预测和舆情监控的自适应聚类机制",
+      "canonical_evidence": "用于互联网平台信息流行度预测和舆情监控的自适应聚类机制",
+      "llm_tldr_en": "Proposes a PINN with adaptive clustering to predict information popularity and monitor public opinion on social media.",
+      "llm_tldr_cn": "提出一种结合自适应聚类的物理信息神经网络，用于预测社交媒体信息流行度及舆情监控。",
+      "llm_tldr": "提出一种结合自适应聚类的物理信息神经网络，用于预测社交媒体信息流行度及舆情监控。",
+      "llm_tags": [
+        "query:profile-1:composite"
+      ],
+      "matched_query_tag": "query:profile-1:composite",
+      "matched_query_text": "Papers central to 识别与量化社交媒体平台中用户发帖内容主题领域的算法研究, especially work that connects or combines: topic modeling; m; i; 算法方法用于识别社交媒体帖子内容的主题领域; 基于文本分析的社交媒体内容自动分类技术; 社交媒体文本挖掘技术用于提取潜在话题模式; Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods; 如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例; 有哪些模型或方法可用于分析博主发布内容的主题分布与变化趋势; 哪类文本挖掘算法最适合社交平台的主题识别与分类任务.",
+      "matched_requirement_id": "req-composite-profile-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.20704v1",
+      "source": "arxiv",
+      "title": "NDT: Non-Differential Transformer and Its Application to Sentiment Analysis",
+      "abstract": "From customer feedback to social media, understanding human sentiment in text is central to how machines can interact meaningfully with people. However, despite notable progress, accurately capturing sentiment remains a challenging task, which continues to motivate further research in this area. To this end, we introduce Non-Differential Transformer (NDT). It is inspired by (but in contrast to) the state-of-the-art Differential Transformer (DT) model. While standard Transformers can struggle with irrelevant context, the sota DT model uses attention map subtraction, potentially for noise cancellation. We explore an alternative motivation, hypothesizing that benefits may arise from enabling different attention components to specialize on distinct concepts within the text, similar to multiplexing information channels or mixture models, rather than primarily canceling noise via subtraction. Guided by this concept-multiplexing (ConPlex) view, the specific architecture presented in this paper employs a purely additive strategy. It uses only positive weights, learned during training, to ensure constructive combination of these specialized attention perspectives. This design choice explores positive only integration, though our broader framework also shows promise with less constrained linear combinations involving both positive and negative weights. Our model computes attention via this positively weighted sum of multiple distinct attention maps. This allows the model to constructively integrate diverse signals and potentially capture more complex contextual relationships. Competitive performance is achieved by the proposed model for Sentiment Analysis while tested on multiple datasets. We conclude by presenting our results, challenges and future research agenda in this important area of research.",
+      "authors": [
+        "Soudeep Ghoshal",
+        "Himanshu Buckchash",
+        "Sarita Paudel",
+        "Rubén Ruiz-Torrubiano"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "published": "2026-03-21T08:03:59+00:00",
+      "link": "https://arxiv.org/pdf/2603.20704v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "sentiment analysis for social media text",
+      "llm_evidence_cn": "社交媒体文本的情感分析",
+      "llm_evidence": "社交媒体文本的情感分析",
+      "canonical_evidence": "社交媒体文本的情感分析",
+      "llm_tldr_en": "Proposes a Non-Differential Transformer to improve noise cancellation in sentiment analysis tasks.",
+      "llm_tldr_cn": "提出了一种非微分 Transformer 模型，旨在改进情感分析任务中的噪声消除。",
+      "llm_tldr": "提出了一种非微分 Transformer 模型，旨在改进情感分析任务中的噪声消除。",
+      "llm_tags": [
+        "query:q10"
+      ],
+      "matched_query_tag": "query:q10",
+      "matched_query_text": "哪类文本挖掘算法最适合社交平台的主题识别与分类任务",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.23322v1",
+      "source": "arxiv",
+      "title": "Leveraging LLMs and Social Media to Understand User Perception of Smartphone-Based Earthquake Early Warnings",
+      "abstract": "Android's Earthquake Alert (AEA) system provided timely early warnings to millions during the Mw 6.2 Marmara Ereglisi, Türkiye earthquake on April 23, 2025. This event, the largest in the region in 25 years, served as a critical real-world test for smartphone-based Earthquake Early Warning (EEW) systems. The AEA system successfully delivered alerts to users with high precision, offering over a minute of warning before the strongest shaking reached urban areas. This study leveraged Large Language Models (LLMs) to analyze more than 500 public social media posts from the X platform, extracting 42 distinct attributes related to user experience and behavior. Statistical analyses revealed significant relationships, notably a strong correlation between user trust and alert timeliness. Our results indicate a distinction between engineering and the user-centric definition of system accuracy. We found that timeliness is accuracy in the user's mind. Overall, this study provides actionable insights for optimizing alert design, public education campaigns, and future behavioral research to improve the effectiveness of such systems in seismically active regions.",
+      "authors": [
+        "Hanjing Wang",
+        "S. Mostafa Mousavi",
+        "Patrick Robertson",
+        "Richard M. Allen",
+        "Alexie Barski",
+        "Robert Bosch",
+        "Nivetha Thiruverahan",
+        "Youngmin Cho",
+        "Tajinder Gadh",
+        "Steve Malkos",
+        "Boone Spooner",
+        "Greg Wimpey",
+        "Marc Stogaitis"
+      ],
+      "primary_category": "stat.AP",
+      "categories": [
+        "stat.AP",
+        "cs.AI",
+        "cs.CY",
+        "physics.geo-ph"
+      ],
+      "published": "2026-03-24T15:24:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.23322v1",
+      "tags": [
+        "keyword:社媒主题算法"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLMs used to analyze social media posts and extract attributes related to user experience",
+      "llm_evidence_cn": "利用大语言模型分析社交媒体帖子并提取与用户体验相关的属性",
+      "llm_evidence": "利用大语言模型分析社交媒体帖子并提取与用户体验相关的属性",
+      "canonical_evidence": "利用大语言模型分析社交媒体帖子并提取与用户体验相关的属性",
+      "llm_tldr_en": "Uses LLMs to analyze social media posts for user perception and behavior during an earthquake event.",
+      "llm_tldr_cn": "利用大语言模型分析社交媒体帖子，研究地震期间用户的感知和行为。",
+      "llm_tldr": "利用大语言模型分析社交媒体帖子，研究地震期间用户的感知和行为。",
+      "llm_tags": [
+        "query:q7"
+      ],
+      "matched_query_tag": "query:q7",
+      "matched_query_text": "Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.19849v1",
+      "source": "arxiv",
+      "title": "Semantic Delta: An Interpretable Signal Differentiating Human and LLMs Dialogue",
+      "abstract": "Do LLMs talk like us? This question intrigues a multitude of scholar and it is relevant in many fields, from education to academia. This work presents an interpretable statistical feature for distinguishing human written and LLMs generated dialogue. We introduce a lightweight metric derived from semantic categories distribution. Using the Empath lexical analysis framework, each text is mapped to a set of thematic intensity scores. We define semantic delta as the difference between the two most dominant category intensities within a dialogue, hypothesizing that LLM outputs exhibit stronger thematic concentration than human discourse. To evaluate this hypothesis, conversational data were generated from multiple LLM configurations and compared against heterogeneous human corpora, including scripted dialogue, literary works, and online discussions. A Welch t-test was applied to the resulting distributions of semantic delta values. Results show that AI-generated texts consistently produce higher deltas than human texts, indicating a more rigid topics structure, whereas human dialogue displays a broader and more balanced semantic spread. Rather than replacing existing detection techniques, the proposed zero-shot metric provides a computationally inexpensive complementary signal that can be integrated into ensemble detection systems. These finding also contribute to the broader empirical understanding of LLM behavioural mimicry and suggest that thematic distribution constitutes a quantifiable dimension along which current models fall short of human conversational dynamics.",
+      "authors": [
+        "Riccardo Scantamburlo",
+        "Mauro Mezzanzana",
+        "Giacomo Buonanno",
+        "Francesco Bertolotti"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-20T11:01:47+00:00",
+      "link": "https://arxiv.org/pdf/2603.19849v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Maps text to thematic intensity scores and analyzes thematic concentration in dialogue",
+      "llm_evidence_cn": "将文本映射到主题强度分数，并分析对话中的主题集中度",
+      "llm_evidence": "将文本映射到主题强度分数，并分析对话中的主题集中度",
+      "canonical_evidence": "将文本映射到主题强度分数，并分析对话中的主题集中度",
+      "llm_tldr_en": "Introduces a metric based on semantic category distribution to distinguish human and LLM dialogue themes.",
+      "llm_tldr_cn": "引入基于语义类别分布的指标，用于区分人类与大模型对话的主题特征。",
+      "llm_tldr": "引入基于语义类别分布的指标，用于区分人类与大模型对话的主题特征。",
+      "llm_tags": [
+        "query:q8"
+      ],
+      "matched_query_tag": "query:q8",
+      "matched_query_text": "如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21139v1",
+      "source": "arxiv",
+      "title": "Ontology-driven personalized information retrieval for XML documents",
+      "abstract": "This paper addresses the challenge of improving information retrieval from semi-structured eXtensible Markup Language (XML) documents. Traditional information retrieval systems (IRS) often overlook user-specific needs and return identical results for the same query, despite differences in users' knowledge, preferences, and objectives. We integrate external semantic resources, namely a domain ontology and user profiles, into the retrieval process. Documents, queries, and user profiles are represented as vectors of weighted concepts. The ontology applies a concept-weighting mechanism that emphasizes highly specific concepts, as lower-level nodes in the hierarchy provide more precise and targeted information. Relevance is assessed using semantic similarity measures that capture conceptual relationships beyond keyword matching, enabling personalized and fine-grained matching among user profiles, queries, and documents. Experimental results show that combining ontologies with user profiles improves retrieval effectiveness, achieving higher precision and recall than keyword-based approaches. Overall, the proposed framework enhances the relevance and adaptability of XML search results, supporting more user-centered retrieval.",
+      "authors": [
+        "Ounnaci Iddir",
+        "Ahmed-ouamer Rachid",
+        "Tai Dinh"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-03-22T09:29:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.21139v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Ontology-driven concept-weighting for semantic similarity and document classification.",
+      "llm_evidence_cn": "本体驱动的概念权重计算，用于语义相似度和文档分类。",
+      "llm_evidence": "本体驱动的概念权重计算，用于语义相似度和文档分类。",
+      "canonical_evidence": "本体驱动的概念权重计算，用于语义相似度和文档分类。",
+      "llm_tldr_en": "Integrates domain ontologies and user profiles to improve semantic information retrieval from XML documents.",
+      "llm_tldr_cn": "整合领域本体和用户画像，以改进XML文档的语义信息检索。",
+      "llm_tldr": "整合领域本体和用户画像，以改进XML文档的语义信息检索。",
+      "llm_tags": [
+        "query:q10"
+      ],
+      "matched_query_tag": "query:q10",
+      "matched_query_text": "哪类文本挖掘算法最适合社交平台的主题识别与分类任务",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.20149v1",
+      "source": "arxiv",
+      "title": "Enhancing Hyperspace Analogue to Language (HAL) Representations via Attention-Based Pooling for Text Classification",
+      "abstract": "The Hyperspace Analogue to Language (HAL) model relies on global word co-occurrence matrices to construct distributional semantic representations. While these representations capture lexical relationships effectively, aggregating them into sentence-level embeddings via standard mean pooling often results in information loss. Mean pooling assigns equal weight to all tokens, thereby diluting the impact of contextually salient words with uninformative structural tokens. In this paper, we address this limitation by integrating a learnable, temperature-scaled additive attention mechanism into the HAL representation pipeline. To mitigate the sparsity and high dimensionality of the raw co-occurrence matrices, we apply Truncated Singular Value Decomposition (SVD) to project the vectors into a dense latent space prior to the attention layer. We evaluate the proposed architecture on the IMDB sentiment analysis dataset. Empirical results demonstrate that the attention-based pooling approach achieves a test accuracy of 82.38%, yielding an absolute improvement of 6.74 percentage points over the traditional mean pooling baseline (75.64%). Furthermore, qualitative analysis of the attention weights indicates that the mechanism successfully suppresses stop-words and selectively attends to sentiment-bearing tokens, improving both classification performance and model interpretability.",
+      "authors": [
+        "Ali Sakour",
+        "Zoalfekar Sakour"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-03-20T17:25:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.20149v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "attention-based pooling for text classification",
+      "llm_evidence_cn": "基于注意力的文本分类池化方法",
+      "llm_evidence": "基于注意力的文本分类池化方法",
+      "canonical_evidence": "基于注意力的文本分类池化方法",
+      "llm_tldr_en": "Enhances text classification by using attention mechanisms to weight contextually salient words in embeddings.",
+      "llm_tldr_cn": "通过注意力机制对嵌入中的上下文显著词进行加权，从而增强文本分类效果。",
+      "llm_tldr": "通过注意力机制对嵌入中的上下文显著词进行加权，从而增强文本分类效果。",
+      "llm_tags": [
+        "query:q5"
+      ],
+      "matched_query_tag": "query:q5",
+      "matched_query_text": "基于文本分析的社交媒体内容自动分类技术",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21278v1",
+      "source": "arxiv",
+      "title": "Conversation Tree Architecture: A Structured Framework for Context-Aware Multi-Branch LLM Conversations",
+      "abstract": "Large language models (LLMs) are increasingly deployed for extended, multi-topic conversations, yet the flat, append-only structure of current conversation interfaces introduces a fundamental limitation: all context accumulates in a single unbounded window, causing topically distinct threads to bleed into one another and progressively degrade response quality. We term this failure mode logical context poisoning. In this paper, we introduce the Conversation Tree Architecture (CTA), a hierarchical framework that organizes LLM conversations as trees of discrete, context-isolated nodes. Each node maintains its own local context window; structured mechanisms govern how context flows between parent and child nodes, downstream on branch creation and upstream on branch deletion. We additionally introduce volatile nodes, transient branches whose local context must be selectively merged upward or permanently discarded before purging. We formalize the architecture's primitives, characterize the open design problems in context flow, relate our framework to prior work in LLM memory management, and describe a working prototype implementation. The CTA provides a principled foundation for structured conversational context management and extends naturally to multi-agent settings.",
+      "authors": [
+        "Pranav Hemanth",
+        "Sampriti Saha"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.HC"
+      ],
+      "published": "2026-03-22T15:11:06+00:00",
+      "link": "https://arxiv.org/pdf/2603.21278v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Organizing multi-topic conversations into discrete context-isolated nodes",
+      "llm_evidence_cn": "将多主题对话组织为离散的上下文隔离节点",
+      "llm_evidence": "将多主题对话组织为离散的上下文隔离节点",
+      "canonical_evidence": "将多主题对话组织为离散的上下文隔离节点",
+      "llm_tldr_en": "Introduces a tree architecture to manage multi-topic LLM conversations and prevent topical context poisoning.",
+      "llm_tldr_cn": "引入树状架构来管理大模型的多主题对话，防止主题上下文污染。",
+      "llm_tldr": "引入树状架构来管理大模型的多主题对话，防止主题上下文污染。",
+      "llm_tags": [
+        "query:q1"
+      ],
+      "matched_query_tag": "query:q1",
+      "matched_query_text": "topic modeling",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.20723v1",
+      "source": "arxiv",
+      "title": "Algorithmic Audit of Personalisation Drift in Polarising Topics on TikTok",
+      "abstract": "Social media platforms have become an integral part of everyday life, serving as a primary source of news and information for many users. These platforms increasingly rely on personalised recommendation systems that shape what users see and engage with. While these systems are optimised for engagement, concerns have emerged that they may also drive users toward more polarised perspectives, particularly in contested domains such as politics, climate change, vaccines, and conspiracy theories. In this paper, we present an algorithmic audit of personalisation drift on TikTok in these polarising topics. Using controlled accounts designed to simulate users with interests aligned with or opposed to different polarising topics, we systematically measure the extent to which TikTok steers content exposure toward specific topics and polarities over time. Specifically, we investigated: 1) a preference-aligned drift (showing a strong personalisation towards user interests), 2) a polarisation-topic drift (showing a strong neutralising effect for misinformation-themed topics, and a high preference and reinforcement of interest of US politic topic); and 3) a polarisation-stance drift (showing a preference of oppose stance towards US politics topic and a general reinforcement of users' stance by recommending items aligned with their stance towards polarising topics). Overall, our findings provide evidence that recommendation trajectories differ markedly across topics, with some pathways amplifying polarised viewpoints more strongly than others and offer insights for platform governance, transparency and user awareness.",
+      "authors": [
+        "Branislav Pecher",
+        "Adrian Bindas",
+        "Jan Jakubcik",
+        "Matus Tuna",
+        "Matus Tibensky",
+        "Simon Liska",
+        "Peter Sakalik",
+        "Andrej Suty",
+        "Matej Mosnar",
+        "Filip Hossner",
+        "Ivan Srba"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.SI"
+      ],
+      "published": "2026-03-21T09:13:06+00:00",
+      "link": "https://arxiv.org/pdf/2603.20723v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Measuring personalization drift in polarising topics on TikTok",
+      "llm_evidence_cn": "衡量TikTok上极化话题的个性化漂移",
+      "llm_evidence": "衡量TikTok上极化话题的个性化漂移",
+      "canonical_evidence": "衡量TikTok上极化话题的个性化漂移",
+      "llm_tldr_en": "Audits how TikTok's algorithms drift users toward specific polarising topic domains like climate change.",
+      "llm_tldr_cn": "审计TikTok算法如何将用户引向气候变化等特定极化话题领域。",
+      "llm_tldr": "审计TikTok算法如何将用户引向气候变化等特定极化话题领域。",
+      "llm_tags": [
+        "query:profile-1:composite"
+      ],
+      "matched_query_tag": "query:profile-1:composite",
+      "matched_query_text": "Papers central to 识别与量化社交媒体平台中用户发帖内容主题领域的算法研究, especially work that connects or combines: topic modeling; m; i; 算法方法用于识别社交媒体帖子内容的主题领域; 基于文本分析的社交媒体内容自动分类技术; 社交媒体文本挖掘技术用于提取潜在话题模式; Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods; 如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例; 有哪些模型或方法可用于分析博主发布内容的主题分布与变化趋势; 哪类文本挖掘算法最适合社交平台的主题识别与分类任务.",
+      "matched_requirement_id": "req-composite-profile-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21519v1",
+      "source": "arxiv",
+      "title": "Triangulating Temporal Dynamics in Multilingual Swiss Online News",
+      "abstract": "Analyzing news coverage in multilingual societies can offer valuable insights into the dynamics of public discourse and the development of collective narratives, yet comprehensive studies that account for linguistic and cultural diversity within national media ecosystems remain limited, particularly in complex contexts such as Switzerland. This paper studies temporal trends in Swiss digital media across the country's three main linguistic regions, French, German, and Italian, using a triangulated methodology that combines quantitative analyses with qualitative insights. We collected and processed over 1.7 million news articles, applying lexical metrics, named entity recognition and Wikidata-based linking, targeted sentiment analysis, and consensus-based change-point detection. To enable principled cross-language comparisons and to connect to theories of domestication and cultural proximity, we derive domestication profiles together with a proximity salience ratio. Our analysis spans thematic, recurrent, and singular events. By integrating quantitative data with qualitative interpretation, we provide new insights into the dynamics of Swiss digital media and demonstrate the usefulness of triangulation in media studies. The findings reveal distinct temporal patterns and highlight how linguistic and cultural contexts influence reporting. Our approach offers a framework applicable to other multilingual or culturally diverse media environments, contributing to a deeper understanding of how news is shaped by linguistic and cultural factors.",
+      "authors": [
+        "Bros Victor",
+        "Dufraisse Evan",
+        "Popescu Adrian",
+        "Gatica-Perez Daniel"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.CY"
+      ],
+      "published": "2026-03-23T03:27:00+00:00",
+      "link": "https://arxiv.org/pdf/2603.21519v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "analyzing news coverage dynamics and temporal trends in digital media",
+      "llm_evidence_cn": "分析数字媒体中的新闻报道动态和时间趋势",
+      "llm_evidence": "分析数字媒体中的新闻报道动态和时间趋势",
+      "canonical_evidence": "分析数字媒体中的新闻报道动态和时间趋势",
+      "llm_tldr_en": "Studies temporal trends and public discourse dynamics in Swiss online news using quantitative and qualitative methods.",
+      "llm_tldr_cn": "采用定量与定性相结合的方法研究瑞士在线新闻的时间趋势和公共话语动态。",
+      "llm_tldr": "采用定量与定性相结合的方法研究瑞士在线新闻的时间趋势和公共话语动态。",
+      "llm_tags": [
+        "query:profile-1:composite"
+      ],
+      "matched_query_tag": "query:profile-1:composite",
+      "matched_query_text": "Papers central to 识别与量化社交媒体平台中用户发帖内容主题领域的算法研究, especially work that connects or combines: topic modeling; m; i; 算法方法用于识别社交媒体帖子内容的主题领域; 基于文本分析的社交媒体内容自动分类技术; 社交媒体文本挖掘技术用于提取潜在话题模式; Topic classification and distribution analysis of user generated social media posts using NLP or machine learning methods; 如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例; 有哪些模型或方法可用于分析博主发布内容的主题分布与变化趋势; 哪类文本挖掘算法最适合社交平台的主题识别与分类任务.",
+      "matched_requirement_id": "req-composite-profile-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.22854v1",
+      "source": "arxiv",
+      "title": "Avoiding Over-smoothing in Social Media Rumor Detection with Pre-trained Propagation Tree Transformer",
+      "abstract": "Deep learning techniques for rumor detection typically utilize Graph Neural Networks (GNNs) to analyze post relations. These methods, however, falter due to over-smoothing issues when processing rumor propagation structures, leading to declining performance. Our investigation into this issue reveals that over-smoothing is intrinsically tied to the structural characteristics of rumor propagation trees, in which the majority of nodes are 1-level nodes. Furthermore, GNNs struggle to capture long-range dependencies within these trees. To circumvent these challenges, we propose a Pre-Trained Propagation Tree Transformer (P2T3) method based on pure Transformer architecture. It extracts all conversation chains from a tree structure following the propagation direction of replies, utilizes token-wise embedding to infuse connection information and introduces necessary inductive bias, and pre-trains on large-scale unlabeled datasets. Experiments indicate that P2T3 surpasses previous state-of-the-art methods in multiple benchmark datasets and performs well under few-shot conditions. P2T3 not only avoids the over-smoothing issue inherent in GNNs but also potentially offers a large model or unified multi-modal scheme for future social media research.",
+      "authors": [
+        "Chaoqun Cui",
+        "Caiyan Jia"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-03-24T06:45:02+00:00",
+      "link": "https://arxiv.org/pdf/2603.22854v1",
+      "tags": [
+        "keyword:社媒主题算法",
+        "query:社媒主题算法"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Analyzing social media post relations and conversation chains for rumor detection",
+      "llm_evidence_cn": "分析社交媒体帖子关系和对话链以进行谣言检测",
+      "llm_evidence": "分析社交媒体帖子关系和对话链以进行谣言检测",
+      "canonical_evidence": "分析社交媒体帖子关系和对话链以进行谣言检测",
+      "llm_tldr_en": "Uses a Transformer-based method to analyze social media conversation structures for rumor identification.",
+      "llm_tldr_cn": "使用基于Transformer的方法分析社交媒体对话结构，以识别谣言。",
+      "llm_tldr": "使用基于Transformer的方法分析社交媒体对话结构，以识别谣言。",
+      "llm_tags": [
+        "query:q4"
+      ],
+      "matched_query_tag": "query:q4",
+      "matched_query_text": "算法方法用于识别社交媒体帖子内容的主题领域",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

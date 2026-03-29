@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-001.webp",
+      "caption": "Table 1: List of selected news sources by language.",
+      "page": 15,
+      "index": 1,
+      "width": 492,
+      "height": 440
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-002.webp",
+      "caption": "Figure 6: Weekly domestication profile for Brexit.",
+      "page": 7,
+      "index": 2,
+      "width": 424,
+      "height": 412
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-003.webp",
+      "caption": "Figure 20: Weekly domestication profile for Christmas by language.",
+      "page": 18,
+      "index": 3,
+      "width": 424,
+      "height": 412
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-004.webp",
+      "caption": "Figure 8: Weekly domestication profile for Swiss Wolf.",
+      "page": 8,
+      "index": 4,
+      "width": 424,
+      "height": 413
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-005.webp",
+      "caption": "Figure 1: Triangulated methodology for temporal analysis of Swiss digital news events. The diagram summarizes the integrated workflow, combining multilingual data collection, automatic event extraction, quantitative analyses, qualitative interpretation, and triangulated findings on temporal and cross-lingual patterns.",
+      "page": 4,
+      "index": 5,
+      "width": 948,
+      "height": 225
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-006.webp",
+      "caption": "Figure 15: Swiss Wolf: relative-change composite lexical index by language.",
+      "page": 17,
+      "index": 6,
+      "width": 470,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-007.webp",
+      "caption": "Figure 14: Brexit: relative-change composite lexical index by language (monthly, three-month rolling mean).",
+      "page": 17,
+      "index": 7,
+      "width": 462,
+      "height": 268
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-008.webp",
+      "caption": "Figure 16: Christmas (Nov–Mar): relative-change composite lexical index by language.",
+      "page": 17,
+      "index": 8,
+      "width": 470,
+      "height": 268
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-009.webp",
+      "caption": "Figure 17: British Royal Family: relative-change composite lexical index by language.",
+      "page": 17,
+      "index": 9,
+      "width": 470,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21519v1/fig-010.webp",
+      "caption": "Figure 26: Weekly domestication profile for British Royal Family by language.",
+      "page": 20,
+      "index": 10,
+      "width": 424,
+      "height": 306
+    }
+  ]
+}
