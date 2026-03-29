@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-001.webp",
+      "caption": "Figure 1: We release the GoogleTrendArchive dataset. We collected daily exports of Google’s Trending Now data across 125 countries and 1,358 total geographic locations, creating a multilingual archive of 7.6M+ trend episodes spanning over one year (Nov 2024–Jan 2026). Unlike Google Trends, which requires pre-specified queries, this dataset enables inductive discovery of what captured collective attention globally. This supports research on cross-national information diffusion, crisis communication, and cultural variation in real-time search behavior.",
+      "page": 1,
+      "index": 1,
+      "width": 469,
+      "height": 706
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-002.webp",
+      "caption": "Table 3: Country-level descriptive statistics (top 30 countries by the N of total trends)",
+      "page": 6,
+      "index": 2,
+      "width": 1054,
+      "height": 619
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-003.webp",
+      "caption": "Table 4: Top 30 Multi-Country Trends by the Total N of Countries They Appeared In.",
+      "page": 7,
+      "index": 3,
+      "width": 500,
+      "height": 468
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-004.webp",
+      "caption": "Figure 4: Geographic spread and temporal dynamics of multi-country trends; only trend episodes with actual—i.e., not estimated—durations are included. (A) Distribution of geographic spread showing power-law pattern. (B) Time span distribution for trends in 10+ countries. (C) Positive correlation between geographic spread and search volume (Spearman ρ = 0.43, p < 0.001). (D) Non-monotonic relationship between geographic spread and time span, with medium-spread trends (20-40 countries) showing shorter durations than broadly global trends (60+ countries). Orange lines: LOESS smoothing; gray shading: 95% CI. Country-level trends with 5+ countries, < 1 week.",
+      "page": 8,
+      "index": 4,
+      "width": 898,
+      "height": 685
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-005.webp",
+      "caption": "Table 1: Summary statistics for the processed dataset.",
+      "page": 4,
+      "index": 5,
+      "width": 502,
+      "height": 365
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-006.webp",
+      "caption": "Table 2: Example trend record from the processed dataset.",
+      "page": 4,
+      "index": 6,
+      "width": 502,
+      "height": 386
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-007.webp",
+      "caption": "Figure 2: Top 30 Trends of 2025 (Country-level data only) by Total Search Volume.",
+      "page": 5,
+      "index": 7,
+      "width": 500,
+      "height": 258
+    },
+    {
+      "url": "assets/figures/arxiv/2603.21871v1/fig-008.webp",
+      "caption": "Figure 3: Distribution of topics among the top 50 trending searches in 2025 for 20 randomly selected countries. To avoid risks of large-scale automated annotations (Baumann et al. 2025), topics were manually annotated by the authors based on trend titles and associated queries. For languages not spoken by the authors, trend titles were automatically translated to English, with web search used to clarify ambiguous terms or culturally specific references.",
+      "page": 5,
+      "index": 8,
+      "width": 500,
+      "height": 333
+    }
+  ]
+}

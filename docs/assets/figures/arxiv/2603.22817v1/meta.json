@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.22817v1/fig-001.webp",
+      "caption": "Table 1: Demographics of interview participants",
+      "page": 3,
+      "index": 1,
+      "width": 868,
+      "height": 273
+    }
+  ]
+}

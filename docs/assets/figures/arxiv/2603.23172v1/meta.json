@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-001.webp",
+      "caption": "Table 2: Synthetic-to-native robustness gap under same-language evaluation (Accuracy/Micro-F1, %). Models are evaluated on translated (Trans.) versus native user queries across varying task granularities. Bold values indicate the best performance within each architectural category (Masked LMs vs. Causal LLMs). Underlined values with ↑ explicitly highlight instances where the lightweight Gemma 3 270M outperforms the similarly-sized, classificationspecialized mmBERT. Notably, Causal LLMs support the 17-way hierarchical (Hier) formulation natively, whereas implementing hierarchy-aware constrained decoding for standard BERT-style classifiers is typically more involved than flat classification.",
+      "page": 6,
+      "index": 1,
+      "width": 787,
+      "height": 674
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-002.webp",
+      "caption": "Table 5: Companion Macro-F1 table for Table 1 on seen languages (%).",
+      "page": 11,
+      "index": 2,
+      "width": 879,
+      "height": 515
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-003.webp",
+      "caption": "Table 6: Parent-level Macro-F1 in 17-way hierarchical evaluation for models with hierarchical decoding (%).",
+      "page": 11,
+      "index": 3,
+      "width": 448,
+      "height": 294
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-004.webp",
+      "caption": "Figure 3: Comprehensive evaluation of clustering configurations. (Left) Normalized overlay of six clustering metrics across K ∈ {10, . . . , 19}. All metrics are scaled to [0, 1] and direction-aligned so that higher values indicate better clustering quality. The black line represents the aggregate score, which peaks at K = 13 (indicated by the red dashed line). (Right) Radar chart comparing the multivariate performance profiles of the top-six K candidates. K = 13 achieves the highest aggregate score (0.672) and exhibits the most balanced, well-rounded performance across the evaluated dimensions.",
+      "page": 10,
+      "index": 4,
+      "width": 941,
+      "height": 357
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-005.webp",
+      "caption": "Figure 1: Construction pipeline for the benchmark.",
+      "page": 3,
+      "index": 5,
+      "width": 965,
+      "height": 279
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-006.webp",
+      "caption": "Figure 4: Representative XML-style system prompt used for generation-based intent classification.",
+      "page": 13,
+      "index": 6,
+      "width": 950,
+      "height": 861
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-007.webp",
+      "caption": "Table 7: Companion F1 table for Table 2 under same-language translated/native evaluation. Each cell is Macro-F1 (%).",
+      "page": 12,
+      "index": 7,
+      "width": 783,
+      "height": 668
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-008.webp",
+      "caption": "Table 4: Classification label names and leaf-to-parent mapping for the released hierarchy.",
+      "page": 9,
+      "index": 8,
+      "width": 862,
+      "height": 402
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-009.webp",
+      "caption": "Table 3: Benchmark overview. Precise per-language counts can be inserted once the final release manifest is fixed.",
+      "page": 9,
+      "index": 9,
+      "width": 946,
+      "height": 367
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23172v1/fig-010.webp",
+      "caption": "Table 1: Seen-language supervised benchmark results on English, Spanish, and Arabic (Accuracy/Micro-F1, %).",
+      "page": 5,
+      "index": 10,
+      "width": 461,
+      "height": 355
+    }
+  ]
+}
