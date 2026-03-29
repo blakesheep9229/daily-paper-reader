@@ -25,3 +25,67 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: 社媒主题算法
+      description: 识别与量化社交媒体平台中用户发帖内容主题领域的算法研究
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: user content classification
+          keyword_cn: 用户发帖识别
+          query: topic modeling
+        - keyword: media platforms
+          keyword_cn: 社媒平台
+          query: m
+        - keyword: topic modeling
+          keyword_cn: 发帖主题算法模型
+          query: i
+        - keyword: 主题识别
+          keyword_cn: 主题识别
+          query: 算法方法用于识别社交媒体帖子内容的主题领域
+        - keyword: 内容分类
+          keyword_cn: 内容分类
+          query: 基于文本分析的社交媒体内容自动分类技术
+        - keyword: 文本挖掘
+          keyword_cn: 文本挖掘
+          query: 社交媒体文本挖掘技术用于提取潜在话题模式
+      intent_queries:
+        - query: >-
+            Topic classification and distribution analysis of user generated social media posts using NLP or machine
+            learning methods
+          query_cn: 用户发帖判断算法
+          enabled: true
+          source: manual
+          note: ''
+        - query: 如何通过算法识别社交媒体用户发帖内容的主题领域并量化各主题的比例
+          query_cn: 如何识别并计算社交媒体发帖的主题比例
+          enabled: true
+          source: manual
+          note: ''
+        - query: 有哪些模型或方法可用于分析博主发布内容的主题分布与变化趋势
+          query_cn: 用于分析博主内容主题分布和变化的模型方法
+          enabled: true
+          source: manual
+          note: ''
+        - query: 哪类文本挖掘算法最适合社交平台的主题识别与分类任务
+          query_cn: 适合社交平台主题识别任务的文本挖掘算法
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-29T15:16:29.857Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
