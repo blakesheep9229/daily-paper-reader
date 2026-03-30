@@ -1,0 +1,118 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-001.webp",
+      "caption": "Fig. 6. Relative F1-score improvement over baseline (no retraining) across experimental days for four detectors pretrained on Cresci-2017. Each subplot shows one detector. Ground-Truth Supervision retrains on correct predictions, Self-Supervision retrains on high-confidence predictions (threshold 0.7), and Human Supervision retrains on human reports.",
+      "page": 25,
+      "index": 1,
+      "width": 805,
+      "height": 317
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-002.webp",
+      "caption": "Fig. 7. Relative F1-score improvement over baseline (no retraining) across experimental days for four detectors pretrained on Caverlee-2011. Each subplot shows one detector. Ground-Truth Supervision retrains on correct predictions, Self-Supervision retrains on high-confidence predictions (threshold 0.7), and Human Supervision retrains on human reports.",
+      "page": 25,
+      "index": 2,
+      "width": 805,
+      "height": 316
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-003.webp",
+      "caption": "Fig. 8. Effect of confidence threshold on Self-Supervision retraining. F1-score of retrained detectors (trained up to day 4, evaluated on day 5) on Twibot-20 as a function of the confidence threshold used to select retraining instances.",
+      "page": 26,
+      "index": 3,
+      "width": 471,
+      "height": 344
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-004.webp",
+      "caption": "Table 1. Bot Detection Performance by Demographics. F1-scores represent performance on the bot class. Statistical comparisons are made between different groups using permutation testing.",
+      "page": 7,
+      "index": 4,
+      "width": 594,
+      "height": 438
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-005.webp",
+      "caption": "Fig. 3. Conditional probability of bot given it was reported 𝑘 times, 𝑃 (𝑏𝑜𝑡 |𝑘). The red dashed line shows the overall proportion of bots in the original experiment (0.262).",
+      "page": 10,
+      "index": 5,
+      "width": 471,
+      "height": 344
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-006.webp",
+      "caption": "Fig. 4. Human vs AI Comparison: Pairwise Agreement Rate (a) and Cohen’s 𝜅 (b) for humans and the best performing detectors, i.e., BotBuster (trained on Twibot-20), RFS (trained on Caverlee-2011), LLM-based (llama:70b), and LLM-based (mistral-24b).",
+      "page": 14,
+      "index": 6,
+      "width": 645,
+      "height": 288
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-007.webp",
+      "caption": "Table 3. Human Ensemble vs. AI Bot Detection Performance: Precision, Recall, and F1-score on the bot class, along with overall Accuracy. For all detectors except the LLM-based baseline, \"Training Dataset\" refers to the dataset used for training. For the LLM-based baseline, the column lists the LLM under analysis. Bold indicates the best performance, and underline indicates the first runner-up.",
+      "page": 13,
+      "index": 7,
+      "width": 702,
+      "height": 406
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-008.webp",
+      "caption": "Fig. 1. Human bot detection performance across the five-day experiment. (a) Day-specific: accounts classified as bots if reported on that specific day. (b) Cumulative: accounts classified as bots if reported on any day up to and including the current day.",
+      "page": 8,
+      "index": 8,
+      "width": 643,
+      "height": 268
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-009.webp",
+      "caption": "Table 5. Summary of hypotheses and key findings.",
+      "page": 19,
+      "index": 9,
+      "width": 810,
+      "height": 596
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-010.webp",
+      "caption": "Fig. 5. Relative F1-score improvement over baseline (no retraining) across experimental days for four detectors pretrained on Twibot-20. Each subplot shows one detector. Ground-Truth Supervision retrains on correct predictions, Self-Supervision retrains on high-confidence predictions (threshold 0.7), and Human Supervision retrains on human reports.",
+      "page": 17,
+      "index": 10,
+      "width": 805,
+      "height": 317
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-011.webp",
+      "caption": "Table 2. Performance comparison of two aggregation strategies in terms precision, recall, F1-score on the bot class along with overall accuracy. Count-based: flag account as bot if reported at least 𝑘 times (treating all reports equally). Quality-weighted: give more weight to reports from human reporters who performed better (in terms of F1-score) at bot detection, then flag accounts exceeding a weighted score threshold 𝜏 = 0.533 (mean reporter F1).",
+      "page": 12,
+      "index": 11,
+      "width": 644,
+      "height": 367
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-012.webp",
+      "caption": "Table 7. Performance comparison of LLM-based bot detectors on Twibot-20 with varying numbers of incontext examples: Precision, Recall and F1-score on the bot class, and overall Accuracy. Bold indicates best performance, underline the first runner up.",
+      "page": 24,
+      "index": 12,
+      "width": 635,
+      "height": 306
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-013.webp",
+      "caption": "Table 8. Performance on Benchmark Datasets. Bold indicates best performance, underline the first runner up.",
+      "page": 24,
+      "index": 13,
+      "width": 681,
+      "height": 295
+    },
+    {
+      "url": "assets/figures/arxiv/2603.23796v1/fig-014.webp",
+      "caption": "Table 4. Aggregation strategies for bot detection. “No Aggregation” shows individual detector and human ensemble performance after fine-tuning. “Models-only” combines AI detectors. “Hybrid” integrates human reports with AI predictions. Bold indicates best performance per metric; underline indicates second-best performer.",
+      "page": 16,
+      "index": 14,
+      "width": 685,
+      "height": 446
+    }
+  ]
+}

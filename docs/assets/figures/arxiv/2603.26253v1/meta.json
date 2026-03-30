@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.26253v1/fig-001.webp",
+      "caption": "Table 2: Cumulative effect of preprocessing filters on a multi-source dataset collected for the topic “public response to fuel price increases.” Data was collected from social media platforms and news portals.",
+      "page": 6,
+      "index": 1,
+      "width": 591,
+      "height": 213
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26253v1/fig-002.webp",
+      "caption": "Table 3: Research workflow in SocialX. Each step is handled through the web interface.",
+      "page": 7,
+      "index": 2,
+      "width": 679,
+      "height": 302
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26253v1/fig-003.webp",
+      "caption": "Table 1: Comparison of existing approaches for big data research. SocialX integrates multi-source collection, language-aware preprocessing, and pluggable analysis with Indonesian language support.",
+      "page": 3,
+      "index": 3,
+      "width": 865,
+      "height": 240
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26253v1/fig-004.webp",
+      "caption": "Table 4: Manual workflow versus SocialX for a multi-source research project.",
+      "page": 8,
+      "index": 4,
+      "width": 789,
+      "height": 471
+    },
+    {
+      "url": "assets/figures/arxiv/2603.26253v1/fig-005.webp",
+      "caption": "Figure 1: SocialX platform architecture. Three independent layers are connected through a unified data store and coordinated by a database-driven job queue. Each layer is independently extensible.",
+      "page": 4,
+      "index": 5,
+      "width": 862,
+      "height": 429
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.25152v1/fig-001.webp",
+      "caption": "Table 2: Performance Comparison on MultiHopRAG",
+      "page": 6,
+      "index": 1,
+      "width": 457,
+      "height": 516
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25152v1/fig-002.webp",
+      "caption": "Figure 1: Architecture",
+      "page": 2,
+      "index": 2,
+      "width": 951,
+      "height": 1024
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25152v1/fig-003.webp",
+      "caption": "Table 3: Ablation Study Results on MultiHopQA",
+      "page": 7,
+      "index": 3,
+      "width": 461,
+      "height": 1419
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25152v1/fig-004.webp",
+      "caption": "Table 4: Ablation Study Results: Multi-dimensional Community Strategy",
+      "page": 8,
+      "index": 4,
+      "width": 462,
+      "height": 1398
+    },
+    {
+      "url": "assets/figures/arxiv/2603.25152v1/fig-005.webp",
+      "caption": "Table 5: Ablation Study Results: Dual-Channel Retrieval Fusion",
+      "page": 8,
+      "index": 5,
+      "width": 461,
+      "height": 1285
+    }
+  ]
+}

@@ -1,0 +1,289 @@
+Title: Avoiding Over-smoothing in Social Media Rumor Detection with Pre-trained Propagation Tree Transformer
+
+URL Source: https://arxiv.org/pdf/2603.22854v1
+
+Published Time: Wed, 25 Mar 2026 00:43:17 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# Avoiding Over-smoothing in Social Media Rumor Detection with Pre-trained Propagation Tree Transformer 
+
+## Chaoqun Cui, Caiyan Jia *
+
+## Beijing Key Laboratory of Traffic Data Mining and Embodied Intelligence, Beijing Jiaotong University, Beijing 100044, China  
+
+> Correspondence: ccqun19990728@gmail.com, cyjia@bjtu.edu.cn
+
+## Abstract 
+
+Deep learning techniques for rumor detec-tion typically utilize Graph Neural Networks (GNNs) to analyze post relations. These meth-ods, however, falter due to over-smoothing is-sues when processing rumor propagation struc-tures, leading to declining performance. Our investigation into this issue reveals that over-smoothing is intrinsically tied to the structural characteristics of rumor propagation trees, in which the majority of nodes are 1-level nodes. Furthermore, GNNs struggle to capture long-range dependencies within these trees. To cir-cumvent these challenges, we propose a Pre-Trained Propagation Tree Transformer (P2T3) method based on pure Transformer architec-ture. It extracts all conversation chains from a tree structure following the propagation di-rection of replies, utilizes token-wise embed-ding to infuse connection information and intro-duces necessary inductive bias, and pre-trains on large-scale unlabeled datasets. Experiments indicate that P2T3 surpasses previous state-of-the-art methods in multiple benchmark datasets and performs well under few-shot conditions. P2T3 not only avoids the over-smoothing issue inherent in GNNs but also potentially offers a large model or unified multi-modal scheme for future social media research. 
+
+## 1 Introduction 
+
+Currently, deep learning-based methods for ru-mor detection can be broadly classified into four categories: time-series based methods (Ma et al., 2016; Yu et al., 2017; Liu and Wu, 2018), propa-gation structure learning methods (Ma et al., 2018; Bian et al., 2020; Wei et al., 2021), multi-source integration methods (Karimi et al., 2018; Birunda and Devi, 2021), and multi-modal fusion methods (Wang et al., 2018; Jin et al., 2017). Among these, propagation structure learning methods, which 
+
+> *Corresponding author.
+
+leverage the wisdom of crowds to model the rela-tions between posts, have shown promising results in debunking rumors (Khoo et al., 2020; Bian et al., 2020; Sun et al., 2022b). Numerous studies highlight the value of propa-gation structures in revealing inter-post relations for rumor detection (Sun et al., 2022b; Cui and Jia, 2024). Propagation structure learning methods represent the propagation process of each claim as a tree, which can be a top-down or bottom-up directed or undirected graph with the source post as the root node, comments as other nodes, and reply relations as edges. Graph Neural Networks (GNNs) are then used to learn the representations of rumor propagation trees (RPTs). Two examples of rumor propagation trees are shown in Fig. 6. However, our investigation reveals that certain structural characteristics of RPTs pose serious over-smoothing risks for GNNs. Indeed, in our experi-ments, GNNs showed over-smoothing signs when handling RPTs. This manifests as a decline in the performance of the GNNs when faced with the undirected graph of RPT, as opposed to adopting top-down or bottom-up directed graph. This is par-ticularly contradictory since earlier research (Bian et al., 2020) has already proven the effectiveness of bidirectional information in RPTs. Moreover, some GNNs, or those dedicated rumor detection models, display a phenomenon where the model’s accuracy decreases as the model depth increases. These experimental phenomena demonstrate that GNNs tend to encounter over-smoothing problems when dealing with RPTs. It especially hinders the expansion of model scale during pre-training on large-scale unlabeled social media data. We identified the causes of over-smoothing by investigating RPT structures. We found that in the propagation process of social posts, the vast major-ity of comments are direct replies to source post. This results in the majority of nodes in a RPT being 1-level nodes directly connected to the root, while 
+
+> arXiv:2603.22854v1 [cs.CL] 24 Mar 2026
+
+the proportion of nodes at deeper levels is quite small. Because the scope of a node’s neighborhood view in GNNs is tied to the model depth (Kipf and Welling, 2016; Xu et al., 2018a), all 1-level nodes in a tree-like structure like a RPT are in each other’s 2-hop neighborhoods. If neighborhood ag-gregation is conducted indiscriminately, it leads to over-smoothing. In other words, the structure of graphs like RPTs inherently predisposes GNNs to over-smoothing. In addition, GNNs struggle to capture long-range dependencies (Xu et al., 2018b) in RPTs, making it challenging to leverage infor-mation from the few deep nodes in the tree. Specif-ically, GNNs find it hard to learn from complete conversation chains in RPTs (conversation threads from 1-level node to leaf node), and such chains are better suited for Transformer (Vaswani et al., 2017) architecture designed for sequential structure. As a result, we chose Transformer as underlying archi-tecture for our model to harness its self-attention mechanism, avoiding potential over-smoothing is-sues and facilitating modeling of user interactions throughout complete conversation chains. In this study, we propose Pre-Trained Propaga-tion Tree Transformer (P2T3). P2T3 extracts con-versation chains from deep structure of RPTs fol-lowing the node propagation direction to form se-quential structures. It uses token-wise embedding to infuse connection information into the sequence tokens, introduces necessary inductive bias, and pre-trains on large-scale unlabeled datasets to en-hance the performance. Experiments shows that P2T3 outperforms previous state-of-the-art (SOTA) methods on multiple benchmark datasets. In summary, this study contributes as follows: • We ran extensive experiments to reveal over-smoothing phenomenon and its intrinsic causes on RPTs. • We released two large unlabeled topic datasets, which may promote semi-supervised rumor detection research. • We proposed the P2T3 method, where the special token-wise embedding enables Trans-former to handle RPTs. • Experiments show that P2T3 outperforms cur-rent SOTA methods and performs well in few-shot scenarios. 
+
+## 2 Empirical Investigation 
+
+2.1 Over-smoothing Phenomenon 
+
+The over-smoothing phenomena of GNNs when handling RPTs mainly manifest in two aspects: (1) Useing undirected graphs of RPTs to learn bidirec-tional propagation information actually impedes the improvement of model performance; (2) The expansion of the model scale, by increasing in the number of model layers, leads to a performance decrease. We will elaborate on these two aspects. 
+
+2.1.1 Impact of Infomation Flow Direction 
+
+We conducted experiments on four rumor detec-tion datasets including Weibo (Ma et al., 2016), DRWeibo (Cui and Jia, 2024), Twitter15, and Twit-ter16 (Ma et al., 2017), following Bian et al. (2020) (Bian et al., 2020). We employed GCNs in four set-tings: undirected graphs, top-down directed graphs, bottom-up directed graphs, and a combination of top-down and bottom-up graphs, labeled as UD-GCN, TD-GCN, BU-GCN, and Bi-GCN respec-tively. UD-GCN uses one GCN encoder, while Bi-GCN uses two GCN encoders on top-down and bottom-up graphs. Results is shown in Fig. 1. The results reveal two phenomena: (1) Bi-GCN shows a significant improvement compared to TD-GCN and BU-GCN, which only use top-down or bottom-up information. (2) UD-GCN does not show a substantial improvement over TD-GCN and BU-GCN, and performance even decreases on cer-tain datasets (DRWeibo and Twitter15). The im-proved performance of Bi-GCN compared to TD-GCN and BU-GCN suggests that both top-down and bottom-up information in RPTs are useful. However, the effect of using UD-GCN to learn this bidirectional information is not ideal and may even result in performance degradation. These phenom-ena reflect a contradictory fact, namely, while bidi-rectional information is beneficial, learning from undirected graphs can lead to adverse effects. The ablation studies by BiGCN (Bian et al., 2020) and RAGCL (Cui and Jia, 2024) also demonstrate simi-lar phenomena. 
+
+2.1.2 Deep Model Performance Degradation 
+
+We explored the effect of varying GNN layer numbers on performance using undirected RPT graphs (see Fig. 2). It suggests that the optimal GNN layer count for Weibo and DRWeibo is three, while it’s two for Twitter15 and Twitter16. Perfor-mance declines to different degrees as layer num-(a) Weibo (b) DRWeibo (c) Twitter15 (d) Twitter16 
+
+> Figure 1: The impact of information flow in different directions.
+
+ber increases. In other words, the model scale expansion actually hinders model performance im-provement, which is a typical over-smoothing phe-nomenon (Li et al., 2018; Cai and Wang, 2020). Among the three GNNs, GAT seems more robust to model depth, possibly due to its attention mech-anism that adaptively aggregates neighborhoods, thereby mitigating over-smoothing. 
+
+2.2 Theoretical Cause Analysis 
+
+Above phenomena shows that over-smoothing occurs when GNNs deal with RPTs, which makes it difficult for GNNs to effectively utilize bidirec-tional propagation information. Furthermore, it especially hinders the expansion of model scale during pre-training on large-scale social media data. We believe that the occurrence of this over-smoothing phenomenon on RPTs is not only due to the limitations of GNNs, but also the inherent struc-tural characteristics of these trees naturally lead to over-smoothing. Specifically, we have collected statistics on the depth distribution of posts across multiple datasets showed in Table 1. Statistics reveal that RPTs are highly imbal-anced, with dense connections at central node (root) and sparse connections at deeper nodes. This leads to a situation where even a very shallow GNN can enable nodes to reach almost all other nodes when learning undirected graphs of RPTs. For exam-ple, a 2-layer GNN lets 1-level nodes gather in-formation from all other 1-level nodes, and a 3-layer GNN allows 2-level nodes to reach all 1-level nodes. For datasets with small average depth (e.g., DRWeibo, Twitter15, Twitter16, etc.), when using a shallow GNN, nodes can almost aggregate infor-mation from all nodes in the graphs during forward propagation process. This is an important reason for over-smoothing in rumor detection models. Because the neighborhood view scope of a node is tied to GNN depth, and information propagates along edge direction (Kipf and Welling, 2016; Hamilton et al., 2017), indiscriminately aggregat-ing node neighborhoods when GNNs face undi-rected graphs of RPTs can lead to over-smoothing. However, this problem of excessively broad node view doesn’t occur when using directed graphs, which explains why sometimes better performance can be achieved with top-down or bottom-up di-rected graphs. From the spectral graph theory view, taking GCN as an example, a GCN essentially performs a low-pass filtering on eigenvectors of graph Lapla-cian matrix (Kipf and Welling, 2016). Low-frequency components are preserved, while high-frequency components are filtered out. For RPTs, since most nodes are leaf node and directly con-nected to roots, the frequency is predominantly concentrated on low-frequency range, with scant information in high-frequency range. In GCN, high-frequency information (such as features of the deeper nodes which are believed to contain dis-criminative features for debunking rumors (Cui and Jia, 2024)) may be excessively filtered out, thereby failing to utilize full conversation chain informa-tion and leading to over-smoothing when GCNs aggregate neighborhood, due to the imbalance of the node distribution within RPTs. 
+
+## 3 Method 
+
+3.1 Conversation Chains in RPTs 
+
+In RPT, each conversation thread from 1-level node to each leaf node forms a separate conver-sation chain, which can be considered as a se-quential chain-like structure (see Fig. 3). Such a conversation chain represents a complete conver-sation group during the propagation process of a (a) Weibo (b) DRWeibo (c) Twitter15 (d) Twitter16 
+
+> Figure 2: The impact of model layer numbers.
+
+Statistic Weibo DRWeibo Twitter15 Twitter16 UWeibo UTwitter # claims 4664 6037 1490 818 209549 204922 
+
+# non-rumors 2351 3185 374 205 - -
+
+# false rumors 2313 2852 370 205 - -
+
+# true rumors - - 372 207 - -
+
+# unverified rumors - - 374 201 - -
+
+# avg reply 803.5 61.8 50.2 49.1 50.5 82.5 
+
+# avg 1-level reply 522.9(65%) 48.1(78%) 35.5(71%) 31.6(64%) 36.4(72%) 48.5(59%) 
+
+# avg 2-level reply 169.3(21%) 11.0(17%) 5.9(12%) 6.0(12%) 10.2(20%) 21.5(26%) 
+
+# avg deeper reply 111.2(14%) 2.7(5%) 8.7(17%) 11.5(24%) 4.0(8%) 12.5(15%) 
+
+> Table 1: Statistics of the datasets.
+
+claim, with the nodes in the conversation arranged in chronological order. There are explicit semantic relations and stance expressions between the nodes. In general, nodes in longer conversation chains tend to express stronger sentiments. This is because the individuals participating in these conversations are often engaged in heated arguments or debates re-garding a certain topic. If a model can learn from these conversation chains, it would be helpful for rumor debunking. However, when GNNs handle RPTs, they focus more on all direct replies to a node and cannot learn information from a complete conversation chain. This is because GNNs fol-low a neighborhood aggregation framework, which emphasizes breadth of information compared to Transformer architecture and cannot capture long-range dependencies from deep conversation chains. This is another important reason why we chose Transformer architecture. In Tables 6, we present several conversation chains with their source posts. It’s evident that these chains, often chronologically arranged, exhibit clear semantic relations and occa-sionally intense emotional expressions. These are notable features for identifying rumors. 
+
+3.2 Input Representation 
+
+P2T3 adopts Transformer over GNNs primarily for the following reasons. (1) The Graph Trans-former, by allowing nodes to attend to all other nodes (global attention), alleviates fundamental limitations of sparse message passing mechanism, such as over-smoothing and limited expressiveness. (2) Nodes in RPTs spread directionally according to a top-down distribution, demonstrating a canoni-cal node ordering. Transformers allows to extract sequential structures like conversation chains, eas-ily, thus enables to learn rumor patterns from these sequential structures by capturing long-range de-pendencies. Kim et al. (2022) showed that Trans-former can recognize graph connectivity through suitable token-wise embeddings. We were inspired to design specific embeddings for RPTs. We first extract all conversation chains from a tree, classify the conversations into three types: source, deep conversation, and shallow conversation, then com-bine them into a sequence. Their features are aug-mented with token-wise embeddings. Through spe-cific embedding designs, unimportant connections are downplayed, mitigating RPT’s over-smoothing issue. This process is shown in Fig. 3. For a RPT G = ( V, E), where V and E are sets Figure 3: The input of P2T3. Different colors represent chain identifiers. Color shades represent depth embeddings. 
+
+of nodes and edges, X ∈ Rn×d represents node feature vectors, with dimension d. We first extract conversation chains from G and compose them into a sequence S ∈ Rm×d, where m ≥ n. For each 
+
+v ∈ V , it may appear multiple times in S. The to-kens in S is denoted as T = {t1, · · · , t m}. We use three token-wise embeddings to augment S: chain identifier, depth embedding, and type embedding. These embeddings are used to assist the model in identifying the ownership of chains in the sequence, determining the depth of nodes in the tree, and cap-turing the conversation types, respectively. 
+
+Chain Identifier. For a RPT G = ( V, E), we pro-vide l orthonormal vectors C ∈ Rl×l (l ≥ m). Tokens within S belonging to the same conversa-tion are assigned identical vectors, while tokens from different conversations receive distinct vec-tors. This ensures that for any two tokens u and 
+
+v in T , CuCTv = 1 only if u and v belong to the same conversation; otherwise, it is 0. Specifically, for each token t ∈ T in S, we augment St by con-catenating it with Ct, resulting in [St, Ct]. Then, we apply a parameter matrix w ∈ R(d+l)×d to map the augmented sequence back to the d-dimensional space, obtaining the sequence SC ∈ Rm×d. No-tably, as the chain identifier matrix C is only required to be orthonormal, we use the matrix 
+
+Q ∈ Rl×l obtained by performing QR decomposi-tion on random Gaussian matrix G ∈ Rl×l as the matrix C in practice. 
+
+Depth Embedding. The depth relation of nodes in a conversation chain is akin to the positional rela-tion in a sequence. Consequently, any positional encoding of the Transformer model (Vaswani et al., 2017; Su et al., 2021) is compatible. In P2T3, we simply adopt an approach resembling sinusoidal positional embeddings to represent the depth of tokens in T within the original RPT: 
+
+Ddph, 2i = sin (dph/ 10000 2i/d ),
+
+Ddph, 2i+1 = cos (dph/ 10000 2i/d ), (1) where dph is the depth level and i is the dimension. This facilitates the model in recognizing reply rela-tions within conversation chains. Then, we utilize these depth embeddings to augment the tokens in 
+
+SC . Specifically, for each token t ∈ T in SC , we add Ddph (t) to SCt , resulting in SCt +Ddph (t). Here, 
+
+dph (t) represents the original depth of token t in the tree. The augmented SC is denoted as SCD .
+
+Type Embedding. Type embedding is used to iden-tify the conversation type that each token belongs to. The type embedding is a d-dimensional vector of all 0s, all 1s, or all 2s, representing respectively that the token belongs to the source, deep conver-sation, or shallow conversation types. Specifically, for each token t ∈ T in SCD , we add SCD t and type embedding Ttp (t) to get SCD t + Ttp (t). Here, tp (t)
+
+represents the conversation type that t corresponds to. The SCD augmented by type embedding is de-noted as SCDT , and SCDT is the input of standard Transformer encoder. 
+
+3.3 Training Strategy 
+
+P2T3 pre-trains on massive unlabeled dataset, then fine-tunes on labeled dataset. We built two large unlabeled datasets, UWeibo and UTwitter, for rumor detection on Weibo and Twitter. Each contains over 200,000 claims from social plat-forms. Each claim includes source post and replies, as well as propagation structure. These datasets are available at https://anonymous. 4open.science/r/UWeibo-D405 and https:// anonymous.4open.science/r/UTwitter-C882 .
+
+Pre-training. Rumor detection tasks focus on the interaction between source posts and their replies. Therefore, in the pre-training process, we max-imize the Mutual Information (MI) (Velickovic et al., 2019; Sun et al., 2019) between a source post in T and the first token of all conversations (i.e., all 1-level nodes in the RPT):       
+
+> Lunsup (SU) = −1
+> |SU|
+> X
+> S∈SU
+> X
+> n∈N
+> I(hn(S); hroot (S)) ,(2)
+
+where SU is input sequences set from unlabeled samples, N is set of first tokens of all conversations in S, hroot (S) is source post representation, I(·; ·)
+
+denotes MI contrastive loss between two represen-tations. There are various methods available for computing MI, such as Donsker-Varadhan repre-sentation, Jensen-Shannon MI estimator, InfoNCE, etc (Hjelm et al., 2018). We employ such loss to en-hance the consistency between source post and its replies, promoting alignment between global and local representations, enabling the model to fully learn user interactions and emotional expressions. 
+
+Fine-tuning. After pre-training, we can fine-tune the model on a supervised rumor detection dataset. Specifically, for each sequence S in the labeled dataset SL, we pass the source post representation 
+
+hroot (S) through a fully connected classifier, and then compute the cross-entropy loss:     
+
+> Lsup (SL) = −1
+> |SL|
+> X
+> S∈SL
+> CE (f(hroot (S)) , y ),(3)
+
+where y is ground truth label, f (·) is classifier, 
+
+CE (·, ·) is cross-entropy loss. Optionally, the un-supervised loss Lunsup (SL) can be weighted and added to Lsup (SL).
+
+## 4 Experiments 
+
+4.1 Experimental Settings 
+
+We introduce some specific settings in this sub-section, including baselines we compared, proce-dure of data preprocessing and hyperparameter con-figuration when training the model. The source code of P2T3 is available at https://anonymous. 4open.science/r/P2T3-E83D .
+
+4.1.1 Baselines 
+
+We ran experiments on 4 real-world benchmark datasets (see Table 1). Weibo and DRWeibo are used with UWeibo. Twitter15 and Twitter16 are with UTwitter. We compare with the following baseline meth-ods: PLAN (Khoo et al., 2020), HD-TRANS (Ma and Gao, 2020), BiGCN (Bian et al., 2020), ClaHi-GAT (Lin et al., 2021a), GACL (Sun et al., 2022b), 
+
+DDGCN (Sun et al., 2022a), and RAGCL (Cui and Jia, 2024). 
+
+4.2 Results and Discussion 
+
+The main results are shown in Tables 2 and 3. P2T3 outperforms baselines on all datasets. PLAN and HD-TRANS, two Transformer-based methods, exhibit inferior performance compared to GNN-based approaches, possibly due to the inappropriate ways in which they fuse propagation structure infor-mation. In contrast, P2T3 leverages the same Trans-former architecture but achieves superior results, indicating the efficacy of our token-wise embed-ding and the importance of learning from conversa-tion chains. BiGCN is a typical model built on the deep structure of RPT, which presupposes that the information flow in RPTs presents as a top-down propagation and a bottom-up dispersion process. However, our investigation indicate that RPT actu-ally manifests as a shallow imbalanced structure. This imbalanced distribution of information in the depth direction is also an important characteristic, which is overlooked by existing techniques. Per-haps as a result of this observation, P2T3 achieves a performance boost over BiGCN. ClaHi-GAT uses a gating module to filter neighborhood informa-tion while integrating sibling connections into the undirected graph. Additionally, it utilizes a shal-low GAT architecture that is less affected by over-smoothing (see Fig. 2). As a result, it is not signifi-cantly impacted by over-smoothing. However, its overall performance remains noticeably inferior to P2T3. Although GACL uses BERT (Devlin et al., 2018) for initial feature extraction, its improvement is marginal. This may suggest that rumor detection models are insensitive to the way initial features are extracted, and what is more crucial is the high-level model’s ability to learn node interactions. 
+
+4.3 Ablation Study 4.3.1 Token-wise Embedding 
+
+We ran a series of ablation studies to investi-gate the impact of token-wise embedding and pre-training. We report accuracy in Table 4. The re-sults show that if we directly convert RPT into a sequence without augmenting it for input to Weibo DRWeibo Method Class Acc. Prec. Rec. F1 Acc. Prec. Rec. F1 
+
+PLAN R 0.915 ±0.007 0.908 0.923 0.915 0.788 ±0.005 0.786 0.760 0.771 N 0.923 0.907 0.914 0.793 0.813 0.802 HD-TRANS R 0.921 ±0.004 0.915 0.929 0.920 0.810 ±0.006 0.814 0.834 0.823 N 0.928 0.913 0.921 0.809 0.783 0.794 BiGCN R 0.942 ±0.008 0.919 0.968 0.942 0.866 ±0.010 0.869 0.849 0.858 N 0.967 0.918 0.942 0.863 0.882 0.872 ClaHi-GAT R 0.935 ±0.009 0.932 0.934 0.933 0.864 ±0.012 0.868 0.876 0.872 N 0.938 0.936 0.937 0.859 0.850 0.854 GACL R 0.938 ±0.006 0.936 0.940 0.938 0.870 ±0.009 0.865 0.856 0.860 N 0.940 0.936 0.938 0.874 0.882 0.878 DDGCN R 0.948 ±0.004 0.924 0.979 0.951 0.878 ±0.005 0.872 0.864 0.868 N 0.976 0.917 0.946 0.883 0.891 0.887 RAGCL R 0.960 ±0.006 0.954 0.972 0.959 0.896 ±0.005 0.895 0.880 0.884 N 0.967 0.959 0.962 0.897 0.910 0.907 
+
+P2T3 R 0.973 ±0.003 0.966 0.975 0.970 0.912 ±0.005 0.906 0.900 0.903 
+
+N 0.975 0.969 0.972 0.913 0.927 0.920 
+
+Table 2: Experimental results on Weibo and DRWeibo dataset. 
+
+Twitter15 Twitter16 N F T U N F T UMethod Acc. F1 F1 F1 F1 Acc. F1 F1 F1 F1 
+
+PLAN 0.819 ±0.004 0.839 0.854 0.817 0.759 0.843 ±0.005 0.855 0.851 0.858 0.805 HD-TRANS 0.810 ±0.008 0.834 0.841 0.750 0.808 0.828 ±0.004 0.836 0.840 0.843 0.790 BiGCN 0.844 ±0.005 0.856 0.844 0.863 0.809 0.880 ±0.009 0.793 0.912 0.947 0.849 ClaHi-GAT 0.851 ±0.004 0.851 0.870 0.863 0.816 0.885 ±0.010 0.798 0.952 0.917 0.854 GACL 0.846 ±0.007 0.859 0.845 0.866 0.812 0.891 ±0.004 0.802 0.929 0.945 0.872 DDGCN 0.835 ±0.006 0.840 0.850 0.856 0.791 0.893 ±0.004 0.807 0.931 0.946 0.871 RAGCL 0.862 ±0.004 0.886 0.862 0.864 0.830 0.903 ±0.003 0.834 0.921 0.965 0.878 
+
+P2T3 0.874 ±0.006 0.878 0.894 0.872 0.846 0.911 ±0.004 0.847 0.924 0.965 0.892 
+
+Table 3: Experimental results on Twitter15 and Twitter16 dataset. 
+
+Weibo DRWeibo Twitter15 Twitter16 
+
+P2T3 0.973 0.912 0.874 0.911 w/o Token-wise Embedding 0.921( ↓0.052) 0.836( ↓0.076) 0.803( ↓0.071) 0.843( ↓0.068) w/o Chain Identifier 0.943( ↓0.030) 0.867( ↓0.045) 0.857( ↓0.017) 0.854( ↓0.057) w/o Depth Embedding 0.952( ↓0.021) 0.893( ↓0.019) 0.867( ↓0.007) 0.876( ↓0.035) w/o Type Embedding 0.964( ↓0.009) 0.915( ↑0.003) 0.870( ↓0.004) 0.893( ↓0.018) w/o Pre-training 0.958( ↓0.015) 0.898( ↓0.014) 0.861( ↓0.013) 0.901( ↓0.010) 
+
+Table 4: Ablation study on token-wise embeddings and model pre-training. 
+
+Transformer, the model accuracy will be very poor. Among the three token-wise embeddings we used, chain identifier has the greatest impact on model performance, indicating that assisting the model in recognizing the chain structure within the tree is crucial. The type embedding has the smallest im-pact on the model but still contributes positively to the performance. Additionally, the results also in-dicate that pre-training on large-scale unlabeled datasets has a significant impact on improving model performance. 
+
+4.3.2 Model Depth 
+
+We investigated the impact of model depth on Weibo and DRWeibo in Fig. 4. The results show that as layer number increases, P2T3’s perfor-mance gradually improves, eventually stabilizing. Method Setting Weibo DRWeibo                               
+
+> GIN w/o Pre-training 0.940 0.847 w/ Pre-training 0.943( ↑0.003) 0.854( ↑0.007) GAT w/o Pre-training 0.927 0.836 w/ Pre-training 0.928( ↑0.001) 0.841( ↑0.005) GCN w/o Pre-training 0.931 0.849 w/ Pre-training 0.939( ↑0.008) 0.851( ↑0.002) BiGCN w/o Pre-training 0.942 0.866 w/ Pre-training 0.940( ↓0.002) 0.871( ↑0.005) RAGCL w/o Pre-training 0.960 0.896 w/ Pre-training 0.962( ↑0.002) 0.901( ↑0.005)
+> P2T3 w/o Pre-training 0.958 0.898
+> w/ Pre-training 0.973( ↑0.015) 0.912( ↑0.014)
+
+Table 5: The impact of pre-training on various models. 
+
+It shows significant implications for pre-training with a larger model on social media data and P2T3 is not affected by over-smoothing with the increase of model scale. Due to over-fitting and over-smoothing issues associated with GNN-based models, it is challenging to scale up their model size, resulting in limited expressiveness during pre-training process on large-scale datasets. However, as the model size increases, P2T3 achieves superior performance. 
+
+Figure 4: The impact of model layer numbers on P2T3. 
+
+4.4 Pre-training 
+
+We further evaluated the impact of pre-training on large-scale data on the performance of differ-ent types of models: GIN (Xu et al., 2018a), GAT (Veliˇ ckovi´ c et al., 2017), GCN (Kipf and Welling, 2016), BiGCN (Bian et al., 2020), RAGCL (Cui and Jia, 2024), and P2T3. Results are shown in Table 5. All experiments utilized the contrastive loss with MI maximization. The results indicate that P2T3 is more prone to benefit from unsuper-vised pre-training compared to the other models. GNN-based models are constrained by the over-smoothing problem and lack model capacity, mak-ing it challenging to effectively utilize large-scale unlabeled data to learn discriminative representa-tions of claims. 
+
+4.5 Few-shot Performance 
+
+We ran few-shot experiments with P2T3, BiGCN, GACL and RAGCL in Fig. 5. We concern the efficacy of these models with minimal labeled samples. This is pertinent given the transient nature of rumors which are often deleted after detection, hampering the acquisition of large-scale labeled datasets. Therefore, if the model can perform ef-fectively in few-shot scenarios, it would reduce the reliance on hard-to-obtain labeled data. We varied the number of labeled samples k between 10 and 500. P2T3 was pre-trained on UWeibo, then fine-tuned using the designated labeled samples. Our results show that P2T3 can leverage unlabeled data to enhance claim representations even in scarce sample conditions, thereby delivering good perfor-mance. 
+
+> (a) Weibo
+> (b) DRWeibo
+
+Figure 5: Results of few-shot experiments. 
+
+## 5 Conclusion 
+
+In recent years, rumor detection methods based on propagation structure learning have become in-creasingly important in research, with most of these methods employing GNNs as foundational model. However, our investigation indicates that GNNs exacerbate over-smoothing problem when dealing with the unique structure of RPTs. In Addition, the special structure of RPT makes them, compared to other graph structures, more suitable for processing using Transformer architecture. Our P2T3 model leverages the Transformer architecture to handle the distinctive chain-like structure of RPTs while avoiding the over-smoothing issue. This enables P2T3 to harness the rich, unlabeled data resources in social media on a larger network scale. In future research, we will explore methods to combine P2T3 with large language models and investigate how to utilize P2T3 to construct multi-modal rumor detection models that can handle text attribute graphs and images on social media plat-forms. Additionally, we aim to extend the applica-tion of P2T3 to other social media tasks, such as content recommendation, user behavior analysis, and social network analysis. 
+
+## References 
+
+Uri Alon and Eran Yahav. 2020. On the bottleneck of graph neural networks and its practical implications. 
+
+arXiv preprint arXiv:2006.05205 .Álvaro Arroyo, Alessio Gravina, Benjamin Gutteridge, Federico Barbero, Claudio Gallicchio, Xiaowen Dong, Michael Bronstein, and Pierre Vandergheynst. 2025. On vanishing gradients, over-smoothing, and over-squashing in gnns: Bridging recurrent and graph learning. arXiv preprint arXiv:2502.10818 .Hao Yuan Bai and Xue Liu. 2025. T-graphormer: Using transformers for spatiotemporal forecasting. arXiv preprint arXiv:2501.13274 .Lin Bai, Caiyan Jia, Ziying Song, and Chaoqun Cui. 2025. Vga: vision and graph fused attention network for rumor detection. ACM Transactions on Knowl-edge Discovery from Data , 19(4):1–21. Tian Bian, Xi Xiao, Tingyang Xu, Peilin Zhao, Wen-bing Huang, Yu Rong, and Junzhou Huang. 2020. Rumor detection on social media with bi-directional graph convolutional networks. In Proceedings of the AAAI conference on artificial intelligence , volume 34, pages 549–556. Changsong Bing, Yirong Wu, Fangmin Dong, Shouzhi Xu, Xiaodi Liu, and Shuifa Sun. 2022. Dual co-attention-based multi-feature fusion method for ru-mor detection. Information , 13(1):25. S Selva Birunda and R Kanniga Devi. 2021. A novel score-based multi-source fake news detection using gradient boosting algorithm. In 2021 International Conference on Artificial Intelligence and Smart Sys-tems (ICAIS) , pages 406–414. IEEE. Deyu Bo, Chuan Shi, Lele Wang, and Renjie Liao. 2023. Specformer: Spectral graph neural networks meet transformers. In The Eleventh International Confer-ence on Learning Representations .Chen Cai and Yusu Wang. 2020. A note on over-smoothing for graph neural networks. arXiv preprint arXiv:2006.13318 .Carlos Castillo, Marcelo Mendoza, and Barbara Poblete. 2011. Information credibility on twitter. In Proceed-ings of the 20th international conference on World wide web , pages 675–684. Xiaohui Chen, Yinkai Wang, Jiaxing He, Yuanqi Du, Soha Hassoun, Xiaolin Xu, and Liping Liu. Graph generative pre-trained transformer. In ICLR 2025 Workshop on Deep Generative Model in Machine Learning: Theory, Principle and Efficacy .Chaoqun Cui and Caiyan Jia. 2024. Propagation tree is not deep: Adaptive graph contrastive learning approach for rumor detection. In Proceedings of the AAAI Conference on Artificial Intelligence , vol-ume 38, pages 73–81. Chaoqun Cui and Caiyan Jia. 2025a. Graph representa-tion learning with massive unlabeled data for rumor detection. arXiv preprint arXiv:2508.04252 .Chaoqun Cui and Caiyan Jia. 2025b. Towards real-world rumor detection: Anomaly detection frame-work with graph supervised contrastive learning. In 
+
+Proceedings of the 31st International Conference on Computational Linguistics , pages 7141–7155. Chaoqun Cui, Siyuan Li, Kunkun Ma, and Caiyan Jia. 2025. Enhancing rumor detection methods with propagation structure infused language model. In 
+
+Proceedings of the 31st International Conference on Computational Linguistics , pages 7165–7179. Andreea Deac, Marc Lackenby, and Petar Veliˇ ckovi´ c. 2022. Expander graph propagation. In Learning on Graphs Conference , pages 38–1. PMLR. Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. Bert: Pre-training of deep bidirectional transformers for language understand-ing. arXiv preprint arXiv:1810.04805 .Vijay Prakash Dwivedi and Xavier Bresson. 2020. A generalization of transformer networks to graphs. 
+
+arXiv preprint arXiv:2012.09699 .Vijay Prakash Dwivedi, Sri Jaladi, Yangyi Shen, Fed-erico López, Charilaos I Kanatsoulis, Rishi Puri, Matthias Fey, and Jure Leskovec. 2025. Relational graph transformer. arXiv preprint arXiv:2505.10960 .Will Hamilton, Zhitao Ying, and Jure Leskovec. 2017. Inductive representation learning on large graphs. Ad-vances in neural information processing systems , 30. R Devon Hjelm, Alex Fedorov, Samuel Lavoie-Marchildon, Karan Grewal, Phil Bachman, Adam Trischler, and Yoshua Bengio. 2018. Learning deep representations by mutual information estimation and maximization. arXiv preprint arXiv:1808.06670 .Zhiwei Jin, Juan Cao, Han Guo, Yongdong Zhang, and Jiebo Luo. 2017. Multimodal fusion with recurrent neural networks for rumor detection on microblogs. In Proceedings of the 25th ACM international con-ference on Multimedia , pages 795–816. Chaitanya K Joshi. 2025. Transformers are graph neural networks. arXiv preprint arXiv:2506.22084 .Hamid Karimi, Proteek Roy, Sari Saba-Sadiya, and Jil-iang Tang. 2018. Multi-source multi-class fake news detection. In Proceedings of the 27th international conference on computational linguistics , pages 1546– 1557. Nicolas Keriven. 2022. Not too little, not too much: a theoretical analysis of graph (over) smoothing. Ad-vances in Neural Information Processing Systems ,35:2268–2281. Ling Min Serena Khoo, Hai Leong Chieu, Zhong Qian, and Jing Jiang. 2020. Interpretable rumor detection in microblogs by attending to user interactions. In 
+
+Proceedings of the AAAI conference on artificial in-telligence , volume 34, pages 8783–8790. Jinwoo Kim, Dat Nguyen, Seonwoo Min, Sungjun Cho, Moontae Lee, Honglak Lee, and Seunghoon Hong. 2022. Pure transformers are powerful graph learners. 
+
+Advances in Neural Information Processing Systems ,35:14582–14595. Diederik P Kingma and Jimmy Ba. 2014. Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980 .Thomas N Kipf and Max Welling. 2016. Semi-supervised classification with graph convolutional networks. arXiv preprint arXiv:1609.02907 .Sejeong Kwon, Meeyoung Cha, Kyomin Jung, Wei Chen, and Yajun Wang. 2013. Prominent features of rumor propagation in online social media. In 2013 IEEE 13th international conference on data mining ,pages 1103–1108. IEEE. Qimai Li, Zhichao Han, and Xiao-Ming Wu. 2018. Deeper insights into graph convolutional networks for semi-supervised learning. In Proceedings of the AAAI conference on artificial intelligence , volume 32. Quanzhi Li, Qiong Zhang, and Luo Si. 2019. Rumor detection by exploiting user credibility information, attention and multi-task learning. In Proceedings of the 57th annual meeting of the association for computational linguistics , pages 1173–1179. Derek Lim, Joshua Robinson, Lingxiao Zhao, Tess Smidt, Suvrit Sra, Haggai Maron, and Stefanie Jegelka. 2022. Sign and basis invariant networks for spectral graph representation learning. arXiv preprint arXiv:2202.13013 .Hongzhan Lin, Jing Ma, Mingfei Cheng, Zhiwei Yang, Liangliang Chen, and Guang Chen. 2021a. Ru-mor detection on twitter with claim-guided hier-archical graph attention networks. arXiv preprint arXiv:2110.04522 .Kevin Lin, Lijuan Wang, and Zicheng Liu. 2021b. Mesh graphormer. In Proceedings of the IEEE/CVF in-ternational conference on computer vision , pages 12939–12948. Chengyou Liu, Yan Sun, Rebecca Davis, Silvia T Car-dona, and Pingzhao Hu. 2023. Abt-mpnn: an atom-bond transformer-based message-passing neural net-work for molecular property prediction. Journal of Cheminformatics , 15(1):29. Yang Liu and Yi-Fang Wu. 2018. Early detection of fake news on social media through propagation path classification with recurrent and convolutional net-works. In Proceedings of the AAAI conference on artificial intelligence , volume 32. Zhiwei Liu, Kailai Yang, Eduard Hovy, and Sophia Ananiadou. 2025. Rumor detection by multi-task suffix learning based on time-series dual sentiments. 
+
+arXiv preprint arXiv:2502.14383 .Jing Ma and Wei Gao. 2020. Debunking rumors on twitter with tree transformer. ACL. Jing Ma, Wei Gao, Prasenjit Mitra, Sejeong Kwon, Bernard J Jansen, Kam-Fai Wong, and Meeyoung Cha. 2016. Detecting rumors from microblogs with recurrent neural networks. Jing Ma, Wei Gao, and Kam-Fai Wong. 2017. Detect ru-mors in microblog posts using propagation structure via kernel learning. Association for Computational Linguistics. Jing Ma, Wei Gao, and Kam-Fai Wong. 2018. Rumor detection on twitter with tree-structured recursive neural networks. Association for Computational Lin-guistics. Erxue Min, Runfa Chen, Yatao Bian, Tingyang Xu, Kangfei Zhao, Wenbing Huang, Peilin Zhao, Jun-zhou Huang, Sophia Ananiadou, and Yu Rong. 2022. Transformer for graphs: An overview from architec-ture perspective. arXiv preprint arXiv:2202.08455 .Tu Dinh Nguyen, Dinh Phung, and 1 others. 2022. Universal graph transformer self-attention networks. In International World Wide Web Conference 2022 ,pages 193–196. Association for Computing Machin-ery (ACM). Hoang Nt and Takanori Maehara. 2019. Revisiting graph neural networks: All we have is low-pass filters. 
+
+arXiv preprint arXiv:1905.09550 .Kenta Oono and Taiji Suzuki. 2019. Graph neural net-works exponentially lose expressive power for node classification. arXiv preprint arXiv:1905.10947 .Kaichen Ouyang. 2025. Rethinking over-smoothing in graph neural networks: A perspective from anderson localization. arXiv preprint arXiv:2507.05263 .MoonJeong Park, Sunghyun Choi, Jaeseung Heo, Eun-hyeok Park, and Dongwoo Kim. 2025. The over-smoothing fallacy: A misguided narrative in gnn research. arXiv preprint arXiv:2506.04653 .Wonpyo Park, Woong-Gi Chang, Donggeon Lee, Juntae Kim, and 1 others. 2022. Grpe: Relative positional encoding for graph transformer. In ICLR2022 Ma-chine Learning for Drug Discovery .Xingyu Peng, Junran Wu, Ruomei Liu, and Ke Xu. 2025. Rumor detection on social media with temporal prop-agation structure optimization. In Proceedings of the 31st International Conference on Computational Linguistics , pages 3865–3878. Yuhan Qiao, Chaoqun Cui, Yiying Wang, and Caiyan Jia. 2024. A debiased self-training framework with graph self-supervised pre-training aided for semi-supervised rumor detection. Neurocomputing ,604:128314. Jianlin Su, Yu Lu, Shengfeng Pan, Ahmed Murtadha, Bo Wen, and Yunfeng Liu. 2021. Roformer: En-hanced transformer with rotary position embedding. 
+
+arXiv preprint arXiv:2104.09864 .Fan-Yun Sun, Jordan Hoffmann, Vikas Verma, and Jian Tang. 2019. Infograph: Unsupervised and semi-supervised graph-level representation learning via mutual information maximization. arXiv preprint arXiv:1908.01000 .Mengzhu Sun, Xi Zhang, Jiaqi Zheng, and Guixiang Ma. 2022a. Ddgcn: Dual dynamic graph convolu-tional networks for rumor detection on social media. In Proceedings of the AAAI conference on artificial intelligence , volume 36, pages 4611–4619. Tiening Sun, Chengwei Liu, Lizhi Chen, Zhong Qian, Peifeng Li, and Qiaoming Zhu. 2025. A unified framework for multi-modal rumor detection via multi-level dynamic interaction with evolving stances. In-formation Processing & Management , 62(3):104066. Tiening Sun, Zhong Qian, Sujun Dong, Peifeng Li, and Qiaoming Zhu. 2022b. Rumor detection on social media with graph adversarial contrastive learning. In 
+
+Proceedings of the ACM Web Conference 2022 , pages 2789–2797. Jake Topping, Francesco Di Giovanni, Benjamin Paul Chamberlain, Xiaowen Dong, and Michael M Bron-stein. 2021. Understanding over-squashing and bot-tlenecks on graphs via curvature. arXiv preprint arXiv:2111.14522 .Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. Advances in neural information processing systems , 30. Petar Veliˇ ckovi´ c, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, and Yoshua Bengio. 2017. Graph attention networks. arXiv preprint arXiv:1710.10903 .Petar Velickovic, William Fedus, William L Hamil-ton, Pietro Liò, Yoshua Bengio, and R Devon Hjelm. 2019. Deep graph infomax. ICLR (Poster) , 2(3):4. Yaqing Wang, Fenglong Ma, Zhiwei Jin, Ye Yuan, Guangxu Xun, Kishlay Jha, Lu Su, and Jing Gao. 2018. Eann: Event adversarial neural networks for multi-modal fake news detection. In Proceedings of the 24th acm sigkdd international conference on knowledge discovery & data mining , pages 849–857. Lingwei Wei, Dou Hu, Wei Zhou, Zhaojuan Yue, and Songlin Hu. 2021. Towards propagation un-certainty: Edge-enhanced bayesian graph convolu-tional networks for rumor detection. arXiv preprint arXiv:2107.11934 .Keyulu Xu, Weihua Hu, Jure Leskovec, and Stefanie Jegelka. 2018a. How powerful are graph neural net-works? arXiv preprint arXiv:1810.00826 .Keyulu Xu, Chengtao Li, Yonglong Tian, Tomo-hiro Sonobe, Ken-ichi Kawarabayashi, and Stefanie Jegelka. 2018b. Representation learning on graphs with jumping knowledge networks. In International conference on machine learning , pages 5453–5462. PMLR. Chengxuan Ying, Tianle Cai, Shengjie Luo, Shuxin Zheng, Guolin Ke, Di He, Yanming Shen, and Tie-Yan Liu. 2021. Do transformers really perform badly for graph representation? Advances in Neural Infor-mation Processing Systems , 34:28877–28888. Feng Yu, Qiang Liu, Shu Wu, Liang Wang, Tieniu Tan, and 1 others. 2017. A convolutional approach for misinformation identification. In IJCAI , pages 3901– 3907. Jiong Zhu, Yujun Yan, Lingxiao Zhao, Mark Heimann, Leman Akoglu, and Danai Koutra. 2020. Beyond homophily in graph neural networks: Current lim-itations and effective designs. Advances in neural information processing systems , 33:7793–7804. Wenhao Zhu, Tianyu Wen, Guojie Song, Xiaojun Ma, and Liang Wang. 2023. Hierarchical transformer for scalable graph learning. In Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence , pages 4702–4710. 
+
+## A Conversation Chain Examples 
+
+Two examples of rumor propagation trees are shown in Figure 6. In Tables 6, we present sev-eral conversation chains with their source posts. It’s evident that these chains, often chronologically arranged, exhibit clear semantic relations and occa-sionally intense emotional expressions. These are notable features for identifying rumors. We also present a case study in Tables 6, where we rank the replies in the conversation chains ac-cording to the self-attention scores (averaged across multiple heads) from the last layer of the encoder in P2T3. This helps us investigate which types of replies the model focuses on. The ranking re-sults indicate that replies expressing strong stances and sentiments—rather than those that are sim-ply longer or shorter—receive higher self-attention scores across the three conversation chain exam-ples. Notably, these replies sometimes appear at deeper levels of the conversation chain, which can pose challenges for GNNs during learning. How-ever, the Transformer architecture effectively at-tends to these deeper nodes. Therefore, P2T3 can leverage the Transformer architecture to learn dis-criminative patterns for rumor detection from these long conversation chains.  
+
+> (a) Rumor (b) Non-rumor
+> Figure 6: Examples of RPTs. Comments under rumor thread typically express more heated stances and senti-ments.
+
+## B Related Work 
+
+In this section, we will review the related works on rumor detection and graph Transformers. 
+
+B.1 Social Media Rumor Detection 
+
+Among the existing studies, early rumor detec-tion methods mainly take advantage of traditional classification methods by using hand-crafted fea-tures (Castillo et al., 2011; Kwon et al., 2013). Deep learning has greatly promoted the devel-opment of rumor detection approaches. These approaches can be broadly categorized into four classes, including time-series based methods (Yu et al., 2017; Liu and Wu, 2018; Liu et al., 2025) which model text content or user profiles as time se-ries, propagation structure learning methods (Wei et al., 2021; Cui and Jia, 2024; Qiao et al., 2024; Peng et al., 2025; Cui and Jia, 2025b,a) which con-sider the propagation structures of rumors, multi-source integation methods (Karimi et al., 2018; Birunda and Devi, 2021; Bing et al., 2022; Cui et al., 2025) which combine multiple resources of rumors including post content, user profiles, hetero-geneous relations between posts and users, multi-modal fusion methods (Wang et al., 2018; Li et al., 2019; Sun et al., 2025; Bai et al., 2025) which incor-porate both post and related images to effectively debunk rumors. The significance of propagation structure has been increasingly recognized in the research. Many SOTA models bank on learning representations of RPTs using GNNs. RvNN (Ma et al., 2018) de-signed a bottom-up and top-down tree-structured recursive neural network to extract information from RPTs. PLAN (Khoo et al., 2020) constructed a Transformer model that was aware of the RPT structure. HD-TRANS utilized subtree attention based on Transformer to aggregate neighborhood information. BiGCN (Bian et al., 2020) applied a bidirectional GCN alongside a root node feature enhancement technique. ClaHi-GAT (Lin et al., 2021a) utilized an undirected graph that integrates sibling relations in conjunction with GAT to model user interactions. GACL (Sun et al., 2022b) incor-porated contrastive loss with adversarial training to learn representations robust to noise. DDGCN (Sun et al., 2022a) modeled multiple types of informa-tion in one unified framework. Recently, RAGCL (Cui and Jia, 2024) utilized adaptive contrastive learning to cope with the imbalance of RPTs. These studies demonstrate the effectiveness of propaga-tion structure learning. 
+
+B.2 Over-smoothing and Graph Transformers 
+
+The number of layers in a neural network (re-ferred to as depth) is often considered to be crucial for its performance on real-world tasks. For exam-ple, convolutional neural networks (CNNs) used in computer vision, often use tens or even hundreds of layers. In contrast, most GNNs encountered in applications are relatively shallow and often have just few layers. This is related to several issues im-pairing the performance of deep GNNs in realistic graph learning settings: graph bottlenecks (Alon and Yahav, 2020), over-squashing (Topping et al., 2021; Deac et al., 2022; Arroyo et al., 2025), and over-smoothing (Li et al., 2018; Oono and Suzuki, 2019; Nt and Maehara, 2019; Park et al., 2025). In this study we focus on the over-smoothing phe-nomenon, which loosely refers to the exponential convergence of all node features towards the same constant value as the number of layers in the GNN increases. While it has been shown that small amounts of smoothing are desirable for regression and classification tasks (Keriven, 2022), excessive smoothing (or over-smoothing) results in conver-gence to a non-informative limit. Besides being a key limitation in the development of deep multi-Depth Post Rank 
+
+source JUST IN: Donald Trump to @MSNBC: ‘There has to be some form of punishment’ for women who have an abortion. -1 UPDATE: Donald Trump advocates abortion ban and ‘some form of punishment’ for women who have an abortion. 32 NEW: Trump has released this statement following his abortion comments to @MSNBC. 43 In new statement, Trump says doctors, or anyone performing abortion, would be held legally responsible under a ban – ‘not the woman.’ 24 ok you lost me here! I’ve just rtweeted he said women shld get some punushment 4 that 1source Attorney: New audio reveals pause in gunfire when Michael Brown was shot. -1 That’s because Brown DIDN’T STOP and he KEPT CHARGING. Idiots are going to be like ‘OMG HE STOOD OVER HIM AND EXECUTED HIM!’ Ugh. 62 I understand your intolerance for idiots, but what gives you the impression that your version is absolutely correct? 33 The independent witness being the guy who DOESN’T have a history of falsifying police reports and DOESN’T know Brown. 94 So you are discounting the other five witnesses? Falsifying reports? Who is this independent one? I have not heard of them 75 ... as opposed to people who were told, ‘Stand in front of my camera and tell me what you saw.’ 86 Do you throw away every witness that ever goes on TV? That seems like a silly measure for integrity. 47 Do you believe everything you see on TV? 58 There is another, very credible witness, but I am having trouble on my phone. The audio is interesting but is it credible? 19 It’s credible, but it’s currently as unverified as any of those so-called eyewitness reports. FBI is analyzing. 2source NBC: arrest records show #Ferguson cops jailed twice as many people last night as they originally claimed. -1 meanwhile, #Ferguson officer suffered fractured eye socket when attacked by Michael Brown. 62 prove thats the cops xray? 53 it clearly says that it’s a file image. Arrow shows where that type of fracture occurs. 24 so in other words..... NOT the cops. Zero proof he was injured at all. If he is so innocent why hide. 35 fact that officer was injured was mentioned in the news. 46 you don’t get it. They LIE. The media lies. The cops lie. Lies lies lies. Give me proof. A video? Proof 1
+
+> Table 6: Conversation chain examples. Segments in tweets that express strong stances or sentiments are highlighted in red.
+
+layer GNNs, over-smoothing can also severely im-pact the ability of GNNs to handle heterophilic graphs (Zhu et al., 2020; Ouyang, 2025), in which node labels tend to differ from the labels of the neighbors and thus long-term interactions have to be learned. Applying Transformers to graph is challenging mainly due to (1) the presence of edge connectivity and (2) the absence of a canonical node ordering, which makes the adoption of simple positional en-codings unfeasible (Min et al., 2022). To address the issue of edge connectivity, early methods con-strained self-attention to local neighborhoods, ef-fectively reducing it to message passing (Dwivedi and Bresson, 2020; Nguyen et al., 2022). Alter-natively, global self-attention has been employed alongside auxiliary message passing modules to account for edge connectivity (Lin et al., 2021b; Bo et al., 2023; Joshi, 2025; Dwivedi et al., 2025). However, message-passing methods suffer from limited expressive power (Xu et al., 2018a) and over-smoothing issues (Oono and Suzuki, 2019; Cai and Wang, 2020; Arroyo et al., 2025), lead-ing recent works to discard them in favor of global self-attention on nodes. To process edges, heuris-tic modifications are often introduced (Ying et al., 2021; Park et al., 2022; Lim et al., 2022; Liu et al., 2023; Zhu et al., 2023; Bai and Liu, 2025; Chen et al.). These adaptations aim to overcome the challenges posed by graph structures in order to enhance the Transformers performance in graph-related tasks. 
+
+## C Experiment Details 
+
+In this section, we mainly introduce some spe-cific settings in our experiments, including the way of data preprocessing and the hyperparameter con-figuration when training the model. 
+
+C.1 Unlabeled Dataset Construction 
+
+For the UWeibo dataset, we employed web crawler techniques to randomly collect trending posts and their complete propagation structures from the homepage of popular Weibo posts 1. To ensure the dataset’s integrity and independence from platform recommendation algorithms, we uti-lized multiple newly created accounts to extract data. This approach aimed to mitigate potential biases that might arise from the platform’s algo-rithms and to reflect the genuine domain distribu-tion of social media content. Regarding UTwitter dataset, we initially utilized multiple newly created accounts to randomly follow high-follower count influencers. Subsequently, we conducted random crawling of posts and their propagation structures from the Twitter homepage 2. Due to the fact that UTwitter dataset is exclusively sourced from users with a substantial number of followers, the authen-ticity of the posts is more likely to be ensured. The code for the web scraping program can be found at https://anonymous.4open.science/ r/WeiboCrawl-64D2 and https://anonymous. 4open.science/r/TwitterCrawl-BE29 .
+
+> 1https://weibo.com/hot/weibo/102803
+> 2https://twitter.com/home
+
+Due to the stringent regulation imposed by plat-forms on the dissemination of rumors, acquiring a sufficiently large-scale labeled dataset for rumor detection proves to be exceptionally challenging. Conversely, obtaining extensive amounts of unla-beled data is relatively simpler, especially with the availability of platform data APIs offered by certain mainstream social media platforms (e.g., Twitter API). Consequently, we posit that future research should place greater emphasis on semi-supervised rumor detection methods. 
+
+C.2 Data Preprocessing 
+
+For the texts in all datasets, we first standard-ize the different fonts present in the texts, then identify user mentions and web/url links as spe-cial tokens, <@user> and <url> . Next, we use the TweetTokenizer from the NLTK toolkit and jieba word segmentation engine to tokenize the raw texts in English and Chinese datasets, respectively. Ad-ditionally, we use the emoji package 3 to translate the emojis in the texts into text string tokens. 
+
+C.3 Hyperparameter Configuration 
+
+All models are implemented by PyTorch and baseline methods are re-implemented. GACL uses BERT (Devlin et al., 2018) to extract initial feature vector of each post in RPTs. In addition to GACL, other models use 200-dimensional word2vec word embeddings as initial feature vectors. In the main experiments of P2T3, we set batch size to 32, learn-ing rate to 5e-5. The Transformer encoder consists of 3 layers. We optimize the loss function using the Adam optimizer (Kingma and Ba, 2014). The entire training process is conducted on a single Nvidia GeForce RTX 3090 GPU. BiGCN and GACL utilize early stopping to ob-serve the performance. However, due to oscilla-tions in the early stages of model training, the ob-served model performance is unstable. In order to compare the performance of different models more fairly, we conduct experiments on P2T3 and mul-tiple baseline methods with the same data, while all models are trained for 100 epochs until conver-gence. We consider the average results of the final 10 epochs out of these 100 as the stable outcome that the models can achieve.
