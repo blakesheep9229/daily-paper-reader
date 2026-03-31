@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.27457v1/fig-001.webp",
+      "caption": "Figure 1: MISE and estimated densities for different n,N and K (Experiment 1). Black: true density; red: estimated density from one realization. Only the estimates for the first two components are presented; other looks similar.",
+      "page": 21,
+      "index": 1,
+      "width": 877,
+      "height": 396
+    },
+    {
+      "url": "assets/figures/arxiv/2603.27457v1/fig-002.webp",
+      "caption": "Figure 3: Comparison of our estimator, which corresponds to the first and third plots, with the one in Austern et al. (2025), which corresponds to the second and fourth plots (Experiment 3).",
+      "page": 22,
+      "index": 2,
+      "width": 880,
+      "height": 183
+    },
+    {
+      "url": "assets/figures/arxiv/2603.27457v1/fig-003.webp",
+      "caption": "Figure 2: Effect of the bandwidth h and the number of bins M on MISE for n = 100, N = 100 and K = 3 (Experiment 2).",
+      "page": 22,
+      "index": 3,
+      "width": 889,
+      "height": 236
+    }
+  ]
+}

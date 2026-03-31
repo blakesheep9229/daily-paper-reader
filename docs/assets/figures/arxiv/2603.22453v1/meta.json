@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-001.webp",
+      "caption": "Figure 7: System design of the proposed ACCNOTE framework.",
+      "page": 7,
+      "index": 1,
+      "width": 946,
+      "height": 308
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-002.webp",
+      "caption": "Figure 9: One example post with three different notes used in user study. Method names are anonymized in the survey.",
+      "page": 10,
+      "index": 2,
+      "width": 1022,
+      "height": 313
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-003.webp",
+      "caption": "Figure 10: Statistical results from the user study. Bars indicate mean scores; error bars are 95% CIs.",
+      "page": 10,
+      "index": 3,
+      "width": 502,
+      "height": 252
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-004.webp",
+      "caption": "Table 8: Detailed topic taxonomy for the XCHECK dataset. Subcategories were included in prompts to guide the LLM; any outputs containing subcategories were converted to the parent topics for the final annotations.",
+      "page": 18,
+      "index": 4,
+      "width": 1054,
+      "height": 393
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-005.webp",
+      "caption": "Figure 11: The original post for Example 3.",
+      "page": 13,
+      "index": 5,
+      "width": 504,
+      "height": 490
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-006.webp",
+      "caption": "Figure 8: The original post for Example 2, with post text claims this is “President and First Lady of Syria.”",
+      "page": 8,
+      "index": 6,
+      "width": 504,
+      "height": 429
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-007.webp",
+      "caption": "Table 1: Topic taxonomy in the collected XCHECK dataset. D stands for “deceptive”, ND stands for “non-deceptive”. (One data entry may contain multiple topical labels, so the percentage summation may exceed 100%.)",
+      "page": 4,
+      "index": 7,
+      "width": 496,
+      "height": 308
+    },
+    {
+      "url": "assets/figures/arxiv/2603.22453v1/fig-008.webp",
+      "caption": "Figure 3: Example data entry in XCHECK, with image, structured post metadata and external context.",
+      "page": 5,
+      "index": 8,
+      "width": 1054,
+      "height": 425
+    }
+  ]
+}

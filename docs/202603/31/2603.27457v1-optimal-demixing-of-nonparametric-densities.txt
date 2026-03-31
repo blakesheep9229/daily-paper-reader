@@ -1,0 +1,8799 @@
+Title: Optimal Demixing of Nonparametric Densities
+
+URL Source: https://arxiv.org/pdf/2603.27457v1
+
+Published Time: Tue, 31 Mar 2026 00:54:28 GMT
+
+Number of Pages: 75
+
+Markdown Content:
+# Optimal Demixing of Nonparametric Densities 
+
+Jianqing Fan jqfan@princeton.edu 
+
+Department of Operations Research and Financial Engineering Princeton University 
+
+Zheng Tracy Ke zke@fas.harvard.edu 
+
+Department of Statistics Harvard University 
+
+Zhaoyang Shi zshi@fas.harvard.edu 
+
+Department of Statistics Harvard University 
+
+Abstract 
+
+Motivated by applications in statistics and machine learning, we consider a problem of unmixing convex combinations of nonparametric densities. Suppose we observe n groups of samples, where the ith group consists of Ni independent samples from a d-variate density 
+
+fi(x) = PKk=1 πi(k)gk(x). Here, each gk(x) is a nonparametric density, and each πi is a K-dimensional mixed membership vector. We aim to estimate g1(x), . . . , g K (x). This problem generalizes topic modeling from discrete to continuous variables and finds its applications in LLMs with word embeddings. In this paper, we propose an estimator for the above problem, which modifies the classical kernel density estimator by assigning group-specific weights that are computed by topic modeling on histogram vectors and de-biased by U-statistics. For any β > 0, assuming that each gk(x) is in the Nikol’ski class with a smooth parameter β, we show that the sum of integrated squared errors of the constructed estimators has a convergence rate that depends on n, K, d, and the per-group sample size N . We also provide a matching lower bound, which suggests that our estimator is rate-optimal. 
+
+Keywords: Archetypal analysis, incomplete U statistics, kernel density estimation, min-imax analysis, topic modeling 
+
+Contents 
+
+1 Introduction 3
+
+1.1 Why classical approaches do not work . . . . . . . . . . . . . . . . . . . . . 41.2 The induced topic models . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51.3 A new estimator . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 51.4 The minimax optimal rate . . . . . . . . . . . . . . . . . . . . . . . . . . . . 61.5 Summary, organization and notations . . . . . . . . . . . . . . . . . . . . . 7
+
+2 Topic-Weighted Kernel Density Estimator 7
+
+2.1 An oracle estimator when Π is known . . . . . . . . . . . . . . . . . . . . . 72.2 Estimation of Π and the plug-in estimator . . . . . . . . . . . . . . . . . . . 82.3 De-biasing the plug-in estimator . . . . . . . . . . . . . . . . . . . . . . . . 92.4 The choice of tuning parameters and bins . . . . . . . . . . . . . . . . . . . 10 
+
+1
+
+> arXiv:2603.27457v1 [math.ST] 29 Mar 2026 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi
+
+2.5 Comparison with existing estimators . . . . . . . . . . . . . . . . . . . . . . 12 
+
+3 Topic Modeling: Background and Algorithms 13 
+
+3.1 Topic modeling algorithms and their error rates . . . . . . . . . . . . . . . . 13 3.2 The Topic-SCORE algorithm . . . . . . . . . . . . . . . . . . . . . . . . . . 14 
+
+4 Main Results 14 
+
+4.1 Regularity conditions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15 4.2 A perturbation bound for our estimator . . . . . . . . . . . . . . . . . . . . 16 4.3 The error for estimating G . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 4.4 The rate of convergence of our estimator . . . . . . . . . . . . . . . . . . . . 17 4.5 A matching lower bound . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 18 4.6 Extension to a general d . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19 
+
+5 Simulations 20 6 Proof of the Minimax Upper Bound 22 
+
+6.1 Preliminaries . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23 6.2 A decomposition of the error . . . . . . . . . . . . . . . . . . . . . . . . . . 23 6.3 The non-stochastic ‘bias’ term . . . . . . . . . . . . . . . . . . . . . . . . . . 24 6.4 The main stochastic error . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25 6.5 The secondary stochastic error, and proof of Theorem 4.1 . . . . . . . . . . 27 
+
+7 Proof sketch of the Minimax Lower Bound 28 8 Discussion 30 A Analysis of our estimator 31 
+
+A.1 General tools . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 31 A.2 A useful lemma and its proof . . . . . . . . . . . . . . . . . . . . . . . . . . 31 A.3 Proof of Lemma 6.3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33 A.4 Proof of Lemma 6.4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35 A.5 Proof of Lemma 6.1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35 A.6 Proof of Lemma 6.5 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36 A.7 Proof of Lemma 6.2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38 A.8 Proof of Lemma 6.6 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 39 A.9 Proof of Lemma 6.7 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43 A.10 Proof of Lemma 6.9 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46 A.11 Proof of Lemma 6.10 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 46 A.12 Proof of Lemma 6.11 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50 A.13 Proof of Theorem 4.2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 52 A.13.1 Proof of Theorem A.2 . . . . . . . . . . . . . . . . . . . . . . . . . . 56 A.13.2 Proof of Theorem A.3 . . . . . . . . . . . . . . . . . . . . . . . . . . 62 A.13.3 Proof of Theorem A.4 . . . . . . . . . . . . . . . . . . . . . . . . . . 62 A.14 Proof of Theorem 4.3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 62 
+
+> 2Unmixing Nonparametric Densities
+
+B Proof of the lower bound 63 
+
+B.1 Proof of Theorem 4.4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 63 
+
+C Extension to the case of a general d 70 
+
+C.1 Proof of Theorem C.1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 70 
+
+1 Introduction 
+
+Linear unmixing is a technique widely used in hyperspectral imaging (Bioucas-Dias et al., 2012), chemical engineering (Kwan et al., 2006; Ayhan et al., 2015), and biomedical data analysis (Dey et al., 2017; Wang and Zhao, 2022). Given n data points, it aims to find 
+
+K base vectors (‘end members’) such that each data point is a convex combination of base vectors, where K is often much smaller than n. In this paper, we consider a linear unmixing problem on the space of nonparametric densities. Suppose f1(x), . . . , f n(x) and 
+
+g1(x), . . . , g K (x) are densities on Rd satisfying that 
+
+fi(x) = 
+
+> K
+
+X
+
+> k=1
+
+πi(k)gk(x), for 1 ≤ i ≤ n, (1.1) where each πi takes value in the standard probability simplex S0 ⊂ RK (i.e., the entries of 
+
+πi are nonzero and sum to 1). We further assume that Ni samples are drawn from each 
+
+fi(x): 
+
+Xi1, X i2, . . . , X iN i
+
+> iid
+
+∼ fi(x). (1.2) The goal is to use {Xij }1≤i≤n, 1≤j≤Ni to estimate the base densities g1(x), . . . , g K (x). When K = 1, all Xij ’s are independent samples from a single density g1(x), so the problem reduces to classical nonparametric density estimation. When K > 1, however, the setting is fundamentally different, with few results in the literature. In this paper, we develop both new methodology and minimax theory for the above problem. Our study is motivated by several application examples: 
+
+• Topic modeling with word embeddings : Traditional topic modeling is based on word count data. Modern large language models (LLMs) provide word embeddings that contain richer information than word counts. Recently, Austern et al. (2025) introduce a new topic model that is equivalent to (1.1)-(1.2), where Xij is the contextualized word embedding of the jth word in the ith document, and each gk(x) represents an abstract “topic”, depicting the distribution of the word embedding in topic k. The estimated g1(x), . . . , g K (x) are useful for uncovering the underlying topic structure in a corpus. 
+
+• Archetypal analysis on distributional data : Archetypal analysis (Cutler and Breiman, 1994) aims to express n data points as convex combinations of K latent archetypes. In the original setting, ‘data’ and ‘archetypes’ are feature vectors, but in certain applications they can be distributional data (Bauckhage and Manshaei, 2014; Wu and Tabak, 2017). Existing methods typically apply the kernel trick, but the formulation in (1.1)-(1.2) provides an alternative solution to archetypal analysis on distributional data. 
+
+> 3Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi
+
+• Decontamination of mutual contamination models : Katz-Samuels et al. (2019) con-sider mutual contamination models, in which a learner observes random samples from different convex combinations of a set of unknown base distributions. The goal is to infer the base distributions (i.e., decontamination). Our model in (1.1)-(1.2) can be viewed a special mutual contamination model, where each base distribution has a continuous density. The decontamination problem has several applications, such as in multi-source domain adaption (Zhan et al., 2024) 
+
+1.1 Why classical approaches do not work 
+
+Kernel density estimator (KDE) is a text-book method for nonparametric density estima-tion. It assumes that i.i.d. samples are observed from the density to be estimated. Let K(·)be a kernel function such that R K(x)dx = 1, and write Kh(x) := 1 
+
+> hd
+
+K  1 
+
+> h
+
+x for brevity. In light of (1.2), the KDE for fi(x) is ˆf KDE  
+
+> i
+
+(x) = 1
+
+NiNiX
+
+> j=1
+
+Kh(Xij − x), 1 ≤ i ≤ n. (1.3) However, how to use ˆf KDE 1 (x), . . . , ˆf KDE  
+
+> n
+
+(x) to estimate g1(x), . . . , g K (x) is unclear. More-over, the rate of estimating each fi(x) only depends on Ni, but we expect a much faster rate of convergence on estimating gk(x), which should depend on Pni=1 Ni.In the mixture density estimation (MDE) problem, we observe i.i.d. samples from a den-sity f (x) = PKk=1 βkg(x; λk), where g(x; λ) is a parametric density family, and β1, β 2, . . . , β K
+
+are the mixing weights. This model can be recast as a latent variable model and solved by the expectation-maximization (EM) algorithm. In a similar spirit, we introduce a paramet-ric version of the model in (1.1)-(1.2) by 
+
+π1, . . . , π n iid 
+
+∼ Dirichlet( α), Xi1, . . . , X iN i |πi iid 
+
+∼ fi(x) = 
+
+> K
+
+X
+
+> k=1
+
+πi(k)g(·; λk), (1.4) and the parameters can be estimated by the variational EM algorithm (Blei and Jordan, 2004). Unfortunately, this requires each gk(x) to have a parametric form. There exist approaches that approximate a nonparametric density by parametric ones, primarily for the case of estimating a single density g(x). The Dirichlet Process Mixture Model (DPMM) (Escobar and West, 1995) expresses a nonparametric density as an infinite mixture of parametric densities, with mixing weights generated from a ‘stick-breaking con-struction’ process. The variational auto-encoder (VAE) expresses a nonparametric density as an infinite mixture of normal densities (Demange-Chryst et al., 2023), parametrized by neural networks. However, if we use these ideas to extend the model in (1.4) to a non-parametric version, several issues arise: How to design a valid estimation procedure? Is the obtained ˆ gk(x) smooth? What rate of convergence can be guaranteed? There are no clear answers. In the machine learning literature, Katz-Samuels et al. (2019) propose an interesting method for estimating g1(x), . . . , g K (x) when n = K. Let ˆFi(x) be the empirical distri-bution associated with Xi1, . . . , X iN i . This method computes the “residual” of each ˆFi
+
+> 4Unmixing Nonparametric Densities
+
+after removing a maximal linear effect of { ˆFj : j̸ = i}. These “residuals” are then used to construct estimators of base distributions. However, the estimated distributions typically do not admit smooth densities; moreover, this method relies on strong conditions on the mixing weights πi, which may be hard to satisfy in practice. 
+
+1.2 The induced topic models 
+
+Interestingly, the model in (1.1)-(1.2) has a connection to the topic model (Blei et al., 2003), which is widely used in text analysis. In detail, fix a partition of Rd into M bins, 
+
+Rd = ∪Mm=1 Bm, (1.5) and construct a ‘multivariate histogram’ vector Yi ∈ RM for the ith group of samples by 
+
+Yi(m) = |{ Xij : 1 ≤ j ≤ Ni} ∩ B m|, 1 ≤ m ≤ M. (1.6) Following (1.2), it is easy to see that Yi ∼ Multinomial( Ni, ΩB 
+
+> i
+
+), where Ω B 
+
+> i
+
+∈ RM is a vector such that Ω B 
+
+> i
+
+(m) = R 
+
+> x∈B m
+
+fi(x)dx . Combining this with the expression of fi(x) in (1.1), we immediately have the following result: 
+
+Yi ∼ Multinimial 
+
+
+
+Ni,
+
+> K
+
+X
+
+> k=1
+
+πi(k)gB
+
+> k
+
+
+
+, where gB 
+
+> k
+
+(m) = 
+
+Z
+
+> x∈B m
+
+gk(x)dx. (1.7) This is in fact a topic model with n documents, K topics, and a size-M vocabulary, where 
+
+gB 
+
+> 1
+
+, . . . , g BK ∈ RM are the “topic vectors” and π1, . . . , π n ∈ RK are the “topic weight vectors.” Inspired by this connection, Austern et al. (2025) propose a two-step method for esti-mating the densities g1(x), . . . , g K (x): 
+
+• Apply topic modeling on the matrix Y = [ Y1, Y 2, . . . , Y n] to obtain ˆ gB 
+
+> 1
+
+, . . . , ˆgB 
+
+> K
+
+.
+
+• For each 1 ≤ k ≤ K, construct ˆ gk(x) from the entries of ˆ gB 
+
+> k
+
+by kernel smoothing. This provides the first method for the nonparametric linear unmixing problem in (1.1)-(1.2) with a provable rate of convergence. Unfortunately, the rate does not match the information-theoretic lower bound when g1(x), . . . , g K (x) have high smoothness (see Section 4.4). In this paper, we introduce a new estimator, which also leverages the induced topic model in (1.7), but in a fundamentally different manner. We show that the new estimator addresses the above limitation and is minimax optimal. 
+
+1.3 A new estimator 
+
+Let Y be the same as defined in (1.6). Suppose we have applied an existing topic modeling algorithm on Y , and let bG = [ˆ gB 
+
+> 1
+
+, . . . , ˆgB 
+
+> K
+
+] be the estimated topic matrix. Our estimator is inspired by several key insights: 
+
+• First, we consider an idealized case where π1, . . . , π n are known. In this case, we construct an ideal estimator for gk(x), which is a weighted KDE by leveraging these known πi’s. 
+
+> 5
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+• Next, we develop an estimator of π1, . . . , π n based on the estimated topic matrix bG
+
+and we plug ˆ π1, . . . , ˆπn into the ideal estimator. This is a natural plug-in estimator for gk(x), but unfortunately it has a large bias. 
+
+• Finally, we de-bias the above plug-in estimator by replacing some quadratic terms by corresponding U-statistics. The detailed derivation and rationale are deferred to Section 2, but let us describe the estimator first. With the notation in (1.5)-(1.6), we define a matrix T ∈ RM ×M with elements 
+
+Tmm ′ =
+
+> n
+
+X
+
+> i=1
+
+1
+
+Ni(Ni − 1) 
+
+X 
+
+> 1≤j̸=j′≤Ni
+
+Uijm Uij ′m′ , where Uijm = 1 {Xij ∈ B m}. (1.8) For any x ∈ Rd, we define a matrix S(x) ∈ RM ×n by 
+
+Smi (x) = 1
+
+Ni(Ni − 1) 
+
+X 
+
+> 1≤j̸=j′≤Ni
+
+Kij (x)Uij ′m, where Kij (x) = Kh(x − Xij ), (1.9) where Kh is defined in (1.3). Our proposed estimator has the form: 
+
+bg(x) = bG′ bG( bG′T bG)−1 bG′S(x)1n, (1.10) where for each 1 ≤ k ≤ K, ˆ gk(x) is the kth entry of bg(x). Here, each ˆ gk(x) is a weighted U-statistic, with weights depending on the estimated topic matrix bG. It has an entirely different form from the estimator in Austern et al. (2025). As a consequence, the choice of the bin size M is also fundamentally different. They choose M
+
+as a power of N n , whereas we simply set M ≍ K log( N n ); see Section 2. 
+
+1.4 The minimax optimal rate 
+
+For any fixed β > 0, let Θ ∗ 
+
+> β
+
+denote the Nikol’ski class (Nikol’skii, 2012) of smooth probability densities with a smoothness parameter β. Write for brevity g(x) = ( g1(x), . . . , g K (x)) ′ and 
+
+bg(x) = (ˆ g1(x), . . . , ˆgK (x)) ′. We denote g(x) ∈ Θ∗ 
+
+> β
+
+when each individual gk(x) belongs to the Nikol’ski class. One of our main results is the minimax rate of convergence for the integrated squared error: Suppose Ni ≍ N for 1 ≤ i ≤ n. As nN → ∞ , if K = O(( N n )c∗ 
+
+> β,d
+
+), where c∗ 
+
+> β,d
+
+∈ (0 , 1/4) is a constant that only depends on β, then up to a permutation of ˆg1(x), . . . , ˆgK (x), inf  
+
+> bg(x)
+
+sup 
+
+> g(x)∈Θ∗
+> β
+
+E
+
+" KX
+
+> k=1
+
+Z
+
+[ˆ gk(x) − gk(x)] 2dx 
+
+#
+
+≍ K
+
+ KN n 
+
+ 2β
+
+> 2β+d
+
+. (1.11) To establish (1.11), we need a minimax upper bound and a minimax lower bound. The minimax upper bound is obtained by analyzing the error rate of our estimator. In the proof, we have developed a large-deviation inequality for a specific class of incomplete U-statistics and an integrated variance bound for incomplete U-processes. The minimax lower bound is proved by choosing a least-favorable configuration to uncover the role of a diverging K.
+
+6Unmixing Nonparametric Densities 
+
+1.5 Summary, organization and notations 
+
+We consider unmixing convex combinations of nonparametric densities, a problem with ap-plications in topic modeling, archetypal analysis and multi-source domain adaption. Com-pared to classical nonparametric density estimation, this problem is more challenging and much less studied. Our contributions include: 
+
+• We propose a new estimator, which are significantly different from existing methods (e.g., Katz-Samuels et al. (2019); Austern et al. (2025)). 
+
+• We derive an explicit rate of convergence for our estimator. Our results allow both N
+
+and K to grow with n and cover a full range of smoothness on the base densities. 
+
+• We provide a matching lower bound and show that our estimator is optimal. In contrast, existing estimators either have no explicit error rate or suffer a non-optimal rate. 
+
+• As a component of our analysis, we also provide a new theoretical result on estimating a topic model under a growing K, which is of independent interest. The remainder of this paper is organized as follows: In Section 2, we derive our esti-mator and explain the insights. Section 3 discusses the topic modeling on Y , focusing an existing algorithm Topic-SCORE. Our main theoretical results are presented in Section 4. Simulation studies are contained in Section 5. Sections 6-7 prove the minimax upper bound and the minimax lower bound, respectively. Section 8 concludes the paper with discussions. Proofs of secondary lemmas are relegated to the supplementary material. 
+
+2 Topic-Weighted Kernel Density Estimator 
+
+In this section, we explain the rationale of our proposed estimator (1.10). We show that it is equivalent to a de-biased weighted kernel density estimator with estimated weights from topic modeling. 
+
+2.1 An oracle estimator when Π is known 
+
+We first consider an oracle setting where the mixed membership matrix Π = [ π1, . . . , π n]′ ∈
+
+Rn×K is given. Let g(x) = ( g1(x), . . . , g K (x)) ′ ∈ RK and f (x) = ( f1(x), . . . , f n(x)) ′ ∈ Rn.It follows from the model in (1.1) that 
+
+f (x) = Π g(x) or g(x) = (Π ′Π) −1Π′f (x)The unknown density vector f (x) can be estimated by bf KDE (x) = ( ˆf KDE 1 (x), . . . , ˆf KDE  
+
+> n
+
+(x)) ′,where ˆf KDE  
+
+> i
+
+(x) is given by (1.3). This leads naturally to 
+
+bgoracle (x) = (Π ′Π) −1Π′ bf KDE (x).
+
+The kth component of the above estimator can be written as ˆgoracle  
+
+> k
+
+(x) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+bi(k) ˆf KDE  
+
+> i
+
+(x), (2.1) 
+
+> 7Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi
+
+where bi(k) is given by 
+
+B = ( n−1Π′Π) −1Π′ := [ b1, b 2, . . . , b n] ∈ RK×n. (2.2) It is the weight on the ith group of samples when they are used to estimate gk(x). Putting more explicitly, we propose a weighted kernel density estimator (KDE): ˆgoracle  
+
+> k
+
+(x) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+bi(k) 1
+
+NiNiX
+
+> j=1
+
+Kh(x − Xij ), 1 ≤ k ≤ K, (2.3) The rate of convergence of this oracle estimator can be fairly easily derived (see the supplement), and it matches the lower bound to be introduced in Section 4. We thereby use this estimator as a good starting point. 
+
+2.2 Estimation of Π and the plug-in estimator 
+
+To extend the oracle estimator to the real case, we need an estimate of Π. In light of the induced topic model in (1.7), we can apply topic modeling to Y . However, if we directly apply an existing topic modeling algorithm on estimating Π, the rate of convergence is not fast enough. Assuming K is finite, the minimax optimal rate is (Klopp et al., 2023; Wu et al., 2023) max  
+
+> 1≤i≤n
+
+∥ˆπi − πi∥1 = OP
+
+ N −1/2.
+
+This rate does not even decrease with n; consequently, the plug-in error caused by estimating Π is too large. In order to get the desirable rate, we must account for the dependence among ˆπi’s. This is made possible if each ˆ πi can be well-approximated by a simple function of X. (2.4) To find an estimator to satisfy (2.4), we notice that, while the rate on estimating πi is slow, the rate on estimating the topic matrix G can be made very fast. In fact, the minimax optimal rate (Ke and Wang, 2024b; Bing et al., 2020) is 
+
+> K
+
+X
+
+> k=1
+
+∥ˆgk − gk∥1 = eOP K
+
+r KM N n 
+
+!
+
+. (2.5) Here, M is the bin size that a user can choose. If we choose M appropriately small, then the rate on estimating G can be much faster than the optimal rate in (1.11), so that we can almost treat G as known. The above observation inspires us to consider a regression estimator of Π. In detail, let 
+
+L ∈ Rn×n be a diagonal matrix whose ith diagonal entry is equal to Ni. It follows from (1.7) that EY = GΠ′L. We thereby estimate Π by 
+
+bΠ = L−1Y ′ bG( bG′ bG)−1. (2.6) Since the plug-in error rate in bG is much faster than the desirable rate, we can almost treat 
+
+G as known and approximate the bΠ in (2.6) by 
+
+bΠ ≈ bΠ∗ := L−1Y ′G(G′G)−1. (2.7) 
+
+> 8
+
+Unmixing Nonparametric Densities 
+
+The right hand side of (2.7) is a linear function of Y , and Y is constructed from Xij ’s explicitly. Hence, the estimator bΠ satisfies (2.4) as we hope. Note that this estimator does not yield a faster rate on estimating Π than existing estimators (e.g., Klopp et al. (2023); Wu et al. (2023)). The advantage lies in avoiding a major analytical hurdle when we use bΠ to construct other estimators: Since the dependence among ˆ π1, . . . , ˆπn can be quantified explicitly as in (2.7), we obtain a much tighter control on the plug-in error. On the other hand, this advantage is tied to our problem: As the choice of bins vary, we have many induced topic models, and all of them share the same Π. This gives us the freedom to pick a proper induced topic model so that (2.7) holds. We now plug the bΠ in (2.6) into the oracle estimator in (2.2)-(2.3). Write for brevity 
+
+bQ := bG( bG′ bG)−1, fW := n( bQ′Y L −2Y ′ bQ)−1 bQ′. (2.8) We use ˜ w′ 
+
+> i
+
+∈ RK to denote the ith row of fW . It is not hard to see that the plug-in estimator has the following form: ˆgplug-in  
+
+> k
+
+(x) := 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+1
+
+N 2
+
+> iN
+
+X
+
+> j=1
+> M
+
+X
+
+> m=1
+
+˜wm(k)Kh(x − Xij )Yi(m), 1 ≤ k ≤ K. (2.9) We write bgplug-in (x) = (ˆ gplug-in 1 (x), . . . , ˆgplug-in  
+
+> K
+
+(x)) ′ for brevity. 
+
+2.3 De-biasing the plug-in estimator 
+
+Unfortunately, the plug-in estimator in (2.9) has a non-negligible bias. In this subsection, we explain where the bias comes from and introduce a de-biasing technique. The following lemma is proved in the supplemental material: 
+
+Lemma 2.1. Let Rd = ∪Mm=1 Bm be the bins and bQ be as in (2.8) . Write Uijm = 1 {Xij ∈Bm}, for all 1 ≤ i ≤ n, 1 ≤ j ≤ Ni and 1 ≤ m ≤ M . Then, the plug-in estimator in (2.9) 
+
+satisfies that bgplug-in (x) = eΣ−1eh(x), where eh(x) ∈ RK and eΣ ∈ RK×K are defined by 
+
+ehk(x) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+1
+
+N 2
+
+> iM
+
+X
+
+> m=1
+> Ni
+
+X
+
+> j,j ′=1
+
+bQmk Kh(x − Xij )Uij ′m, 1 ≤ k ≤ K, 
+
+eΣkℓ = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+1
+
+N 2
+
+> iM
+
+X
+
+> m,m ′=1
+> Ni
+
+X
+
+> j,j ′=1
+
+bQmk bQm′ℓUijm Uij ′m′ , 1 ≤ k, ℓ ≤ K. 
+
+Lemma 2.1 gives an equivalent form of the plug-in estimator. We first study the matrix 
+
+eΣ. Let Uij ∈ RM be the vector consisting of {Uijm : 1 ≤ m ≤ M }. For each i, Ui1, . . . , UiN i
+
+are i.i.d. from Multinomial(1 , ξ i), with ξi := E[Ui1]. It is seen that 
+
+eΣ = bQ′
+
+ 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+dξiξ′
+
+> i
+
+bQ, where dξiξ′ 
+
+> i
+
+:= 1
+
+N 2
+
+> iNi
+
+X
+
+> j,j ′=1
+
+Uij U ′ 
+
+> ij ′
+
+.
+
+However, E[Uij U ′ 
+
+> ij ′
+
+]̸ = ξiξ′ 
+
+> i
+
+when j = j′. Therefore, the estimator dξiξ′ 
+
+> i
+
+is biased. To fix this issue, we consider the following U-statistics, which employ a diagonal deletion strategy by 
+
+9Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+excluding j = j′ in the sum: 
+
+dξiξ′
+
+> i
+> ∗
+
+:= 1
+
+Ni(Ni − 1) 
+
+X 
+
+> 1≤j̸=j′≤Ni
+
+Uij U ′ 
+
+> ij ′
+
+.
+
+This is an unbiased estimator of ξiξ′
+
+> i
+
+. Replacing dξiξ′ 
+
+> i
+
+by this estimator gives a modification of eΣ in (2.10) below. We also modify ehk(x) by a similar diagonal deletion strategy. Let 
+
+bh(x) ∈ RK and bΣ ∈ RK×K be such that 
+
+bhk(x) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+1
+
+Ni(Ni − 1) 
+
+> M
+
+X
+
+> m=1
+
+X 
+
+> 1≤j̸=j′≤Ni
+
+bQmk Kh(x − Xij )Uij ′m, 1 ≤ k ≤ K, 
+
+bΣkℓ = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+1
+
+Ni(Ni − 1) 
+
+> M
+
+X
+
+> m,m ′=1
+
+X 
+
+> 1≤j̸=j′≤Ni
+
+bQmk bQm′ℓUijm Uij ′m′ , 1 ≤ k, ℓ ≤ K. (2.10) Our final estimator of g(x) is the diagnonal deletion version: 
+
+bg(x) = (ˆ g1(x), . . . , ˆgK (x)) ′ := bΣ−1bh(x). (2.11) Recall that bQ = bG( bG′ bG)−1 and Q = G(G′G)−1. Using the matrices S and T defined in (1.8)-(1.9), we can re-express bh(x) and bΣ in (2.10) by 
+
+bh(x) = n−1 bQ′S(x)1n = n−1( bG′ bG)−1 bG′S(x)1n,
+
+bΣ = n−1 bQ′T bQ = n−1( bG′ bG)−1 bG′T bG( bG′ bG)−1. (2.12) It follows immediately that 
+
+bg(x) = bG′ bG( bG′T bG)−1 bG′S(x)1n. (2.13) This simplifies the expression in (2.11), which is also the one we introduce in (1.10). 
+
+2.4 The choice of tuning parameters and bins 
+
+Our method requires two tuning parameters, the bandwidth h and the bin size M . In addition, given M , we need to choose the bins B1, . . . , BM . In this subsection, we discuss how to determine them in practice. First, based on our theory in Section 4, the optimal M is at the order of K log( N n ), which does not depend on unknown parameters. In Section 5, we also observe that the performance of our estimator is insensitive to M in a wide range (see Figure 2). We thus fix M as 
+
+M = 2 ⌊K log( N n )⌋. (2.14) Next, we discuss how to choose the bins B1, . . . , BM . Let ¯ g(x) = 1
+
+> K
+
+PKk=1 gk(x). For our theoretical analysis to carry through, we hope: 
+
+Z
+
+> x∈B m
+
+¯g(x)dx ≍ 1/M, for all bins B1, B2, . . . , BM . (2.15) 
+
+10 Unmixing Nonparametric Densities 
+
+When ¯ g(x) has a bounded support and is uniformly lower bounded by a constant, we can use a simple equi-size cubic bins, which guarantees (2.15). In the more general case where ¯ g(x) has unbounded support, we can show that as long as the K entries of α =Π′diag( N1, . . . , N n)1n are of the same order, (2.15) is equivalent to 
+
+E[# {Xij ∈ B m}] ≍ ¯N n/M. (2.16) This inspires a practical choice of bins: we make sure that the total number of samples falling into each bin is of the order ¯N n/M . For example, when d = 1, we can sort Xij ’s and let δm be the m/M quantile. The bins are (−∞ , δ 1] ∪ (δ1, δ 2] ∪ . . . ∪ (δM −2, δ M −1] ∪ (δM −1, ∞). (2.17) Finally, we describe how to select h. The optimal h depends on the unknown smoothness of base densities. Therefore, we face the same challenge as in classical nonparametric density estimation. Fortunately, there is a careful study of bandwidth selection in that literature. One approach is to minimize the asymptotic mean integrated error squared error (AMISE), which can be estimated by leave-one-out cross validation (abbreviated as CV; e.g., see Park (1993)) or plug-in estimators (e.g., see Hall et al. (1991)). Another approach is the Lepski’s method (Lepskii, 1992), which takes an ordered sequence of h and finds ˆh such that the resulting estimator does not differ too much from all estimators from smaller bandwidths. We can possibly extend these approaches to our setting. For convenience, we only consider the CV approach. Following Wasserman (2006, Page 135-137), we define AMSE as AMISE( h; bg) = 
+
+Z
+
+∥bg(x)∥2dx − 2
+
+Z
+
+g(x), bg(x) dx := 
+
+Z
+
+∥bg(x)∥2dx − J(h; bg).
+
+Only the second term g(x) = Bf (x) is unknown, where B = ( n−1Π′Π) −1Π′ = [ b1, b 2, . . . , b n]is as in (2.2). Let {X∗ 
+
+> ij
+
+} be an independent copy of {Xij }. It is seen that 
+
+J(h; bg) = 2
+
+n
+
+> n
+
+X
+
+> i=1
+
+Z
+
+b′ 
+
+> i
+
+bg(x)fi(x)dx = 2
+
+n
+
+> n
+
+X
+
+> i=1
+
+(
+
+1
+
+NiNiX
+
+> j=1
+
+b′
+
+> i
+
+Ebg(X∗ 
+
+> ij
+
+))
+
+.
+
+Borrowing the CV idea, we leave-out each Xij and use the remaining samples to construct 
+
+bg(−ij ). This also yields bΠ−(ij ) as an intermediate quantity, which we plug into (2.6) to obtain bB−(ij ) = [ ˆb1( −ij ), . . . , ˆbn(−ij )]. We select h by minimizing the following criteria: 
+
+\AMISE( h; bg) = 
+
+Z
+
+∥bg(x)∥2dx − 2
+
+n
+
+> n
+
+X
+
+> i=1
+
+"
+
+1
+
+NiNiX
+
+> j=1
+
+ˆb′ 
+
+> i(−ij )
+
+bg(−ij )(Xij )
+
+#
+
+. (2.18) This procedure requires conducting topic modeling for Pni=1 Ni times. To save the com-putational cost, we propose a modified version that only runs topic modeling once. Note that 
+
+B = Σ−1Π′. We plug in bΣ in (2.12) and bΠ in (2.6) to get bB = n( bG′ bG)( bG′T bG)−1 bG′Y L −1.Here, only bG comes from topic modeling. Similarly, in the expression of bg in (2.13), only bG
+
+comes from topic modeling. Therefore, we use all data to obtain bG but perform leave-one-out in the remaining quantities. This gives the following leave-one-out estimators: 
+
+eB(−ij ) = n( bG′ bG) bG′T(−ij ) bG−1 bG′(Y L −1)−(ij ),
+
+> 11 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi
+
+eg−(ij )(x) = bG′ bG bG′T(−ij ) bG−1 bG′S(−ij )(x)1n, (2.19) where T(−ij ), S(−ij )(x) and ( Y L −1)−(ij ) are the corresponding leave-one-out versions of T ,
+
+S(x) and Y L −1, respectively. Let ^AMISE( h; bg) be a counterpart of (2.18), where we modify the second term using the quantities in (2.19). We select h by minimizing ^AMISE( h; bg). This procedure only requires conducting topic modeling once. 
+
+2.5 Comparison with existing estimators 
+
+There are few existing methods for our problem. Katz-Samuels et al. (2019) consider a similar model where the base distributions do not necessarily have smooth densities. They define a quantity 
+
+κ∗(fi|{ fj , j ̸ = i}) = max κ ∈ [0 , 1] : there exists Ri such that fi = κR i + P  
+
+> j̸=i
+
+νj fj for some νj ≥ 0 with P  
+
+> j̸=i
+
+νj = 1 − κ. 
+
+The resulting Ri is also a distribution and called a “residual” of fi. Katz-Samuels et al. (2019) show that Ri can be estimated from the empirical CDFs ˆF1, . . . , ˆFn. They also show that when n = K and when Π satisfies certain conditions, the base distributions can be recovered by recursively computing such “residuals.” The key insight is to exploit a simplex geometry in the distribution space. However, this approach imposes restrictive conditions on Π, which essentially requires that each πi is close to being degenerate. In contrast, our method bypasses this limitation by considering the induced topic model. While topic modeling also relies on a simplex geometry, the geometry arises in the standard Euclidean space, which can be effectively exploited using existing topic modeling algorithms, hence requiring very mild conditions on Π. In theory, Katz-Samuels et al. (2019) only establish a consistency guarantee but do not provide any explicit rate of convergence. In contrast, we not only derive the explicit rate of convergence for our estimator but also show that it is minimax optimal. Our method is connected to the one in Austern et al. (2025) in leveraging the induced topic model. However, the two methods differ fundamentally in how to use the estimated topic model. Austern et al. (2025) treat the topic matrix G as a “discretization” of the continuous densities g1(x), . . . , g K (x). The bin size M leads to a bias-variance trade-off: on one hand, M needs to be properly large so that G contains sufficient information of 
+
+g1(x), . . . , g K (x); on the other hand, since M affects the estimation error on G, it cannot be too large. Unfortunately, in some parameter regime (e.g., when β > 1), there does not exist a sweet spot of M . This explains why their method cannot be optimal across the whole parameter regime. In contrast, our estimator builds on the oracle estimator in (2.3), which is already minimax optimal across the whole parameter regime. We only need to develop a bΠ such that the plug-in error is negligible. This seems challenging, as Π is a large matrix. Fortunately, we leverage the induced topic model to design a bΠ in which the dependence among its entries can be well characterized. This allows us to have a sharp control of the plug-in error and eventually prove that our estimator has the same error rate as the oracle estimator, thus being optimal. 
+
+> 12 Unmixing Nonparametric Densities
+
+3 Topic Modeling: Background and Algorithms 
+
+One step in our estimator is to conduct topic modeling on the matrix Y . In this section, we review the topic model and existing topic modeling algorithms. In particular, we describe Topic-SCORE (Ke and Wang, 2024b), the algorithm we use in our numerical experiments and theoretical analysis. 
+
+3.1 Topic modeling algorithms and their error rates 
+
+Suppose we observe n documents written on a vocabulary of M words. Let Yi ∈ RM be the word count vector for the ith document, where Yi(m) is the count of the mth word, and Ni = PMm=1 Yi(m) is the total length of this document. Let g1, g 2, . . . , g K ∈ RM be 
+
+K topic vectors, each being a probability mass function (PMF) and representing a discrete distribution on the vocabulary. Each document i is associated with a topic weight vector 
+
+πi ∈ RK , where πi(k) is the fractional weight this document puts on the kth topic, for 1 ≤ k ≤ K. The topic model assumes that Y1, Y 2, . . . , Y n are independent, and 
+
+Yi ∼ Multinomial( Ni, Ωi), Ωi =
+
+> K
+
+X
+
+> k=1
+
+πi(k)gk. (3.1) The goal of topic modeling is to use the data matrix Y = [ Y1, . . . , Y n] to estimate the parameters G = [ g1, . . . , g K ] and Π = [ π1, . . . , π n]′.There are many existing methods for this problem. They can be roughly divided into two categories depending on the key assumption: In the first category, it is assumed that πi’s are i.i.d. from a Dirichlet prior. A popular method in this category is the latent Dirichlet allocation (Blei et al., 2003). In the second category, it is assumed that each topic has at least one anchor word, where a word m is an anchor word if the mth row of G has only one nonzero entry. Representative methods include the NMF approach (Arora et al., 2012), the Topic-SCORE algorithm (Ke and Wang, 2024b), and the LOVE algorithm (Bing et al., 2020). We can plug in any of these algorithms into our estimator. However, to achieve the best performance, we prefer a topic modeling algorithm that has a fast rate of convergence. Define the ℓ1-error as (subject to a column permutation of bG)
+
+L( bG, G ) = X
+
+> 1≤m≤M
+
+X
+
+> 1≤k≤K
+
+| bGmk − Gmk |.
+
+Assuming K is fixed, Ke and Wang (2024a) summarize the rates of convergence of L( bG, G )for different algorithms and find that only Topic-SCORE (Ke and Wang, 2024b) and LOVE (Bing et al., 2020) attain the optima rate pM/ ( ¯N n ), up to logarithmic factors. In com-parison, LOVE requires that M ≪ ¯N , while Topic-SCORE does not have this requirement. When K grows with n, LOVE has the following rate of convergence, 
+
+L( bG, G ) ≤ C( ¯N n )−1/2
+
+q
+
+K3M log( ¯N n ), (3.2) which is again under the assumption of M ≪ ¯N . The rate of convergence of Topic-SCORE for growing K has not been given in the literature. In Section 4.3, we close this gap and 
+
+> 13 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi
+
+show that Topic-SCORE also attains the rate in (3.2); and this is true for both the case of M ≪ ¯N and M = O( ¯N ). The rate in (3.2) is minimax optimal subject to a logarithm factor, according to the lower bound in Bing et al. (2020). Based on these observations, we recommend using Topic-SCORE. 
+
+3.2 The Topic-SCORE algorithm 
+
+Topic-SCORE (Ke and Wang, 2024b) belongs to the category of topic modeling algorithms that assume the anchor word condition. A word 1 ≤ m ≤ M is called an anchor word of topic k if and only if 
+
+gk(m)̸ = 0 , and gℓ(m) = 0 for all ℓ̸ = k. (3.3) The anchor word condition requires that each topic has at least one anchor word. We now briefly describe the key idea behind Topic-SCORE. Let L = diag( N1, N 2, . . . , N n)and eY = Y L −1. Let ˆξ1, . . . , ˆξK ∈ RM be the first K left singular vectors of eY and define 
+
+bR = [diag( ˆξ1)] −1[ ˆξ2, . . . , ˆξK ] ∈ RM ×(K−1) .
+
+Ke and Wang (2024b) show that there exists a low-dimensional K-vertex simplex associated with the rows of bR. As long as each topic has at least one anchor word, this simplex can be estimated from bR. Once this simplex is available, it can be used to obtain an explicit formula for converting the singular vectors to valid estimates of the topic vectors. The full algorithm is as follows: 1. (SVD) . Let D = diag( eY 1n). Obtain the first K left singular vectors D−1/2 eY , and denote them by ˆξ1, . . . , ˆξK ∈ RM . Construct a matrix bR = [diag( ˆξ1)] −1[ ˆξ2, . . . , ˆξK ]. 2. (Simplex vertex hunting) . Apply a vertex hunting algorithm (Ke and Jin, 2023, Section 3.4) to the rows of bR to obtain ˆ v1, ˆv2, . . . , ˆvK . Write bV = [ˆ v1, ˆv2, . . . , ˆvK ]. 3. (Topic matrix estimation) . For each 1 ≤ m ≤ M , obtain ˆ um by solving the equations: 
+
+1′ 
+
+> K
+
+ˆum = 1, and bV ˆum = ˆ rm. If ˆ um contains negative entries, set these entries to zero and renormalize the whole vector to have a unit ℓ1-norm. For each 1 ≤ k ≤ K,estimate gk by normalizing the kth column of D1/2diag( ˆξ1)[ˆ u1, ˆu2, . . . , ˆuM ]′ to have a unit ℓ1-norm. In Section 4.3, we provide a tight error bound for this algorithm, which extends the existing bounds from fixed K (Ke and Wang, 2024a) to growing K. This result is not only useful for the analysis of our estimator but also of independent interest. 
+
+4 Main Results 
+
+In this section, we present our main theoretical results. For technical reasons, we introduce a slightly modified version of the estimator in (1.10): 
+
+bg+(x) = bG′ bG  bG′T bG + ϵI K
+
+−1 bG′S(x)1n, (4.1) 
+
+> 14 Unmixing Nonparametric Densities
+
+where 
+
+ϵ = ϵn = Kn M 2 · 1
+
+
+
+λmin ( bG′T bG) < Kn M 2 log 2(N n )
+
+
+
+.
+
+In fact, λmin ( bG′T bG) is often much larger than Kn M 2 log 2(N n ) , so that bg+(x) and bg(x) are identical except for a negligible probability. However, when we bound the expected error of 
+
+bg(x), we must study the behavior of our estimator on this small-probability event, which is technically challenging. To avoid this hurdle, we study the above modified version. In Sections 4.1-4.5, we focus on d = 1, for which the regularity conditions and main results are both easy to present and interpret. The extension to d > 1 is deferred to Section 4.6. 
+
+4.1 Regularity conditions 
+
+When d = 1, each gk(x) is a continuous density on R. We assume they are smooth. Some commonly used smooth classes include the H¨ older class, the Sobolev class, and the Nikol’ski class. The H¨ older class focuses on a form of local smoothness, whereas the other two provide a form of integrated smoothness, with the Nikol’ski class broader than the Sobolev class. Since we aim to control the integrated estimation error, we use the Nikol’ski class, with a smoothness parameter β:
+
+Assumption 1 (Nikol’ski Smoothness) . Fix β > 0 and L0 > 0. Let ⌊β⌋ denote the largest integer that is strictly smaller than β. For each 1 ≤ k ≤ K, the ⌊β⌋th order derivative of 
+
+gk exists and satisfies: 
+
+Z 
+
+g(⌊β⌋) 
+
+> k
+
+(x + t) − g(⌊β⌋) 
+
+> k
+
+(x) 2
+
+dx 
+
+1/2
+
+≤ L0|t|β−⌊ β⌋, for all t ∈ R.
+
+Under this assumption, we use an order-β kernel. Besides requiring that R K(u)du = 1 as in (1.3), we also require: 
+
+Z
+
+uj K(u)du = 0 , 1 ≤ j ≤ ⌊ β⌋,
+
+Z
+
+|u|β |K (u)|du +
+
+Z
+
+|K (u)|du + sup 
+
+> u
+
+|K (u)| < ∞. (4.2) We also need an assumption to guarantee that the model is identifiable: 
+
+Assumption 2. For 1 ≤ k ≤ K, let Sk = {x ∈ R : gk(x) > 0, g ℓ(x) = 0 for all ℓ̸ = k}.Suppose the Lesbegue measure of each Sk is lower bounded by a constant c3 > 0.
+
+Each Sk is called the anchor region of gk(x). It is analogous to the anchor word def-inition (see (3.3)) in a classical topic model. Under this assumption, g1(x), . . . , g K (x) are identifiable (Austern et al., 2025). While other identifiability conditions may be used, a key advantage of adopting Assumption 2 is that it naturally implies the anchor-word condi-tion in the induced topic model. This allows us to apply existing anchor-word-based topic modeling algorithms, such as Topic-SCORE. Note that unlike the classical nonparametric density estimation setting, we have K
+
+different densities that are mixed together. We need additional conditions to ensure that “unmixing” them is possible. Intuitively, we require that (a) the K densities are not too “similar”, and (b) the “effective sample size” for estimating each individual gk(x) is properly large. We formally state these conditions as follows: 
+
+> 15
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Assumption 3. Let ¯g(x) = 1
+
+> K
+
+PKk=1 gk(x)dx and Σg = 1
+
+> K
+
+R g(x)g(x)′dx . There exists a constant c1 ∈ (0 , 1) such that 
+
+c1 ≤ λmin (Σ g) ≤ λmax (Σ g) ≤ c−11 , and max  
+
+> x
+
+¯g(x) ≤ c−11 .
+
+Let ΣΠ = ( K/n )Π ′Π and η = Π ′1n. Denote by ηmax and ηmin the maximum and minimum entries of η. There exists a constant c2 ∈ (0 , 1) such that 
+
+c2 < λ min (Σ Π) ≤ λmax (Σ Π) ≤ c−12 , and c2K−1n ≤ ηmin ≤ ηmax ≤ c−12 K−1n. 
+
+The K × K matrix Σ g captures the ‘similarity’ of K densities. If Σ g is ill-conditioned, some of the gk(x) are too similar to each other, making the unmixing task too difficult. The 
+
+K ×K matrix Σ Π and the vector 1′
+
+> n
+
+Π both describe the ‘sample size balance’ on K densities. When Σ Π is ill-conditioned or when 1′
+
+> n
+
+Π has severely unbalanced entries, there exists at least one gk(x) so that the n samples’ total weights on this density are significantly smaller than n/K ; in such a case, this density cannot be estimated accurately enough. With the above being said, Assumption 3 is almost necessary for the success of the unmixing task. 
+
+4.2 A perturbation bound for our estimator 
+
+Similarly as in Section 3.1, let L( bG, G ) = P
+
+> 1≤m≤M
+
+P 
+
+> 1≤k≤K
+
+| bGmk − Gmk | be the ℓ1-estimation error in the topic modeling step, whose order will be δn below. The following theorem is our main technical result and will be proved in Section 6. 1
+
+Theorem 4.1. Fix d = 1 . Consider the model (1.1) -(1.2) , where K2 log( N n ) = O(N n )
+
+and Assumption 1 holds. Let ΣG = ( M/K )G′G and ΣΠ = ( K/n )Π ′Π. Let δn be a sequence such that M δ 2 
+
+> n
+
+= o(K). Suppose: (i) λmin (Σ G) ≍ λmax (Σ G) ≍ 1, and ∥G1K ∥∞ = O(M −1K). 2
+
+(ii) λmin (Σ Π) ≍ λmax (Σ Π) ≍ 1, and ∥1′
+
+> n
+
+Π∥∞ = O(K−1n).(iii) Ni ≍ N for all 1 ≤ i ≤ n.(iv) h → 0 and N nh → ∞ .(v) There is a constant C > 0 such that L( bG, G ) ≤ Cδ n with probability 1 − o(( N n )−5).Let bg+(x) be the estimator in (4.1) . Suppose K ≤ M ≤ [N n/ log 2(N n )] 1/2 and (N n )−1K ≪
+
+h ≪ log −1(N n ). Then, there exists a constant C0 > 0 such that 
+
+E
+
+Z 
+
+∥bg+(x) − g(x)∥2dx 
+
+
+
+≤ C0 · K
+
+
+
+h2β + KN nh + MK δ2 
+
+> n
+
++ K2
+
+N n 
+
+
+
+. (4.3)             
+
+> 1. The estimation error on g1(x), . . . , g K(x) is measured up to a permutation of the Kestimated densities. For notational convenience, throughout this section, we omit this permutation in our theorem statements. 2. This condition on Σ Gis implied by the condition on Σ gin Assumption 3, as long as M→ ∞ and the bins are properly chosen (see Lemma A.4 in the supplement). On the other hand, even when the condition on Σ gis not satisfied, the condition on Σ Gmay still hold. To maintain the broadness of this theorem, we choose to present the condition on Σ Gdirectly.
+
+16 Unmixing Nonparametric Densities 
+
+In (4.3), the first two terms are analogous to the ‘bias’ and ‘variance’ in classical non-parametric density estimation, which can be optimized by choosing a proper bandwidth 
+
+h:
+
+Corollary 4.1. Under the conditions of Theorem 4.1, if h ≍ [K/ (N n )] 12β+1 , then 
+
+E
+
+Z 
+
+∥bg+(x) − g(x)∥2dx 
+
+
+
+≤ C0 · K
+
+ KN n 
+
+ 2β
+
+> 2β+1
+
++ MK δ2 
+
+> n
+
++ K2
+
+N n 
+
+
+
+.
+
+The last two terms in (4.3) still persist here. They are the extra price paid for ‘unmixing’ densities. Specifically, the third term comes from the error of estimating the topic matrix 
+
+G, and the last term is the additional error of using bG to estimate Π. 
+
+4.3 The error for estimating G
+
+We now study the topic modeling error and derive the order of δn. As explained in Section 3, we apply the Topic-SCORE algorithm. The following theorem is proved in the supplement: 
+
+Theorem 4.2. Consider the topic model in (3.1) . Define ΣΠ = ( K/n )Π ′Π, and ΣG =(M/K )G′G. We assume: (i’) λmin (Σ G) ≍ λmax (Σ G) ≍ 1, and the smallest entry of G1K is of the order M −1K.(ii’) λmin (Σ Π) ≍ λmax (Σ Π) ≍ 1, and all of the K entries of Π′1n are of the order K−1n.Additionally, suppose all Ni’s are of the order N , and each topic has at least one anchor word (see (3.3) ). Let bG = [ˆ g1, . . . , ˆgK ] be the output of Topic-SCORE. Suppose min {M, N } ≥ 
+
+log 3(N n ), log( N ) = O(log( n)) , K ≤ M , and K3M log 2(N n ) ≤ N n . There exists a constant 
+
+CTM > 0 such that with probability 1 − o(( N n )−5),
+
+∥e′
+
+> m
+
+( bG − G)∥1 ≤ ∥ e′
+
+> m
+
+G∥1 · CTM 
+
+r KM log( N n )
+
+N n ;
+
+Furthermore, with probability 1 − o(( N n )−5), the ℓ1-error satisfies that 
+
+L( bG, G ) ≤ C
+
+r K3M log( N n )
+
+N n . (4.4) Theorem 4.2 extends the analysis of Topic-SCORE from finite K (Ke and Wang, 2024b,a) to growing K. A lower bound for the rate of convergence is presented in Bing et al. (2020), which is pK3M/ (nN ). Therefore, our result shows that Topic-SCORE is rate-optimal (up to a logarithmic factor) in the growing-K setting. This is also the first method that achieves the optimal rate in both regimes of M = O(N ) and M ≫ N (in contrast, the method in Bing et al. (2020) only applies to the regime of M = O(N )). 
+
+4.4 The rate of convergence of our estimator 
+
+We insert the topic modeling error bound from Section 4.3 into the error bound from Section 4.2. It follows that 
+
+E
+
+Z 
+
+∥bg+(x) − g(x)∥2dx 
+
+
+
+≤ C0 · K
+
+ KN n 
+
+ 2β
+
+> 2β+1
+
++ K2M 2 log( N n )
+
+N n + K2
+
+N n 
+
+
+
+.
+
+> 17
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+This bound holds under the conditions of Theorem 4.1 and Theorem 4.2. These conditions are implied by Assumptions 1-3, if M → ∞ and the bins are properly chosen (see Section 2.4 and Lemma A.4 in the supplement). Moreover, when K satisfies some conditions, the second and third terms are dominated by the first term. Combining these observations gives the following theorem: 
+
+Theorem 4.3. Consider the model (1.1) -(1.2) with d = 1 , where Assumptions 1-3 hold, and Ni ≍ N for all i. Suppose K = O max (N n ) 14 [log( N n )] −1, (N n ) 14β+3 log − 4β+2 4β+3 (N n ) ,
+
+N ≥ log( n), and log( N ) = O(log( n)) . Let bg+(x) be the estimator in (4.1) , where the kernel 
+
+K(·) satisfies (4.2) , the plug-in bG is obtained from Topic-SCORE, and the bin size M and the bandwidth h satisfy that M ≍ K log( N n ) and h ≍ [K/ (N n )] 12β+1 . Then, 
+
+E
+
+Z 
+
+∥bg(x)+ − g(x)∥2dx 
+
+
+
+≤ C · K
+
+ KN n 
+
+ 2β
+
+> 2β+1
+
+.
+
+It is interesting to compare this rate with those of existing methods. The method in Katz-Samuels et al. (2019) is only shown to be consistent under a relatively weak guarantee, without an explicit error rate. When K is fixed, the method in Austern et al. (2025) has an error rate of ( N n )−θ∗(β), where 3
+
+θ∗(β) = 
+
+
+
+2β/ (2 β + 1) , when β ≤ 1,
+
+2/3, when 1 < β ≤ 2,
+
+2β/ (5 β + 2) , when β > 2.
+
+Their rate is strictly slower than ours for β > 1. Moreover, they don’t provide any result for the growing-K setting. 
+
+4.5 A matching lower bound 
+
+To show the optimality of the error rate established above, we also provide a matching lower bound: 
+
+Theorem 4.4. Let Θβ be the collection of all (g(x), Π) such that Assumptions 1-3 are satisfied. Under the model in (1.1) -(1.2) , there exists a constant C′ 
+
+> 0
+
+> 0 such that 
+
+inf  
+
+> bg(x)
+
+sup 
+
+> (g(x),Π) ∈Θβ
+
+E
+
+Z 
+
+∥bg(x) − g(x)∥2dx 
+
+
+
+≥ C′
+
+> 0
+
+K
+
+ KN n 
+
+ 2β
+
+> 2β+1
+
+.
+
+Comparing Theorem 4.4 with Theorem 4.3, we obtain the optimality of our estimator. The proof of Theorem 4.4 is more subtle than that of the lower bound for standard nonparametric density estimation, because we need the rate to depend on K. We address this by using a proper least-favorable configuration. See Section 7 for details.   
+
+> 3. Precisely, the paper considers a H¨ older class with smoothness parameter β(a more specialized class when the support is bounded), but the rate is transferable.
+
+18 Unmixing Nonparametric Densities 
+
+4.6 Extension to a general d
+
+Our results can be extended to any fixed dimension d. In this case, each gk(x) is a multi-variate density. We assume that g1(x), . . . , g K (x) belong to the anisotropic Nikol’ski class (Lepski, 2013) defined as follows. 
+
+Assumption 1 ′ (Multivariate Nikol’ski Smoothness) . Fix d ≥ 1, β = ( β1, . . . , β d) ∈
+
+(0 , ∞)d and L > 0. For each j ∈ { 1, . . . , d }, let rj = ⌊βj ⌋ denote the largest integer strictly smaller than βj , and write r = ( r1, . . . , r d). For each 1 ≤ k ≤ K, the mixed partial derivative ∂rgk = ∂ r1 
+
+> 1
+
+· · · ∂ rd 
+
+> d
+
+gk exists and satisfies 
+
+Z 
+
+> Rd
+
+|∂rgk(x + t) − ∂rgk(x)|2 dx 
+
+1/2
+
+≤ L
+
+> d
+
+X
+
+> j=1
+
+|tj |βj −rj , for all t ∈ Rd.
+
+Our estimator requires having a multivariate kernel K(x) to obtain Kij (x) = Kh(x−Xij )(see (1.9)), where Kh(x) = 1 
+
+> hd
+
+K( xh ) for a bandwidth h > 0. However, under Assumption 1 ′,we should use different bandwidths for different coordinates. Let h = ( h1, h 2, . . . , h d)′ be a bandwidth matrix. We define 
+
+Kh(x) = 
+
+> d
+
+Y
+
+> j=1
+
+1
+
+hj
+
+Kj
+
+  xj
+
+hj
+
+, where Kj satisfies (4.2) for β = βj . (4.5) In the supplementary material, we present a counterpart of Theorem 4.1 when Assumption 1 is replaced by Assumption 1 ′. The error bound has the following form: 
+
+E
+
+Z 
+
+> Rd
+
+∥bg+(x) − g(x)∥2dx
+
+
+
+≤ C0 · K
+
+
+
+> d
+
+X
+
+> j=1
+
+h2βj 
+
+> j
+
++ KN n Qdj=1 hj
+
++ MK δ2 
+
+> n
+
++ K2
+
+N n 
+
+ .
+
+Compared to (4.3), only the first two terms are different. The last two terms, which corre-spond to the extra price paid for “unmixing” densities, are the same as before. We recall that these two terms arise from the error of estimating G and the additional error of us-ing bG to estimate Π. These errors are only related to the induced topic model, which are independent of the dimension d (especially, the bin size M does not depend on d). Similarly as in the case of d = 1, we choose h to optimize the first two terms; in addition, when K grows with N n at a speed not too fast, the last two terms will be negligible. We thus have the following theorem: 
+
+Theorem 4.5. Fix d ≥ 1 and consider the model (1.1) -(1.2) , where Assumptions 1 ′ and Assumptions 2-3 hold, and Ni ≍ N for all 1 ≤ i ≤ n. Define the harmonic mean (β∗)−1 =
+
+d−1 Pdj=1 β−1 
+
+> j
+
+. Suppose K = O max (N n ) 14 [log( N n )] −1, (N n ) d 
+
+> 4β∗+3 d
+
+log − 4β∗+2 d 
+
+> 4β∗+3 d
+
+(N n ) ,
+
+N ≥ log( n), and log( N ) = O(log( n)) . Let bg+(x) be the estimator in (4.1) , where Kh(x)
+
+has the product form in (4.5) , the plug-in bG is obtained by Topic-SCORE, and the bin size 
+
+M and the bandwidth vector h satisfy that M ≍ K log( N n ) and hj ≍ [K/ (N n )]  
+
+> 12βj+d(β∗)−1βj
+
+for all 1 ≤ j ≤ d. Then, 
+
+E
+
+Z 
+
+> Rd
+
+∥bg(x)+ − g(x)∥2dx
+
+
+
+≤ C · K
+
+ KN n 
+
+ 2β∗
+
+> 2β∗+d
+
+.
+
+19 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+A special case is that g1(x), . . . , g K (x) belong to the isotropic Nikol’ski class, corre-sponding to βj = β for all 1 ≤ j ≤ d. The rate becomes K[K/ (N n )] 2β 
+
+> 2β+d
+
+. A matching lower bound can also be proved. It is a straightforward extension of Theorem 4.4 (see Section 7). Combining these observations, we conclude the minimax optimal of our estimator under isotropic Nikol’ski smoothness. 
+
+5 Simulations 
+
+We investigate the performance of our estimator on synthetic data. For a given K, we construct g1(x), . . . , g K (x) as follows. For any a, β > 0, let Φ β (x; a) be a bump function defined as follows: Φβ (x; a) =  1 − | x/a |β  1{| x| < a }. (5.1) It can be verified that Φ β (x; a) is in the Nikol’ski class with a smoothness parameter β. For 
+
+k = 1 , . . . , K , let ak = 11 + 2 k, and define the unnormalized density as ˜gk(x) = 3 Φ β (x; 12) + 2 Φ β (x − ak; 1) + 2 Φ β (x + ak; 1) . (5.2) Let gk(x) =  R  
+
+> R
+
+˜gk(u)du −1 ˜gk(x). By construction, all densities are in the Nikol’ski class with smoothness of β, and they share a common central support [ −12 , 12]. Additionally, each gk(x) has an anchor region as defined in Assumption 2. The membership vectors 
+
+{πi}ni=1 are generated from a multivariate logistic-normal model: 
+
+πi = softmax( Zi/τ ), Zi ∼ N (0 , I K ),
+
+where the temperature parameter is τ = 0 .5. Finally, we generate Xij from the model (1.1)-(1.2), letting Ni = N for all 1 ≤ i ≤ n. We measure the performance of estimators by the mean integrated squared error (MISE), defined by R ∥bg(x) − g(x)∥2dx . Here, the integral is numerically approximated by a fine evaluation grid with 400 points. 
+
+Experiment 1 . In this experiment, we study the performance of our method under different values of ( n, N, K ). In the baseline setting, ( n, N, K ) = (100 , 100 , 3). We then consider three other settings by (i) fixing ( n, N ) as in the baseline and changing K to 6, (ii) fixing ( n, K ) as in the baseline and changing N to 10, and (iii) fixing ( N, K ) as in the baseline and changing n to 10. In each setting, the true densities g1(x), . . . , g K (x) are constructed as in (5.2), where the bump function is Φ β (x; a) in (5.1) with β = 2. In our method, we use a Gaussian kernel. We set M = 2 ⌊K log( N n )⌋ as in (2.14) and select the bins as in (2.17). The bandwidth is selected by minimizing the the data-driven criteria, ^AMISE( h; bg)(see (2.18) and Section 2.4). Recall that the optimal bandwidth is h ≍ [K/ (N n )] 1/(2 β+1) .We thus re-parametrize h = ht = [ K/ (N n )] t and minimize over t on a grid of 20 equally spaced points on (0 , 1). This grid choice does not use any knowledge of β and covers a wide range of h.In Figure 1, for each of the four settings, we plot ˆ gk(x) (red solid line) in one realization and the true gk(x) (black dashed line); to save space, we only show these plots for the first two densities, which results in a total of 8 plots. We also report the integrated squared error (ISE k) for individual ˆ gk(x) and the MISE (equal to 1
+
+> K
+
+PKk=1 ISE k), averaged on 100 repetitions. The results suggest that the performance decreases as K increases and as N or 
+
+n decreases. This is consistent with our theory. 
+
+> 20
+
+Unmixing Nonparametric Densities 20 0 20                                                                                       
+
+> x
+> 0.000
+> 0.025
+> 0.050
+> 0.075
+> 0.100
+> 0.125
+> Density
+> = 2
+> MISE = 1.53 × 10 4
+> ISE 1= 1.68 × 10 4
+> g1;n= 100, N= 100, K= 3 20 020
+> x
+> 0.000
+> 0.025
+> 0.050
+> 0.075
+> 0.100
+> 0.125
+> Density
+> = 2
+> MISE = 1.53 × 10 4
+> ISE 2= 1.23 × 10 4
+> g2;n= 100, N= 100, K= 3 20 020
+> x
+> 0.000
+> 0.025
+> 0.050
+> 0.075
+> 0.100
+> 0.125
+> Density
+> = 2
+> MISE = 3.18 × 10 4
+> ISE 1= 2.88 × 10 4
+> g1;n= 100, N= 100, K= 6 20 020
+> x
+> 0.000
+> 0.025
+> 0.050
+> 0.075
+> 0.100
+> 0.125
+> Density
+> = 2
+> MISE = 3.18 × 10 4
+> ISE 2= 2.77 × 10 4
+> g2;n= 100, N= 100, K= 6 20 020
+> x
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> Density
+> = 2
+> MISE = 5.41 × 10 3
+> ISE 1= 8.61 × 10 4
+> g1;n= 100, N= 10, K= 3 20 020
+> x
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> Density
+> = 2
+> MISE = 5.41 × 10 3
+> ISE 2= 7.70 × 10 4
+> g2;n= 100, N= 10, K= 3 20 020
+> x
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> Density
+> = 2
+> MISE = 9.53 × 10 4
+> ISE 1= 8.50 × 10 4
+> g1;n= 10, N= 100, K= 3 20 020
+> x
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> Density
+> = 2
+> MISE = 9.53 × 10 4
+> ISE 2= 8.17 × 10 4
+> g2;n= 10, N= 100, K= 3
+
+Figure 1: MISE and estimated densities for different n, N and K (Experiment 1). Black: true density; red: estimated density from one realization. Only the estimates for the first two components are presented; other looks similar. 
+
+Experiment 2 . In this experiment, we study the sensitivity of our estimator to the tuning parameters h and M . We consider the baseline setting in Experiment 1, where (n, N, K ) = (100 , 100 , 3) and β = 2. When examining the effect of the bandwidth h, the number of bins M is fixed at M = 2 ⌊K log( N n )⌋ as in Experiment 1. We then let the bandwidth h vary over a grid of the form hℓ = [ K/ (N n )] αℓ , 1 ≤ ℓ ≤ L, where {αℓ}Lℓ=1 are equally spaced points in (0 , 1) with L = 20. Conversely, when studying the effect of M , the bandwidth h is fixed at its optimal value h = 0 .31 (obtained from Experiment 1) and we also let M vary over a logarithmically spaced grid centered at M0: M = M0 ·10 t, t ∈ [−0.2, 0.8], where 10 points are uniformly spaced in t. This two-step procedure isolates the influence of each tuning parameter while holding the other at the optimal level. The results are shown in Figure 2. As h increases, the performance of our estimator initially improves and then deteriorates, leading to a sweet spot. This is consistent with our theory, as h controls the bias-variance trade-off. The performance is insensitive to M in a wide range. This is also as anticipated, because by the design of our estimator, M only affects the topic modeling error, which is not the leading error term. 
+
+Experiment 3 . In this experiment, we compare our estimator with the one in Austern et al. (2025). Let ( n, N, K ) = (100 , 100 , 3). We construct g1(x), . . . , g K (x) as in (5.1)-(5.2). We take two values of β: β = 2 (high smoothness) and β = 0 .6 (moderate smoothness). Both methods have two tuning parameters, the bandwidth h and the bin size M . For a fair comparison, we use the ideal tuning parameters for both methods, which are determined by minimizing the true MISE. In detail, for the estimator in Austern et al. (2025), the optimal M is of the order M ′
+
+0 = ⌊(N n/ (log n)) 12θ1(β)+1 ⌋, with θ1(β) = ( β ∧ 1) · 1( β < 
+
+2) + 2β·1( β≥2) 2+ β . We consider a grid, M = M ′
+
+0 · 10 t, for 10 points of t that are uniformly spaced in [ −0.2, 0.8]. Similarly, let h′
+
+0 = ( N n )−1/(2 β+1) and consider a grid, h = h′
+
+0 · 10 t, for 
+
+21 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 10 3 10 2 10 1                     
+
+> Bandwidth h
+> 10 3
+> 10 2
+> MISE
+> MISE = 1.53 × 10 4
+> MISE vs Bandwidth ( n= 100, N= 100, K= 3) 10 2
+> Number of bins M
+> 10 4
+> 10 3
+> 10 2
+> MISE
+> MISE = 1.48 × 10 4
+> MISE vs M(n= 100, N= 100, K= 3)
+
+Figure 2: Effect of the bandwidth h and the number of bins M on MISE for n = 100, 
+
+N = 100 and K = 3 (Experiment 2). 20 points of t that are uniformly spaced in [ −0.7, 0.7]. Combining them gives 10 × 20 = 200 pairs of ( M, h ). For all pairs, M and h are at their optimal orders, and the differences across pairs lie in the constants. We select the ( M ∗, h ∗) that minimizes the true MISE over 100 repetitions. For our estimator, the optimal M is of the order M0 = ⌊K log( N n )⌋ and the optimal h is of the order h0 = ( K/ (N n )) 1/(2 β+1) . Since the performance is insensitive to 
+
+M , we fix M = 2 M0. Meanwhile, we consider a grid, h = h0 · 10 t, for 20 equally spaced t in [−0.7, 0.7]. We select the h∗ that minimizes the true MISE over 100 repetitions. By using such ideal tuning parameters, we can compare the best performances of these methods, without worrying about the effect of data-driven tuning parameter selection. In Figure 3, the first and second plots correspond to the case of β = 2, and the third and the fourth plots correspond to β = 0 .6. The estimated densities by our method (from one realization) are plotted in red, and the ones by the method in Austern et al. (2025) are plotted in blue. As discussed right below Theorem 4.3, two estimators have similar performances when 0 < β < 1, while our method has a strictly better performance when 
+
+β > 1. The numerical results here support our theoretical arguments. 20 0 20                   
+
+> x
+> 0.00
+> 0.02
+> 0.04
+> 0.06
+> 0.08
+> 0.10
+> 0.12
+> Density
+> = 2
+> MISE = 1.50 × 10 4
+> ISE 1= 1.64 × 10 420 020
+> x
+> 0.000
+> 0.025
+> 0.050
+> 0.075
+> 0.100
+> 0.125
+> Density
+> = 2
+> MISE = 7.71 × 10 4
+> ISE 1= 7.70 × 10 420 020
+> x
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> 0.20
+> Density
+> = 0.6
+> MISE = 2.41 × 10 4
+> ISE 1= 1.37 × 10 420 020
+> x
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> 0.20
+> Density
+> = 0.6
+> MISE = 2.66 × 10 3
+> ISE 1= 1.91 × 10 3
+
+Figure 3: Comparison of our estimator, which corresponds to the first and third plots, with the one in Austern et al. (2025), which corresponds to the second and fourth plots (Experiment 3). 
+
+6 Proof of the Minimax Upper Bound 
+
+In this section, we prove Theorem 4.1. Specifically, Section 6.1 contains preliminary lemmas, Section 6.2 presents a decomposition of the error into three terms, and Sections 6.3-6.5 
+
+22 Unmixing Nonparametric Densities 
+
+analyze each of the three terms separately. Proofs of secondary lemmas are relegated to the supplementary material. 
+
+6.1 Preliminaries 
+
+Our analysis frequently uses properties of a certain type of incomplete U -statistics. Suppose we have random variables: 
+
+{xij }1≤i≤n, 1≤j≤Ni are independent across i; for any fixed i, they are i.i.d. across j. (6.1) We first consider an incomplete U-process defined by these random variables and an arbitrary trivariate function h(x; y, z ): 
+
+Hn,N (x) = 1
+
+nN (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+h(x; xij , x ij ′ ). (6.2) 
+
+Lemma 6.1 (Integrated variance bound for incomplete U -processes) . Consider the incom-plete U -process in (6.2) . Suppose there exists bi > 0 such that E[R h2(x; xi1, x i2)dx ] ≤ b2 
+
+> i
+
+,for each 1 ≤ i ≤ n. Let θi(x) = E[h(x; xi1, x i2)] and θ(x) = n−1 Pni=1 θi(x). Then, 
+
+E
+
+Z 
+
+(Hn,N (x) − θ(x)) 2dx 
+
+
+
+≤ 4( σ2 + b2)
+
+nN ,
+
+where σ2 = n−1 Pni=1 E R (h(x; xi1, x i2) − θi(x)) 2dx  and b2 = n−1 Pni=1 b2 
+
+> i
+
+.
+
+We then consider an incomplete U-statistics defined by xij ’s and an arbitrary bi-viarate function h∗(x1, x 2): 
+
+H∗ 
+
+> n,N
+
+= 1
+
+nN (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+h∗(xij , x ij ′ ). (6.3) 
+
+Lemma 6.2 (Bernstein inequality for incomplete U -statistics) . Consider the incomplete U -statistic in (6.3) . Suppose there exists b > 0 such that max 1≤i≤n, 1≤j̸ =j′≤N |h∗(xij , x ij ′ )| ≤ b.Let θ = n−1 Pni=1 Eh∗(xi1, x i2) and σ2 = n−1 Pni=1 Var (h∗(xi1, x i2)) . For all δ ∈ (0 , 1) , with probability 1 − δ,
+
+|H∗ 
+
+> n,N
+
+− θ| ≤ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN .
+
+Both lemmas are proved in the supplementary material. The proofs use some known techniques for analyzing U-statistics, specially tailored to our setting where the random variables satisfy (6.1). For instance, the proof of Lemma 6.2 relies on decoupling the ran-domness in the tuple ( xij , x ij ′ , x iℓ , x iℓ ′ ) for j̸ = j′ and ℓ̸ = ℓ′.
+
+6.2 A decomposition of the error 
+
+For any ¯ ϵ > 0 and matrices ¯G ∈ RM ×K , ¯S ∈ Rn×M , and ¯T ∈ RM ×M , we define a mapping: 
+
+g( ¯G, ¯S, ¯T , ¯ϵ) := ¯G′ ¯G  ¯G′ ¯T ¯G + ¯ ϵI K
+
+−1 ¯G′ ¯S1n. (6.4) 
+
+23 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Our estimator in (4.1) is defined as 
+
+bg+(x) = g  bG, S (x), T, ϵ .
+
+To facilitate the analysis, we further introduce two intermediate quantities: 
+
+g∗(x) = g G, E[S(x)] , E[T ], 0, bg∗(x) = g G, S (x), T, ϵ . (6.5) The first estimator g∗(x) is the population counterpart of our estimator. The second one 
+
+bg∗(x) is an ideal version of our estimator assuming that the true topic matrix G is given. Now, we decompose the error bg(x) − g(x) into three terms: 
+
+bg+(x) − g(x) = g∗(x) − g(x)
+
+| {z }
+
+> bias
+
++ bg∗(x) − g∗(x)
+
+| {z }
+
+> variance
+
++ bg+(x) − bg∗(x)
+
+| {z }
+
+> secondary error
+
+. (6.6) The first term is the non-stochastic ‘bias’ term, the second term is the main stochastic error term, arising from the randomness in ( S, T ), and the third term is the secondary stochastic error term, due to estimating G by bG. We will control these three terms separately. 
+
+6.3 The non-stochastic ‘bias’ term 
+
+We bound the first term in (6.6). Recall that T and S(x) are defined in (1.8)-(1.9). Let 
+
+Kij (x) and Uijm be the same as in those definitions. We introduce a vector 
+
+k(x) =  K11 (x), K 21 (x), . . . , K n1(x)′ ∈ Rn. (6.7) For any fixed ( i, m ), E[Uijm ] and E[Kij (x)] are the same across j. In addition, ( Uijm , K ij (x)) is independent of Uij ′m′ when j̸ = j′ (this is true even when m = m′). We immediately have: 
+
+E[Tmm ′ ] = 
+
+> n
+
+X
+
+> i=1
+
+E[Ui1m] · E[Ui1m′ ], E[Smi (x)] = E[ki(x)] · E[Ui1m].
+
+Moreover, we note that E[Ui1m] = P(Xij ∈ B m) = PKk=1 πi(k)Gmk = ( GΠ′)mi . Combining it with the above equations gives 
+
+E[S(x)] = GΠ′diag  E[k(x)] , E[T ] = GΠ′ΠG′.
+
+We plug ( ¯G, ¯S, ¯T ) = ( G, E[S(x)] , E[T ]) into (6.4). It follows by direct calculations that 
+
+g∗(x) = (Π ′Π) −1Π′E[k(x)] . (6.8) Meanwhile, since our model implies that f (x) = Π g(x), we can write 
+
+g(x) = (Π ′Π) −1Π′f (x). (6.9) Comparing (6.9) with (6.8), the ‘bias’ term comes from approximating f (x) by E[k(x)]. Using properties of the kernel function K(·), we can prove the following lemma: 
+
+Lemma 6.3. Under Assumptions 1-3, there exists a constant C1 > 0 such that 
+
+Z
+
+∥g∗(x) − g(x)∥2dx ≤ C1Kh 2β .
+
+24 Unmixing Nonparametric Densities 
+
+6.4 The main stochastic error 
+
+We study the second term in (6.6). Define an event 
+
+F =
+
+
+
+λmin ( bG′T bG) ≥ ˜cKn M 2 log 2(n)
+
+
+
+. (6.10) Let IF be a Bernoulli variable indicating that the event F happens. We write 
+
+∥bg∗(x) − g∗(x)∥2 = ∥bg∗(x) − g∗(x)∥2 · IF + ∥bg∗(x) − g∗(x)∥2 · IFc
+
+≤ ∥ bg∗(x) − g∗(x)∥2 · IF + 2 ∥bg∗(x)∥2 · IFc + 2 ∥g∗(x)∥2 · IFc .
+
+It follows that 
+
+E
+
+Z 
+
+∥bg∗(x) − g∗(x)∥2dx 
+
+
+
+≤ E
+
+Z 
+
+∥bg∗(x) − g∗(x)∥2dx · IF
+
+
+
++ 2 E
+
+Z 
+
+∥bg∗(x)∥2dx · IFc
+
+
+
++ 2 P(Fc) ·
+
+Z
+
+∥g∗(x)∥2dx. (6.11) On the right hand side of (6.11), the first term is dominating. Therefore, we focus on con-trolling the first term. The other two terms will be considered in the end of this subsection. To study the first term in (6.11), we notice that on the event F, the quantity ϵ in (4.1) is exactly zero, so that 
+
+bg∗(x) = g G, S (x), T, 0. (6.12) When (6.12) holds, we can express bg∗(x) in terms of g∗(x) and some error terms. Recall that Q = G(G′G)−1. We further write Ω = Q(Π ′Π) −1 for brevity. 
+
+Lemma 6.4. Let bg∗(x) and g∗(x) be as defined in (6.5) . On the event F,
+
+bg∗(x) = IK + Ω ′(T − ET )Q−1g∗(x) + Ω ′(S − ES)1n
+
+. (6.13) When Ω ′(S − ES)1n and Ω ′(T − ET )Q are zero, the right hand side of (6.13) is exactly equal to g∗(x). Consequently, the difference between bg∗(x) and g∗(x) can be controlled by 
+
+∥Ω′(S − ES)1n∥ and ∥Ω′(T − ET )Q∥.
+
+Below, we study these two error terms separately. First, we consider the K-dimensional random vector Ω ′(S −ES)1n. For each 1 ≤ k ≤ K,define a tri-variate function 
+
+hk(x; x1, x 2) = 
+
+> M
+
+X
+
+> m=1
+
+Ωmk Kh(x − x1)1 {x2 ∈ B m}.
+
+Using the definition of S = S(x) in (1.9), we can immediately deduce that 
+
+e′
+
+> k
+
+Ω′(S − ES)1n = uk(x) − Euk(x), uk(x) := 
+
+> n
+
+X
+
+> i=1
+
+P  
+
+> 1≤j̸=j′≤Ni
+
+hk(x; Xij , X ij ′ )
+
+Ni(Ni − 1) . (6.14) Here, the variables {Xij }1≤i≤n, 1≤j≤N are independent across i; and for any fixed i, they are i.i.d. across j. Hence, uk(x) is an incomplete U -process indexed by x. Applying Lemma 6.1 to the specific form in (6.14), we can prove the following result: 
+
+25 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Lemma 6.5. Under Assumption 3, there exists a constant C2 > 0 such that 
+
+E
+
+Z 
+
+Ω′[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ C2(N nh )−1K2.
+
+Next, we study Ω ′(T −ET )Q. This is an asymmetric matrix. We first shift our attention to a symmetric matrix as follows: Note that Ω = Q(Π ′Π) −1. Since ∥(Π ′Π) −1∥ ≤ Cn −1K
+
+by Assumption 3(a), it follows that 
+
+∥Ω′(T − ET )Q∥ ≤ Cn −1K · ∥ Q′(T − ET )Q∥. (6.15) It remains to bound ∥Q′(T − ET )Q∥.We apply the approach in Vershynin (2010) to bound the spectral norm of the symmetric matrix Q′(T − ET )Q. Let Nϵ denote an ϵ-net of the unit sphere of RK . By (Vershynin, 2010, Lemma 5.4), 
+
+∥W ∥ ≤ (1 − 2ϵ)−1 max 
+
+> v∈N ϵ
+
+|v′W v |, for any symmetric matrix W ∈ RK×K . (6.16) To this end, the analysis reduces to bounding |v′Q′(T − ET )Qv | for a fixed unit-norm vector 
+
+v ∈ RK . By (1.8), 
+
+T =
+
+> n
+
+X
+
+> i=1
+
+1
+
+Ni(Ni − 1) 
+
+X 
+
+> 1≤j̸=j′≤N
+
+Q′Uij U ′ 
+
+> ij ′
+
+Q. 
+
+Let sij = v′Q′Uij . We have 
+
+v′Q′(T − ET )Qv = 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+ sij s′ 
+
+> ij ′
+
+− E[sij s′ 
+
+> ij ′
+
+]. (6.17) Since {sij }1≤i≤n, 1≤j≤N are independent random variables, the above defines an incomplete 
+
+U -statistic. We apply Lemma 6.2 to bound the right hand side of (6.17) and further combine this result with (6.16). It leads to the following lemma: 
+
+Lemma 6.6. Under the conditions of Theorem 4.1, there exists a constant C3 > 0 such that with probability 1 − o(( N n )−5),
+
+∥Ω′(T − ET )Q∥ ≤ C3(nN )−1/2pK(log( N n ) + K).
+
+Finally, we combine Lemmas 6.5-6.6 with the expression in (6.13). By some elementary analysis, we can prove the following lemma. 
+
+Lemma 6.7. Under the conditions of Theorem 4.1, there is a constant C4 > 0 such that 
+
+E
+
+Z 
+
+∥bg∗(x) − g∗(x)∥2dx · IF
+
+
+
+≤ C4K
+
+ K2
+
+N n + KN nh 
+
+
+
+.
+
+Lemma 6.7 bounds the first term in (6.11). We still need to bound the other two terms. In our analysis, we first deduce a high-probability lower bound for λmin ( bG′T bG). It implies that 
+
+P(Fc) = o(( N n )−5).
+
+26 Unmixing Nonparametric Densities 
+
+This permits us to control the third term in (6.11). Moreover, on the event Fc, λmin ( bG′T bG)is either larger than Kn M 2 log 3(n) , or smaller. In the first case, ϵ = 0; and in the second case, 
+
+ϵ = Kn/M 2. In both cases, it holds that 
+
+λmin 
+
+  bG′T bG + ϵI K
+
+ ≥ Kn M 2 log 3(n) .
+
+Using this result, we can derive an upper bound for ∥bg∗(x)∥2 over the event Fc. Denote this upper bound by ζn. Then, the second term in (6.11) is upper bounded by ζ2 
+
+> n
+
+· P(Fc), which can also be well-controlled. We formally prove the following lemma: 
+
+Lemma 6.8. Under the conditions of Theorem 4.1, there is a constant C′ 
+
+> 4
+
+> 0 such that 
+
+E
+
+Z 
+
+∥bg∗(x) − g∗(x)∥2dx 
+
+
+
+≤ C′
+
+> 4
+
+K
+
+ K2
+
+N n + KN nh 
+
+
+
+.
+
+6.5 The secondary stochastic error, and proof of Theorem 4.1 
+
+We now control the last term in (6.6). This error arises from not knowing G and estimating it by bG.Let F be the event in (6.10). Over the event F, we re-write bg(x) as a more explicit expression of bg∗(x). 
+
+Lemma 6.9. Write for brevity R = ( Q′T Q )−1(G′G)−1, ∆1 = bG′ bG − G′G, and ∆2 =
+
+bG′T bG − G′T G . Over the event F,
+
+bg(x) = IK + ( R∆2 − ∆1)( G′G + ∆ 1)−1−1bg∗(x) + R( bG − G)′S1n
+
+. (6.18) We note that the matrix R is relatively easy to study, using the result of Lemma 6.6. What remains is to study the matrices ∆ 1 and ∆ 2 and the vector R( bG − G)′S1n. All three quantities are related to the deviation of bG from G and T from E[T ]. We need the following lemma: 
+
+Lemma 6.10. Suppose the conditions of Theorem 4.1 hold. Let E denote the event that 
+
+∥T − E[T ]∥ ≤ M −1n and ∥Q′(T − E[T ]) Q∥ ≤ n/ (K log 1/2(N n )) , and let IE be the Bernoulli variable indicating that this event happens. There exist positive constants C5-C7 such that the following statements are true: 
+
+• ∥∆1∥ ≤ C5
+
+q KM ∥ bG − G∥, over the event E.
+
+• ∥R∆2∥ ≤ C6
+
+q KM ∥ bG − G∥, over the event E.
+
+• E
+
+hR ∥R( bG − G)′S1n∥2dx · IE
+
+i
+
+≤ C7M ∥ bG − G∥2.
+
+In order to apply Lemma 6.10, we must study the probability of the event E. This is contained in Lemma A.5 of the supplement, where we bound ∥T −E[T ]∥ and ∥Q′(T −E[T ]) Q∥
+
+and show that the event E has an overwhelming probability. 
+
+> 27
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+We now combine the statements in Lemma 6.10 with the expression of bg(x) in Lemma 6.9. Since this expression is only correct on the event F and the statements in Lemma 6.10 are with respect to the event E, we will consider an event 
+
+F∗ = F ∩ E .
+
+We then decompose the error similarly as in (6.11). We no longer provide these details but directly present the following lemma, whose proof is in the supplementary material. 
+
+Lemma 6.11. Under the conditions of Theorem 4.1, there is a constant C8 > 0 such that 
+
+E
+
+Z 
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+≤ C8
+
+
+
+M δ 2 
+
+> n
+
++ KM 4 log 4(N n )(N n )5h
+
+
+
+.
+
+The conclusion of Theorem 4.1 follows immediately by plugging Lemma 6.3, Lemma 6.8 and Lemma 6.11 into the decomposition in (6.6). 
+
+7 Proof sketch of the Minimax Lower Bound 
+
+In this section, we provide a sketch of the proof of Theorem 4.4, leaving the full version in the supplementary material. Let F∗ 
+
+> K
+
+be the space of K-densities, i.e., each element in F∗ 
+
+> K
+
+takes the form of g(x) = (g1(x), . . . , g K (x)) ′. For any g, eg ∈ F ∗ 
+
+> K
+
+, let 
+
+d(g, eg) := 
+
+Z 
+
+∥g(x) − eg(x)∥2dx 
+
+1/2
+
+=
+
+> K
+
+X
+
+> k=1
+
+∥gk − ˜gK ∥2
+
+> L2
+
+!1/2
+
+,
+
+where ∥ · ∥ L2 is the standard L2-norm. It is easy to see that d(·, ·) is a distance defined on Θ∗ (i.e., the triangular inequality holds). Recall that Θ β is the collection of all ( g, Π) such that Assumptions 1-3 are satisfied. We fix Π ∗ such that π∗ 
+
+> i
+
+= ek for nk out of n groups, where nk ≍ n/K and n1 + n2 + · · · + nK = n. Let FK (β, Π∗) be the collection of g such that ( g, Π∗) ∈ Θβ . To show the claim, it is sufficient to show that inf  
+
+> bg
+
+sup  
+
+> g∈F K(β, Π∗)
+
+E(g,Π∗)
+
+d2(bg, g) ≥ cϵ 2
+
+> n
+
+, with ϵ2 
+
+> n
+
+:= K
+
+ KN n 
+
+ 2β
+
+> 2β+1
+
+. (7.1) According to Theorem 2.7 of Tsybakov (2009), (7.1) holds if for some integer J ≥ 2, we can construct g(0) , g(1) , . . . , g(J) such that min  
+
+> 0≤s̸=s′≤J
+
+d2(g(s), g(s′)) ≥ cϵ 2
+
+> n
+
+, 1
+
+J
+
+> J
+
+X
+
+> s=1
+
+KL( Ps, P0) = O(log( J)) , (7.2) where Ps denotes the probability measure associated with the model (1.1)-(1.2) with pa-rameters g(s) and Π ∗, and KL( ·, ·) is the Kullback-Leibler divergence. We outline how to construct {g(s)}Js=0 . In the first step, we fix a properly large constant 
+
+T > 0 and construct g(0) such that (i) each g(0)  
+
+> k
+
+is in the Nikol’ski class with smoothness β
+
+28 Unmixing Nonparametric Densities 
+
+(i.e., satisfying Assumption 1), (b) each g(0)  
+
+> k
+
+has an anchor region (see Assumption 2) that is located in ( −∞ , −T ) ∪ (T, ∞), and (c) each g(0)  
+
+> k
+
+is uniformly lower bounded by a constant in [ −T, T ]. This step uses certain bump functions as in (5.1), and the construction details are in the supplement. In the second step, we perturb each g(0)  
+
+> k
+
+in the region of [ −T, T ]. Let 
+
+B =
+
+l N n K
+
+ 12β+1 m
+
+, δ = a0
+
+ KN n 
+
+ β
+
+> 2β+1
+
+, for a properly small constant a0 > 0.
+
+We divide [ −T, T ] into B equal intervals, and let x1, x 2, . . . , x B be the centers of these intervals. Let ψ be a function that is in the Nikol’ski class with smoothness β and satisfies: Support( ψ) = [ −1, 1] ,
+
+Z 10
+
+ψ(x)dx = 0 ,
+
+Z 10
+
+ψ2(x)dx = 1 , ∥ψ∥∞ < ∞.
+
+It can be shown that such ψ exists. We let 
+
+ϕb(x) := δ · ψ (Bx − xb) , 1 ≤ b ≤ B. 
+
+It is seen that {ϕb}Bb=1 have disjoint support within [ −T, T ], R ϕb(u)du = 0, and 
+
+Z
+
+ϕ2 
+
+> b
+
+(u)du ≍ δ2B−1.
+
+Let J = ⌈2KB/ 8⌉. The Gilbert-Varshamov bound implies that there exist ( J + 1) binary vectors ν(0) , . . . , ν (J) ∈ { 0, 1}KB , such that ν(0) = 0 and ∥ν(s) − ν(s′)∥1 ≥ KB/ 8 for all 0 ≤ s̸ = s′ ≤ J. We re-arrange each ν(s) into an K × B matrix Ω (s), and let ω(s) 
+
+> k,b
+
+denote its (k, b )th entry, for 1 ≤ k ≤ K and 1 ≤ b ≤ B. It follows that 
+
+|Ω(s) − Ω(s′)|1 := 
+
+> K
+
+X
+
+> k=1
+> B
+
+X
+
+> b=1
+
+|ω(s) 
+
+> k,b
+
+− ω(s′) 
+
+> k,b
+
+| ≥ KB/ 8. (7.3) We then construct g(1) , . . . , g(J) by 
+
+g(s) 
+
+> k
+
+(x) = g(0)  
+
+> k
+
+(x) + 
+
+> B
+
+X
+
+> b=1
+
+ω(s)
+
+> k,b
+
+ϕb(x), for 1 ≤ s ≤ J and 1 ≤ k ≤ K. (7.4) To show that these constructed g(s) satisfy (7.2), we note that by our construction, each 
+
+ϕb belongs to the Nikol’ski class with smoothness β, ϕb’s have disjoint supports, R ϕb(u)du =0, and ∥ϕb∥2 
+
+> L2
+
+= ∥ϕ1∥2 
+
+> L2
+
+≍ δ2B−1. It follows that each g(s) 
+
+> k
+
+is a density belonging to the Nikol’ski class, and by direct calculations, 
+
+d2 g(s), g(s′) = |Ω(s) − Ω(s′)| · ∥ ϕ1∥2 
+
+> L2
+
+≥ CKδ 2 ≥ cϵ 2
+
+> n
+
+.
+
+This proves the first part of (7.2). Furthermore, in the supplementary material, we show that max  
+
+> 1≤s≤J
+
+KL( Ps, P0) = O(N nδ 2).
+
+29 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Noticing that N nδ 2 = K 2β 
+
+> 2β+1
+
+(N n ) 12β+1 = KB , we immediately obtain: 1
+
+J
+
+> J
+
+X
+
+> s=1
+
+KL( Ps, P0) = O(N nδ 2) = O(KB ) = O(log J).
+
+This proves the second part of (7.2) and completes the proof. 
+
+8 Discussion 
+
+We consider linearly unmixing n convex combinations of nonparametric densities. We pro-pose a novel estimator and show that it attains the optimal rate of convergence in the whole smooth regime, offering a much stronger theoretical guarantee than existing methods in the literature. One limitation of our work is that we need K = O(( N n )c∗ 
+
+> β,d
+
+) for some constant 
+
+c∗ 
+
+> β,d
+
+∈ (0 , 1/4), in order to achieve the optimal rate. When K ≫ (N n )c∗ 
+
+> βd
+
+, we still obtain an upper bound (by letting M = K log( N n ) in the first equation of Section 4.4): 
+
+E
+
+Z 
+
+∥bg+(x) − g(x)∥2dx 
+
+
+
+≤ C0 · K
+
+ KN n 
+
+ 2β
+
+> 2β+1
+
++ K4 log 2(N n )
+
+N n 
+
+
+
+.
+
+Compared to the lower bound, there is an extra term. Whether this term can be improved is unclear. The first term above arises from the oracle estimator that is given Π, and the second term comes from the error of estimating Π. We conjecture that when K grows with 
+
+N n at a fast speed, the plug-in error of Π is fundamentally non-negligible. To support this conjecture, we may need tighter lower bound and/or tighter upper bound. We leave it to future work. In our framework, the dimension d is fixed. When d grows with N n , we may assume that Xij ’s are mappings of latent low-dimensional variables (e.g., this may hold in the first application in Section 1, where Xij ’s represent the contextual word embeddings from a pre-trained language model). Suppose the latent variables Zij are in dimension r. Let ϵij be i.i.d. variables from N (0 , σ 2Id), and let B be a d × r matrix such that B′B = Ir. A simple model is Xij = BZ ij + ϵij , where Zij follow the model in (1.1)-(1.2). In this set-up, we let 
+
+Xvect ∈ Rd× ¯N n be obtained by re-arranging all data points into a matrix. We can estimate 
+
+Zij ’s from the first r right singular vectors of Xvect . Then, estimating g1(z), . . . , g K (z) based on ˆZij ’s is an error-in-variable version of our problem. It is possible to adapt our estimator to this setting. This is an interesting future direction. While we focus on the nonparametric setting, our methodology is also useful in the parametric setting where gk(x) = g(x; λk) (e.g., see Zhang (2009); Doss et al. (2023) about related problems). The two steps of binning data into counts and applying topic modeling to estimate Π are still applicable. In the last step, instead of using KDE, we can consider a plug-in maximum likelihood estimator (MLE) for λ1, . . . , λ K , possibly with de-biasing. Compared to the variational EM, this approach will be computationally more efficient, due to leveraging existing topic modeling algorithms. Our model is closely related to mixed membership models in various applications (Agter-berg and Zhang, 2025; Ma et al., 2021). In these problems, the settings are typically fully parametric. Our methodology and theory together offer a possible way of extending them 
+
+> 30 Unmixing Nonparametric Densities
+
+to nonparametric settings. In a broad context, our model is also related to many statisti-cal problems involving latent structure and nonparametric components, where the estima-tion difficulty depends jointly on structural complexity and function smoothness; see, e.g., graphon estimation (Gao et al., 2015), semiparametric latent variable models (Liu et al., 2012), and smoothed tensor estimation (Lee and Wang, 2025; Han et al., 2024). In this paper, we assume the data are i.i.d. within each of the n groups, and our analysis relies on properties of incomplete U-statistics and incomplete U-processes. When the data within each group are non-independent, we may continue to apply our estimator, but the analysis will require more sophisticated technical tools (e.g., Wu (2008)). 
+
+Appendix A. Analysis of our estimator 
+
+A.1 General tools Lemma A.1 (Minkowski’s integral inequality) . Suppose that (S1, μ 1) and (S2, μ 2) are two sigma-finite measure spaces and F : S1 × S2 → R is measurable. Then, it holds that 
+
+Z 
+
+> S2
+
+Z
+
+> S1
+
+F (x, y ) μ1(dx )
+
+> p
+
+μ2(dy )
+
+1/p 
+
+≤
+
+Z
+
+> S1
+
+Z 
+
+> S2
+
+|F (x, y )|p μ2(dy )
+
+1/p 
+
+μ1(dx ),
+
+for 1 ≤ p < ∞.
+
+Lemma A.2 (Lemma 7.26 in Lafferty et al. (2008)) . Suppose that |X| ≤ c, EX = 0 and Var (X) = σ2. Then, for any t > 0,
+
+EetX ≤ exp 
+
+
+
+t2σ2
+
+ etc − 1 − tc 
+
+(tc )2
+
+ 
+
+.
+
+Lemma A.3 (Bernstein inequality) . Let Z1, Z 2, . . . , Z m be independent mean-zero vari-ables. Suppose |Zi| ≤ b and Pmi=1 Var( Zi) ≤ σ2. For any δ ∈ (0 , 1) , with probability 1 − δ,
+
+> m
+
+X
+
+> i=1
+
+Zi ≤ 2σplog(2 /δ ) + (4 b/ 3) log(2 /δ ).
+
+A.2 A useful lemma and its proof 
+
+In this subsection, we present a technical lemma. It contains a collection of statements that will be used repeatedly in the later proofs. Let f hist  
+
+> i
+
+∈ RM be defined such that f hist  
+
+> i
+
+(m) = R 
+
+> x∈B m
+
+fi(x)dx . Then, we write F hist =[f hist 1 , . . . , f hist  
+
+> n
+
+] ∈ RM ×n. By our model, for 1 ≤ i ≤ n, 1 ≤ j ≤ N, 1 ≤ m ≤ M ,
+
+E[Uijm ] = f hist  
+
+> i
+
+(m) = 
+
+> K
+
+X
+
+> k=1
+
+πi(k)ghist  
+
+> k
+
+(m).
+
+We can prove the following lemma: 
+
+Lemma A.4. Under Assumption 3, there exist positive constants c5-c7 with c5 ≥ 1 and 
+
+c6 ≥ 1 such that the following statements are true: 
+
+> 31
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+(a) E[S(x)] = diag( N −1E[K(x)] 1N )Π G′, and E[T ] = GΠ′ΠG′.(b) There exists a set of bins {B m}Mm=1 such that for all 1 ≤ m ≤ M , if M/K →∞, n−1 Pni=1 f hist  
+
+> i
+
+(m) ≤ c5M −1. Additionally, if we assume min 1≤k≤K
+
+Pni=1 πik ≥
+
+c−12 K−1n and min 1≤m≤M
+
+P 
+
+> k=1
+
+Gmk ≥ c−14 M −1K for some constants c2 > 1 and 
+
+c4 > 1, then n−1 Pni=1 f hist  
+
+> i
+
+(m) ≥ c−15 M −1.(c) If M/K → ∞ , there exists a set of bins {B m}Mm=1 such that λmin (Σ G) ≍ λmax (Σ G) ≍
+
+1, ∥G1K ∥∞ = O(M −1K) and the smallest entry of G1K is of the order M −1K.Consequently, c−16 (K/M )1/2 ≤ ∥ G∥ ≤ c6(K/M )1/2, ∥Q∥ ≤ c7(M/K )1/2.Proof of Lemma A.4: For (a), we have: for 1 ≤ i ≤ n and 1 ≤ m ≤ M ,
+
+E[Smi (x)] = 1
+
+N (N − 1) 
+
+X 
+
+> 1≤j̸=j′≤N
+
+E[Kij (x)] E[Uij ′m]= 1
+
+N
+
+X
+
+> 1≤j≤N
+
+E[Kij (x)] 
+
+> K
+
+X
+
+> k=1
+
+πi(k)ghist  
+
+> k
+
+(m).
+
+This proves the first identity. Moreover, for 1 ≤ m, m ′ ≤ M , we also have: 
+
+E[Tmm ′ ] = 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+E[Uijm ]E[Uij ′m′ ] = 
+
+> n
+
+X
+
+> i=1
+
+E[Ui1m]E[Ui2m′ ]=
+
+> K
+
+X
+
+> k,k =1
+
+ghist  
+
+> k
+
+(m)
+
+" nX
+
+> i=1
+
+πi(k)πi(k′)
+
+#
+
+ghist  
+
+> k′
+
+(m′).
+
+This proves the second equality. In the following, we first prove the last statement (c) as the proof of statement (b) relies on it. This is actually a discretized version of Assumption 3. Recall ¯ g(x) = K−1 PKk=1 gk(x). Define a CDF H(x) := R x 
+
+> −∞
+
+¯g(x)dx . Using the change of variable u = H(x), we have: Σg = 1
+
+K
+
+Z
+
+g(x)g(x)′dx = 1
+
+K
+
+Z 10
+
+˜g(u)˜ g(u)′ω(u)du, ω(u) := ¯ g(x(u)) ,
+
+where ˜ g(u) = (˜ g1(u), . . . , ˜gK (u)) ′ with ˜ gk(u) = gk(x(u)) /ω (u) for 1 ≤ k ≤ K. Now, we have translated the integral from R to [0 , 1]. Letting Im =   m−1 
+
+> M
+
+, mM
+
+, we then construct 
+
+Bm = H−1(Im) = x(Im). Hence, by construction, it holds that 
+
+Z
+
+> Bm
+
+¯g(x)dx = |Im| = 1
+
+M .
+
+This implies for any 1 ≤ m ≤ M , ( G1K )m = PKk=1 
+
+R 
+
+> Bm
+
+gk(x)dx = KM . Then, we focus on proving the eigenvalue bounds for Σ G. Its proof mainly follows (Austern et al., 2025, Proof of Lemma C.3), which we extend to the full domain R instead of a compact set and growing 
+
+K here. Using the same change of variable above, we have: 
+
+Gmk =
+
+Z
+
+> Bm
+
+gk(x)dx =
+
+Z
+
+> Im
+
+˜gk(u)du, 
+
+32 Unmixing Nonparametric Densities 
+
+and ΣG = MK
+
+> M
+
+X
+
+> m=1
+
+Z 
+
+> Im
+
+˜g(u)du 
+
+ Z 
+
+> Im
+
+˜g(u)du 
+
+′
+
+.
+
+Now, we define Σ˜g = 1
+
+K
+
+Z 10
+
+˜g(u)˜ g(u)′du. 
+
+Since both the integrals in Σ G and Σ ˜g are defined on [0 , 1], following (Austern et al., 2025, Proof of Lemma C.3), we immediately obtain ∥ΣG − Σ˜g∥ ≤ CKM −β∧1 = o(1) for some constant C > 0. Using Assumption 3, this implies λmin (Σ G) ≥ λmin (Σ ˜g) − o(1) and 
+
+λmax (Σ G) ≤ λmax (Σ ˜g) + o(1). It then remains to prove λmax (Σ ˜g) ≍ λmin (Σ ˜g) ≍ 1. Since max x ¯g(x) = O(1), we have C−1λmin (Σ g) ≤ λmin (Σ ˜g) for some constant C > 0. This proves the lower bound for the smallest eigenvalue. As for the upper bound for the largest eigenvalue, fix ϵ > 0 and let Sϵ = {x : ¯ g(x) ≥ ϵ} and Uϵ = H(Sϵ) ⊂ [0 , 1]. We then immediately have |U cϵ | = R 
+
+> Scϵ
+
+¯g(x)dx → 0 as ϵ → 0. We decompose: Σ˜g = Σ (ϵ)˜g + Rϵ,
+
+where Σ (ϵ)˜g = K−1 R 
+
+> Uϵ
+
+˜g(u)˜g(u)′du and Rϵ = K−1 R  
+
+> Ucϵ
+
+˜g(u)˜g(u)′du . As a result, we have 
+
+λmax (Σ ˜g) ≤ λmax (Σ (ϵ)˜g ) + λmax (Rϵ). First, on Sϵ, it holds that 
+
+λmax (Σ (ϵ)˜g ) ≤ ϵ−1λmax (Σ g).
+
+Moreover, on Scϵ , we can trivially bound λmax (Rϵ) = ∥Rϵ∥ ≤ K−1|U cϵ |∥ ˜g(u)∥2 ≤ C|U cϵ | → 0as ϵ → 0 for some constant C > 0. Hence, by picking ϵ properly large, we obtain λmax (Σ ˜g) = 
+
+O(1). Putting all bounds together, we proved the first statement in (c). For the rest of the bounds for ∥G∥ and ∥Q∥, the bound on ∥G∥ is a direct consequence of the bound on eigenvalues of Σ G. As for Q, it is seen that ∥Q∥ = ∥G(G′G)−1∥ ≤ ∥ G∥∥ (G′G)−1∥ =
+
+O(( K/M )1/2) · O(M/K ) = O(( M/K )1/2). Finally, for (b), note that for all 1 ≤ m ≤ M ,
+
+> n
+
+X
+
+> i=1
+
+f hist  
+
+> i
+
+(m) = 
+
+> K
+
+X
+
+> k=1
+
+ghist  
+
+> k
+
+(m)
+
+h nX
+
+> i=1
+
+πi(k)
+
+i
+
+≤
+
+ KX
+
+> k=1
+
+ghist  
+
+> k
+
+(m)
+
+| {z } 
+
+> ≤c4M−1K
+
+max 
+
+> k
+
+ nX
+
+> i=1
+
+πi(k)
+
+| {z }
+
+> ≤c2K−1n
+
+= O(M −1n),
+
+where we have used Assumption 3 and Lemma A.4 (c) in the inequality. The lower bound is similar. 
+
+A.3 Proof of Lemma 6.3 
+
+Let B = Σ−1Π′, where Σ = n−1Π′Π. Combining these notations with (6.8), we have 
+
+g∗(x) = ( N n )−1BE[K(x)] 1N . Therefore, for each 1 ≤ k ≤ K,
+
+g∗
+
+> k
+
+(x) = 1
+
+nN 
+
+> n
+
+X
+
+> i=1
+
+bi(k)
+
+> N
+
+X
+
+> j=1
+
+E[Kh(x − Xij )] = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+bi(k)E[Kh(x − Xi1)] ,
+
+33 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+where the last equality is because {Xij }Nj=1 are i.i.d. variables. Recall that fi(x) is the density of Xi1; and under our model, fi(x) = PKℓ=1 πi(ℓ)gℓ(x). It follows that 
+
+g∗
+
+> k
+
+(x) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+bi(k)
+
+Z
+
+Kh(x − y)fi(y)dy =
+
+> K
+
+X
+
+> ℓ=1
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+bi(k)πi(ℓ)
+
+! Z
+
+Kh(x − y)gℓ(y)dy. 
+
+Since n−1BΠ = n−1(n−1Π′Π) −1Π′Π = I, we have 1
+
+> n
+
+Pni=1 bi(k)πi(ℓ) is equal to 1 if k = ℓ
+
+and 0 otherwise. It follows that 
+
+g∗
+
+> k
+
+(x) = 
+
+Z
+
+Kh(x − y)gk(y)dy. (A.1) We now use (A.1) to bound the difference between g∗
+
+> k
+
+(x) and gk(x). Recall that Kh(x) =  
+
+> 1
+> h
+
+K( xh ). For 1 ≤ k ≤ K, it is seen that 
+
+e′
+
+> k
+
+(g∗(x) − g(x)) = g∗
+
+> k
+
+(x) − gk(x)is actually the bias of the KDE of gk with bandwidth h. Therefore, it is bounding the mean integrated squared error (MISE). The proof is relatively standard. See (Tsybakov, 2009, Proposition 5.1). For completeness, we include it in the following. Since we assume all gk’s belong to the Nikol’ski class with smoothness β > 0, using Taylor expansion (with integral form of the remainder, see Apostol (1991)), it holds that 
+
+gk(uh + x) = g(x) + g′(x)uh + . . . + (uh )ℓ
+
+(ℓ − 1)! 
+
+Z 10
+
+(1 − τ )ℓ−1g(ℓ)(x + τ uh )dτ, 
+
+where ℓ = ⌊β⌋. Then, using the assumption that the kernel K is of order ℓ (Assumption 3 (c)) that R uj K(u)du = 0 for j = 1 , . . . , ℓ , we have: 
+
+g∗
+
+> k
+
+(x) − gk(x) = 
+
+Z
+
+K(u)( gk(uh + x) − gk(x)) du 
+
+=
+
+Z
+
+K(u) (uh )ℓ
+
+(ℓ − 1)! 
+
+Z 10
+
+(1 − τ )ℓ−1g(ℓ)(x + τ uh )dτ du 
+
+=
+
+Z
+
+K(u) (uh )ℓ
+
+(ℓ − 1)! 
+
+Z 10
+
+(1 − τ )ℓ−1(g(ℓ)(x + τ uh ) − g(ℓ)(x)) dτ du. 
+
+Then, using Minkowski’s integral inequality in Lemma A.1 twice and the assumption that the kernel K is of order ℓ (Assumption 3 (c)) that R |u|β |K (u)|du < ∞, we can further obtain the bound: 
+
+Z
+
+(g∗
+
+> k
+
+(x) − gk(x)) 2dx ≤
+
+Z Z
+
+|K (u)| (uh )ℓ
+
+(ℓ − 1)! ×
+
+Z 10
+
+(1 − τ )ℓ−1|g(ℓ)(x + τ uh ) − g(ℓ)(x)|dτ du 
+
+!2
+
+dx 
+
+≤
+
+Z
+
+|K (u)| (uh )ℓ
+
+(ℓ − 1)! ×
+
+34 Unmixing Nonparametric Densities 
+
+"Z Z 10
+
+(1 − τ )ℓ−1|g(ℓ)(x + τ uh ) − g(ℓ)(x)|dτ 
+
+2
+
+dx 
+
+# 12
+
+du 
+
+!2
+
+≤
+
+Z 
+
+|K (u)| (uh )ℓ
+
+(ℓ − 1)! 
+
+Z 10
+
+(1 − τ )ℓ−1L|uh |β−ℓdτ 
+
+
+
+du 
+
+2
+
+≤
+
+ Lℓ!
+
+Z
+
+|u|β |K (u)|du 
+
+2
+
+h2β ,
+
+where R |u|β |K (u)|du < ∞. Taking the sum over all 1 ≤ k ≤ K, it then implies the desired bound. 
+
+A.4 Proof of Lemma 6.4 
+
+Using the definitions in (6.5), we immediately have: 
+
+bg∗(x) − g∗(x) = G′G(G′T G )−1G′S1n − G′G(G′ET G )−1G′ES1n
+
+= G′G(G′ET G )−1G′(S − ES)1n + G′G(G′T G )−1 − (G′ET G )−1G′S1n
+
+= G′G(G′ET G )−1h
+
+G′(S − ES)1n + ( G′ET G − G′T G )( G′T G )−1G′S1n
+
+i
+
+= (Π ′Π) −1Q′(S − ES)1n + Q′(ET − T )Q bg∗(x)
+
+= Ω ′(S − ES)1n − Ω′(T − ET )Q bg∗(x), (A.2) where in the third line we have used the equality of A−1 − B−1 = B−1(B − A)A−1 (for any symmetric matrices A and B), in the fourth line we have plugged in the expression of E[T ]in Lemma A.4 (a), in the fifth line we have used Q = G(G′G)−1 and the definition of bg∗(x), and the last line is due to the definition of Ω = Q(Π ′Π) −1.Note that (A.2) is a linear equation on bg∗(x). Solving this equation gives the claim. 
+
+A.5 Proof of Lemma 6.1 
+
+We decompose Hn,N (x) as follows: 
+
+Hn,N (x) = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+Hi(x), Hi(x) := 1
+
+N (N − 1) 
+
+X 
+
+> 1≤j̸=j′≤N
+
+h(x; xij , x ij ′ ),
+
+where Hi(x)’s are independent across i. Meanwhile, θ(x) = 1
+
+> n
+
+Pni=1 θi(x). Hence, using Fubini’s theorem, 
+
+E
+
+ Z 
+
+(Hn,N (x) − θ(x)) 2dx 
+
+
+
+=
+
+Z
+
+E
+
+ 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+(Hi(x) − θi(x)) 
+
+2
+
+dx 
+
+= 1
+
+n2
+
+X
+
+> 1≤i,i ′≤n
+
+Z
+
+E(Hi(x) − θi(x))( Hi′ (x) − θi′ (x)) dx 
+
+= 1
+
+n2
+
+> n
+
+X
+
+> i=1
+
+Z
+
+E(Hi(x) − θi(x)) 2]dx, (A.3) 
+
+35 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+where in the third line we have used the independence across Hi(x) and the fact that 
+
+E[Hi(x)] = θi(x). It remains to bound R E[( Hi(x)−θi(x)) 2]dx . Let ¯hi,j,j ′ (x) := h(x; xij , x ij ′ )−θi(x). Then, 
+
+Hi(x) − θi(x) = 1  
+
+> N(N−1)
+
+P  
+
+> 1≤j̸=j′≤N
+
+¯hi,j,j ′ (x). We immediately have 
+
+Z
+
+E(Hi(x) − θi(x)) 2]dx = 1
+
+N 2(N − 1) 2
+
+X 
+
+> j̸=j′
+
+X 
+
+> l̸=l′
+
+Z
+
+E¯hi,j,j ′ (x)¯hi,l,l ′ (x)dx. (A.4) Now, we divide the double sum into three parts. 
+
+Case 1. The disjoint pairs are {j, j ′} ∩ { l, l ′} = ∅. Due to independence, such terms are zero. 
+
+Case 2. The diagonal terms correspond to the pairs ( j, j ′) = ( l, l ′). There are N (N − 1) terms and each of them satisfies (using Fubini’s theorem) 
+
+Z
+
+E[¯hi,j,j ′ (x)¯hi,l,l ′ (x)] dx = E
+
+Z 
+
+¯hi,j,j ′ (x)¯hi,l,l ′ (x)dx 
+
+
+
+= σ2 
+
+> i
+
+.
+
+Case 3. The overlapping pairs correspond to the case |{ j, j ′} ∩ { l, l ′}| = 1, where ¯hi,j,j ′ (x) and ¯hi,l,l ′ (x) are still dependent. There are at most 4 N (N − 1)( N − 2) such pairs with each satisfying 
+
+Z
+
+E[¯hi,j,j ′ (x)¯hi,l,l ′ (x)] dx ≤
+
+Z 
+
+E[¯h2 
+
+> i,j,j ′
+
+(x)] dx 
+
+ 12 Z 
+
+E[¯h2 
+
+> i,l,l ′
+
+(x)] dx 
+
+ 12
+
+≤ 4b2 
+
+> i
+
+,
+
+where we used Cauchy–Schwarz inequality and the assumption R E[h2(x; xi1, x i2)] dx =
+
+E[R h2(x; xi1, x i2)dx ] ≤ b2 
+
+> i
+
+for 1 ≤ i ≤ n by Fubini’s theorem. Finally, combing all cases, there exists a constant C > 0 such that 
+
+E
+
+Z 
+
+(Hi(x) − θi(x)) 2dx 
+
+
+
+≤ 1
+
+N 2(N − 1) 2
+
+ N (N − 1) σ2 
+
+> i
+
++ 4 N (N − 1)( N − 2) b2
+
+> i
+
+
+
+≤ 4( σ2 
+
+> i
+
++ b2 
+
+> i
+
+)
+
+N .
+
+Plugging it in (A.3), it yields that 
+
+E
+
+Z 
+
+(Hn,N (x) − θ(x)) 2dx 
+
+
+
+≤ 4( σ2 + b2)
+
+nN .
+
+This is the desired integrated variance bound. 
+
+A.6 Proof of Lemma 6.5 
+
+Recall that in (6.14), it is seen that for each 1 ≤ k ≤ K, n−1e′
+
+> k
+
+Ω′(S −E[S]) 1n can be written as a (centered) U-process in (6.2) indexed by x with 
+
+h(x; Xij , X ij ′ ) = 
+
+> M
+
+X
+
+> m=1
+
+Ωmk Kh(x − Xij )1 {Xij ′ ∈ B m}.
+
+36 Unmixing Nonparametric Densities 
+
+Hence, for each 1 ≤ k ≤ K, we shall aply Lemma 6.1. To this end, in the following, we will bound the quantities b2 and σ2 given in Lemma 6.1. First, we focus on b2. For each 1 ≤ k ≤ K and 1 ≤ i ≤ n,
+
+b2 
+
+> i
+
+= E
+
+Z 
+
+h2(x; xi1, x i2)dx 
+
+
+
+= E
+
+Z 
+
+K2
+
+> h
+
+(x − xi1)dx 
+
+
+
+· E
+
+
+
+> M
+
+X
+
+> m=1
+
+Ωmk 1{xi2 ∈ B m}
+
+!2
+
+= h−1
+
+Z
+
+K2(z)dz ·
+
+> M
+
+X
+
+> m=1
+
+f hist  
+
+> i
+
+(m)Ω 2 
+
+> mk
+
+≤ Ch −1
+
+> M
+
+X
+
+> m=1
+
+f hist  
+
+> i
+
+(m)Ω 2
+
+> mk
+
+,
+
+where we have used the condition (4.2). Using Lemma A.4 (b), it then yields that 
+
+b2 = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+b2 
+
+> i
+
+≤ Ch −1M −1
+
+> M
+
+X
+
+> m=1
+
+Ω2
+
+> mk
+
+.
+
+Moreover, for any 1 ≤ k ≤ K and 1 ≤ i ≤ n, note that by Fubini’s theorem, 
+
+σ2 
+
+> i
+
+= E
+
+Z 
+
+(h(x; Xi1, X i2) − E[h(x; Xi1, X i2)]) 2dx 
+
+
+
+=
+
+Z
+
+Var[ h(x; Xi1, X i2)] dx 
+
+≤
+
+Z
+
+E[K2
+
+> h
+
+(x − Xi1)] dx · E
+
+" MX
+
+> m=1
+
+γkm 1{Xi2 ∈ B m}
+
+#2
+
+.
+
+This is the exactly the same bound in b2 
+
+> i
+
+above. Using the same argument, we obtain: 
+
+σ2 = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+σ2 
+
+> i
+
+≤ Ch −1M −1
+
+> M
+
+X
+
+> m=1
+
+Ω2
+
+> mk
+
+.
+
+Finally, using the bound in Lemma 6.1 and summing over k = 1 , . . . , K , it yields that 
+
+E
+
+Z 
+
+n−1Ω′[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ C(N nh )−1M −1
+
+> K
+
+X
+
+> k=1
+> M
+
+X
+
+> m=1
+
+Ω2
+
+> mk
+
+.
+
+Note that the definition of the operator norm is ∥Ω∥ = sup ∥v∥=1 ∥Ωv∥. Taking a special case v = ek for 1 ≤ k ≤ K, it holds that PMm=1 Ω2 
+
+> mk
+
+≤ ∥ Ω∥2 for 1 ≤ k ≤ K. Thus, we conclude 
+
+E
+
+Z 
+
+n−1Ω′[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ C(N nh )−1M −1K∥Ω∥2.
+
+Furthermore, using Lemma A.4 (c), we have: 
+
+∥Ω∥2 ≤ ∥ Q∥2∥(Π ′Π) −1∥2 = n−2∥Q∥2∥Σ−1∥2 ≤ Cn −2 MK K2 = Cn −2KM. 
+
+Therefore, we obtain: 
+
+E
+
+Z 
+
+Ω′[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ C(N nh )−1K2.
+
+37 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+A.7 Proof of Lemma 6.2 
+
+Let k = ⌈ N 
+
+> 2
+
+⌉, the smallest integer not less than N 
+
+> 2
+
+. For each 1 ≤ i ≤ n, set 
+
+Wi(xi1, . . . , x iN ) := h(xi1, x i2) + h(xi3, x i4) + . . . + h(xi, 2k−1, x i, 2k)
+
+k ,
+
+where we simply set h(xi, 2k−1, x i, 2k) = 0 if 2 k > N . Here, for each 1 ≤ i ≤ n, we break our sample into k non-overlapping blocks of size 2. We then have: 
+
+k X 
+
+> σ=( σ(1) ,...,σ (N)) ∈SN
+
+Wi(xiσ (1) , . . . , x iσ (N )) = k(N − 2)! X 
+
+> 1≤j̸=j′≤N
+
+h(xij , x ij ′ ),
+
+where SN is the permutation group on {1, . . . , N }. This implies: 
+
+Hn,N = 1
+
+nN !
+
+> n
+
+X
+
+> i=1
+
+X
+
+> σ=( σ1,...,σ n)∈SN
+
+Wi(xiσ (1) , . . . , x iσ (N )).
+
+Let Ti,σ := Wi(xiσ (1) , . . . , x iσ (N )) − θi. Note that for each i, Wi(xiσ (1) , . . . , x iσ (N )) is an average of k i.i.d. random variables with mean θi such that Ti,σ is mean zero. We then obtain: 
+
+Hn,N − θ =: 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+Hi,
+
+where Hi is given by 
+
+Hi = 1
+
+N !
+
+X
+
+> σ=( σ1,...,σ n)∈SN
+
+Ti,σ .
+
+Now, for t > 0, we apply the Chernoff technique: for any λ > 0, 
+
+P(Hn,N − θ > t ) = P
+
+> n
+
+X
+
+> i=1
+
+Hi > nt 
+
+!
+
+≤ e−λnt Eeλ Pni=1 Hi
+
+= e−λnt nY
+
+> i=1
+
+EeλH i ≤ e−λnt nY
+
+> i=1
+
+ 1
+
+N !
+
+X
+
+> σ∈SN
+
+EeλT i,σ 
+
+ , (A.5) where the last step is from Jensen’s inequality. Here, note that according to the definition of Ti,σ , it is an average of k i.i.d. random variables. By independence and Lemma A.2, we have: 
+
+EeλT i,σ =
+
+> k
+
+Y
+
+> j=1
+
+Eeλ 1   
+
+> k(h(xi, 2j−1,x i, 2j)−θi)
+
+≤ exp λ2 ˜σ2
+
+> i
+
+e2˜bλ − 1 − 2˜bλ 
+
+(2 ˜bλ )2
+
+!
+
+,
+
+where ˜b = k−1b and ˜ σ2 
+
+> i
+
+= k−1σ2 
+
+> i
+
+. Plugging this back in (A.5), it yields that 
+
+P(Hn,N − θ > t ) ≤ e−λnt nY
+
+> i=1
+
+exp λ2 ˜σ2
+
+> i
+
+e2˜bλ − 1 − 2˜bλ 
+
+(2 ˜bλ )2
+
+!
+
+38 Unmixing Nonparametric Densities 
+
+= e−λnt exp λ2n˜σ2 e2˜bλ − 1 − 2˜bλ 
+
+(2 ˜bλ )2
+
+!
+
+,
+
+where ˜ σ2 = n−1 Pni=1 ˜σ2 
+
+> i
+
+= n−1 Pni=1 k−1σ2 
+
+> i
+
+. Take λ = (2 ˜b)−1 log 
+
+
+
+1 + 2 ˜bt ˜σ−2
+
+
+
+to obtain 
+
+P(Hn,N − θ > t ) ≤ exp − n˜σ2
+
+(2 ˜b)2 ϕ 2˜bt 
+
+˜σ2
+
+!! 
+
+,
+
+where ϕ(x) = (1 + x) log(1 + x) − x and it holds that ϕ(x) ≥ x2/(2 + 2 x/ 3) for all x ≥ 0. Then, it implies 
+
+P(Hn,N − θ > t ) ≤ exp 
+
+
+
+− nt 2
+
+2˜ σ2 + 4 ˜bt/ 3
+
+
+
+≤ exp 
+
+
+
+− 12 min 
+
+ nt 2
+
+2˜ σ2 , 3nt 2
+
+4˜bt 
+
+ 
+
+.
+
+Repeating for the other side gives us: 
+
+P(|Hn,N − θ| > t ) ≤ 2exp 
+
+
+
+− nt 2
+
+2˜ σ2 + 4 ˜bt/ 3
+
+
+
+≤ 2exp 
+
+
+
+− 12 min 
+
+ nt 2
+
+2˜ σ2 , 3nt 
+
+4˜b
+
+ 
+
+. (A.6) Setting 
+
+t = max 
+
+(
+
+2˜ σ
+
+r log(2 /δ )
+
+n , 8˜b log(2 /δ )3n
+
+)
+
+= max 
+
+(
+
+2σ
+
+r log(2 /δ )
+
+nk , 8b log(2 /δ )3nk 
+
+)
+
+,
+
+and noting that k ≥ N/ 2, we obtain the first concentration inequality. 
+
+A.8 Proof of Lemma 6.6 
+
+We present a technical lemma as follows: 
+
+Lemma A.5. Under the conditions of Theorem 4.1, there exists a constant C3 > 0 such that with probability 1 − o(( N n )−5) simultaneously, 
+
+∥T − E[T ]∥ ≤ C3
+
+r nK (log( N n ) + M )
+
+N M 2 + log( N n ) + MN
+
+!
+
+, (A.7) 
+
+∥Q′(T − E[T ]) Q∥ ≤ C3(N K )−1/2pn(log( N n ) + K). (A.8) 
+
+Furthermore, it holds that P(E) ≥ 1 − o(( N n )−5).
+
+Given Lemma A.5, Lemma 6.6 follows immediately by inserting (A.8) into (6.15). We now prove Lemma A.5. Recall that 
+
+T − E[T ] = 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+ Uij U ′ 
+
+> ij ′
+
+− E[Uij ]E[U ′ 
+
+> ij
+
+].
+
+39 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+We use the tool in Vershynin (2010) to bound the spectral norm. Fix an ϵ-net, Nϵ, of the unit sphere of RM . By (Vershynin, 2010, Lemma 5.4), ∥T − E[T ]∥ ≤ (1 − 2ϵ)−1 max v∈N ϵ |v′(T −
+
+ET )v| = 2 max v∈N ϵ |v′(T − ET )v| if we set ϵ = 1 /4. Then, note that 
+
+n−1v′(T − ET )v = 1
+
+nN (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+(v′Uij )( v′Uij ′ ) − (v′E[Uij ])( v′E[Uij ′ ]) 
+
+can be viewed as a U-statistic in (6.3) with 
+
+h(Xij , X ij ′ ) = ( v′Uij )( v′Uij ′ ).
+
+In order to apply Lemma 6.2, we will bound b and σ in Lemma 6.2 in the following. First, it is seen that |v′Uij | ≤ ∥ v∥∥ Uij ∥. Here, ∥v∥ = 1 and ∥Uij ∥2 = PMm=1 U 2 
+
+> ijm
+
+= 1. It yields that 
+
+|v′Uij || v′Uij ′ | ≤ ∥ v∥2∥Uij ∥∥ Uij ′ ∥ ≤ 1 =: b
+
+Next, for 1 ≤ i ≤ n, due to the independence of Uij and Uij ′ for j̸ = j′, we have: Var (v′Uij )( v′Uij ′ ) ≤ E (v′Uij )2 E (v′Uij ′ )2 .
+
+Then, it is seen that 
+
+E (v′Uij )2 = E
+
+" MX
+
+> m=1
+
+vmUijm 
+
+#2
+
+=
+
+> M
+
+X
+
+> m=1
+
+v2
+
+> m
+
+f hist  
+
+> i
+
+(m).
+
+The same bound also holds for j′ similarly. Thus, we obtain: 
+
+> n
+
+X
+
+> i=1
+
+Var (v′Uij )( v′Uij ′ ) ≤
+
+> M
+
+X
+
+> m=1
+> M
+
+X
+
+> m′=1
+
+v2
+
+> m
+
+v2
+
+> m′
+> n
+
+X
+
+> i=1
+
+f hist  
+
+> i
+
+(m)f hist  
+
+> i
+
+(m′).
+
+We’d like to bound the entrywise maximum norm of the M × M matrix F hist (F hist )′.Lemma A.4 (c) implies that ∥G′em∥1 = O(K/M ) for each 1 ≤ m ≤ M . As a result, for any 1 ≤ m, s ≤ M ,
+
+e′
+
+> m
+
+F hist (F hist )′es = e′
+
+> m
+
+G(Π ′Π) G′es ≤ ∥ Π′Π∥max ∥G′em∥1∥G′es∥1
+
+= O(n/K ) · O(K2/M 2) = O(nKM −2).
+
+Since ∥Q∥2 = O(M/K ) by Lemma A.4 (c), we immediately have 
+
+> n
+
+X
+
+> i=1
+
+Var (v′Uij )( v′Uij ′ ) ≤ ∥ v∥4 · ∥ (F hist )′F hist ∥max = O(nKM −2).
+
+This then implies σ2 = n−1 Pni=1 Var (v′Uij )( v′Uij ′ ) ≤ CKM −2. Therefore, using Lemma 6.2, it holds that 
+
+P |n−1v′(T − ET )v| ≥ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN 
+
+!
+
+< δ. 
+
+40 Unmixing Nonparametric Densities 
+
+Taking the union bound over all vectors in Nϵ, we have: 
+
+P max 
+
+> v∈N ϵ
+
+|n−1v′(T − ET )v| ≥ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN 
+
+!
+
+< |N ϵ|δ. 
+
+Here, since we set ϵ = 1 /4, according to (Vershynin, 2010, Lemma 5.2), |N 1/4| ≤ 9M . It then yields that 
+
+P max 
+
+> v∈N ϵ
+
+|n−1v′(T − ET )v| ≥ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN 
+
+!
+
+< 9M δ. 
+
+Setting 9 M δ = o(( N n )−5) and plugging in the bounds of b and σ2 above, we then have: with probability 1 − o(( N n )−5), 
+
+∥n−1(T − E[T ]) ∥ ≤ 2 max 
+
+> v∈N ϵ
+
+|n−1v′(T − ET )v| ≤ 4σ
+
+r 2 log(2 /δ )
+
+nN + 32 b log(2 /δ )3nN 
+
+≤ C
+
+r K(log( N n ) + M )
+
+N nM 2 + log( N n ) + MnN 
+
+!
+
+.
+
+This shows that 
+
+∥T − E[T ]∥ ≤ C
+
+r nK (log( N n ) + M )
+
+N M 2 + log( N n ) + MN
+
+!
+
+.
+
+Moreover, under the assumption that K ≤ M ≤ [N n/ log 2(N n )] 1/2, it implies: 
+
+∥T − E[T ]∥ ≤ CM −1n. (A.9) The proof for the second bound on ∥Ω′(T − E[T ]) Q∥ is similar. Let Vij = Q′Uij . Recall that 
+
+Q′(T − E[T ]) Q = 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+ Vij V ′ 
+
+> ij ′
+
+− πiπ′
+
+> i
+
+.
+
+Fix an ϵ-net, Nϵ, of the unit sphere of RK . By (Vershynin, 2010, Lemma 5.4), ∥Q′(T −
+
+E[T ]) Q∥ ≤ (1 − 2ϵ)−1 max v∈N ϵ |v′Q′(T − ET )Qv | = 2 max v∈N ϵ |v′Q′(T − ET )Qv | if we set 
+
+ϵ = 1 /4. Then, note that 
+
+n−1v′Q′(T − ET )Qv = 1
+
+nN (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> 1≤j̸=j′≤N
+
+(v′Vij )( v′Vij ′ ) − (v′πi)( v′πi)
+
+can be viewed as a U-statistic in (6.3) with 
+
+h(Xij , X ij ′ ) = ( v′Vij )( v′Vij ′ ).
+
+In order to apply Lemma 6.2, we will bound b and σ in Lemma 6.2 in the following. 
+
+41 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+First, it is seen that |v′Vij | ≤ ∥ v∥∥ Vij ∥ ≤ ∥ v∥∥∥ (G′G)−1∥∥ G′Uij ∥. Here, ∥v∥ = 1 and according to Lemma A.4 (c), ∥(G′G)−1∥ = O(M K −1). Moreover, according to Lemma A.4 (c), we have: 
+
+∥G′Uij ∥ ≤ ∥ G′Uij ∥1 ≤ max  
+
+> 1≤m≤M
+
+∥G′em∥1 ≤ CM −1K. 
+
+Then, it yields that |v′Vij | ≤ C for some constant C > 0. Similarly, we also have |v′πi| ≤ C.Then, it is seen that we can take b = C for some constant C > 0. Next, for 1 ≤ i ≤ n, due to the independence of Vij and Vij ′ for j̸ = j′, we have: Var (v′Vij )( v′Vij ′ ) ≤ E (v′Vij )2 E (v′Vij ′ )2 .
+
+Let ˜ v = Qv such that v′Vij = ˜ v′Uij . Then, it is seen that 
+
+E (v′Vij )2 = E
+
+" MX
+
+> m=1
+
+˜vmUijm 
+
+#2
+
+=
+
+> M
+
+X
+
+> m=1
+
+˜v2
+
+> m
+
+f hist  
+
+> i
+
+(m).
+
+The same bound also holds for j′ similarly. Thus, we obtain: 
+
+> n
+
+X
+
+> i=1
+
+Var (v′Vij )( v′Vij ′ ) ≤
+
+> n
+
+X
+
+> i=1
+> M
+
+X
+
+> m=1
+
+˜v2
+
+> m
+
+f hist  
+
+> i
+
+(m)
+
+!2
+
+=
+
+> M
+
+X
+
+> m,m ′=1
+
+˜v2 
+
+> m
+
+˜v2
+
+> m′
+> n
+
+X
+
+> i=1
+
+f hist  
+
+> i
+
+(m)f hist  
+
+> i
+
+(m′).
+
+Since ∥Q∥2 = O(M/K ) by Lemma A.4 (c) and we have shown above that ∥(F hist )′F hist ∥max =
+
+O(nKM −2), we immediately have 
+
+> n
+
+X
+
+> i=1
+
+Var (v′Vij )( v′Vij ′ ) ≤ ∥ Qv ∥4 · ∥ (F hist )′F hist ∥max ≤ O(M 2/K 2) · O(nKM −2)= O(nK −1).
+
+This implies σ2 = n−1 Pni=1 Var (v′Vij )( v′Vij ′ ) ≤ CK −1. Therefore, using Lemma 6.2, it holds that 
+
+P |n−1v′Q′(T − ET )Qv | ≥ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN 
+
+!
+
+< δ. 
+
+Taking the union bound over all vectors in Nϵ, we have: 
+
+P max 
+
+> v∈N ϵ
+
+|n−1v′Q′(T − ET )Qv | ≥ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN 
+
+!
+
+< |N ϵ|δ. 
+
+Here, since we set ϵ = 1 /4, according to (Vershynin, 2010, Lemma 5.2), |N 1/4| ≤ 9K . It then yields that 
+
+P max 
+
+> v∈N ϵ
+
+|n−1v′Q′(T − ET )Qv | ≥ 2σ
+
+r 2 log(2 /δ )
+
+nN + 16 b log(2 /δ )3nN 
+
+!
+
+< 9K δ. 
+
+42 Unmixing Nonparametric Densities 
+
+Setting 9 K δ = o(( N n )−5) and plugging in the bounds of b and σ2 above, we then have: with probability 1 − o(( N n )−5), 
+
+∥n−1Q′(T − E[T ]) Q∥ ≤ 2 max 
+
+> v∈N ϵ
+
+|n−1v′Q′(T − ET )Qv | ≤ 4σ
+
+r 2 log(2 /δ )
+
+nN + 32 b log(2 /δ )3nN 
+
+≤ C
+
+r log( N n ) + KKN n + log( N n ) + KnN 
+
+!
+
+≤ C
+
+r log( N n ) + KN nK ,
+
+where we have used the assumptions K ≤ M ≤ [N n/ log 2(N n )] 1/2 and ( N n )−1K ≪ h ≪
+
+log −1(N n ) in the last step. Then we have: 
+
+∥Q′(T − E[T ]) Q∥ ≤ C
+
+r n(log n + K)
+
+N K . (A.10) Finally, since Ω ′ = (Π ′Π) −1Q′ with ∥(Π ′Π) −1∥ = O(n−1K) by Assumption 3, we have: 
+
+∥Ω′(T − ET )Q∥ ≤ O(n−1K) · ∥ Q′(T − ET )Q∥. This leads to the desired bound with (A.10). Moreover, under the assumption that K ≤ M ≤ [N n/ log 2(N n )] 1/2, we further have: 
+
+∥Q′(T − E[T ]) Q∥ ≤ n/ (K log 1/2(N n )) . (A.11) Combing (A.9) and (A.11), it shows P(E) ≥ 1 − o(( N n )−5). 
+
+A.9 Proof of Lemma 6.7 
+
+We divide the error into two parts as follows: 
+
+E
+
+Z 
+
+∥bg∗(x) − g∗(x)∥2dx 
+
+
+
+= E
+
+
+
+1{∆}
+
+Z
+
+∥bg∗
+
+> k
+
+(x) − g∗(x)∥2dx 
+
+
+
++ E
+
+
+
+1{∆c}
+
+Z
+
+∥bg∗
+
+> k
+
+(x) − g∗(x)∥2dx 
+
+
+
+,
+
+where ∆ is the event on which Lemma 6.6 holds with P(∆) ≥ 1 − o(( N n )−5). We first bound the error on ∆. Recall the expression of bg∗(x) in (6.13): 
+
+bg∗(x) = IK + Ω ′(T − ET )Q−1g∗(x) + Ω ′(S − ES)1n
+
+. (A.12) We claim the following auxiliary lemma. 
+
+Lemma A.6. Let u and ν be two vectors in RK for K ≥ 1. Moreover, let E ∈ RK×K be a matrix such that ∥E∥ < 1 and e ∈ RK be a vector. They satisfy the following identity: 
+
+u = ( IK + E)−1(ν + e).
+
+Then, it holds that 
+
+∥u − ν∥ ≤ ∥E∥
+
+1 − ∥ E∥ (∥ν∥ + ∥e∥) + ∥e∥.
+
+> 43
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Proof of Lemma A.6: To prove it, using the fact that A−1 − B−1 = B−1(B − A)A−1, we have: 
+
+u − ν = ( IK + E)−1(ν + e) − (ν + e) + e
+
+= (( IK + E)−1 − IK )( ν + e) + e
+
+= E(IK + E)−1(ν + e) + e. 
+
+Here, since ∥E∥ < 1, the Neumann series ( IK + E)−1 = P∞
+
+> k=0
+
+(−E)k converges absolutely in operator norm, and it yields that 
+
+∥(IK + E)−1∥ ≤ 
+
+> ∞
+
+X
+
+> k=0
+
+∥E∥k = 11 − ∥ E∥ .
+
+Thus, we obtain: 
+
+∥u − ν∥ ≤ ∥E∥
+
+1 − ∥ E∥ (∥ν∥ + ∥e∥) + ∥e∥.
+
+Recall (A.12). We can set u = u(x) = bg∗(x), ν = ν(x) = g∗(x), E = Ω ′(T − ET )Q and 
+
+e = e(x) = Ω ′(S − ES)1n. According to Lemma 6.6, there exists a constant C3 > 0 such that 
+
+∥E∥ ≤ C3(N n )− 12
+
+pK(log( N n ) + K) = o(1) .
+
+Moreover, Lemma 6.3 implies that R ∥ν(x)∥2dx = R ∥g∗(x)∥2dx ≤ R ∥g(x)∥2dx + o(K) = 
+
+O(K) and it is seen in Lemma 6.5 that 
+
+Z
+
+E[∥e(x)∥2]dx ≤ C(N nh )−1K2 = O(K).
+
+Consequently, with the bounds about E, ν (x) and e(x) above, using Lemma A.6 and the fact that ( a + b)2 ≤ 2( a2 + b2), we have: on the event ∆, there exists a constant C > 0such that 
+
+E
+
+
+
+1{∆}
+
+Z
+
+∥bg∗(x) − g∗(x)∥2dx 
+
+
+
+≤ 2E
+
+" ∥E∥
+
+1 − ∥ E∥
+
+2 Z
+
+(∥ν(x)∥ + ∥e(x)∥)2dx 
+
+#
+
++ 2 E
+
+Z 
+
+∥e(x)∥2dx 
+
+
+
+≤ C
+
+h
+
+(N n )− 12
+
+pK(log( N n ) + K)
+
+i2
+
+· K + ( N nh )−1K2
+
+
+
+≤ CK 2
+
+ log( N n ) + KN n + 1
+
+N nh 
+
+
+
+.
+
+On the event ∆ c, we will directly bound 
+
+Z
+
+∥bg∗(x) − g∗(x)∥2dx ≤
+
+Z
+
+∥g∗(x)∥2dx +
+
+Z
+
+∥bg∗(x)∥2dx. 
+
+44 Unmixing Nonparametric Densities 
+
+Lemma 6.3 implies that R ∥g∗(x)∥2dx ≤ R ∥g(x)∥2dx + o(K) = O(K). Next, note that 
+
+bg∗(x) = G′G(G′T G )−1G′S1n.Since we add a small-order perturbation in (4.1) , it then implies ∥(G′T G )−1∥ ≤
+
+CK −1M 2n−1 log( N n ). Then, we have: almost surely, 
+
+Z
+
+∥bg∗
+
+> k
+
+(x)∥2dx ≤ C∥G′G∥2∥(G′T G )−1∥2∥G∥2
+
+Z
+
+∥S(x)1n∥2dx 
+
+≤ C K2
+
+M 2
+
+M 4 log 2(N n )
+
+K2n2
+
+KM
+
+Z
+
+∥S(x)1n∥2dx ≤ C KM log 2(N n )
+
+n2
+
+Z
+
+∥S(x)1n∥2dx, 
+
+where we have used Lemma A.4 (c) in the above bound. It then remains to bound R ∥S(x)1n∥2dx . We have: 
+
+Z
+
+∥S(x)1n∥2dx =
+
+Z MX
+
+> m=1
+
+ 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> j̸=j′
+
+Kh(x − Xij )Uij ′m
+
+
+
+> 2
+
+dx 
+
+≤ h−1n∥K∥ ∞
+
+1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> j̸=j′
+> M
+
+X
+
+> m=1
+
+Uij ′m
+
+Z
+
+|K h(x − Xij )|dx. 
+
+Since PMm=1 Uij ′m = 1 and R |K h(x − Xij )|dx = R |K (u)|du < ∞, we have: almost surely, 
+
+Z
+
+∥S(x)1n∥2dx ≤ Ch −1n2. (A.13) Then, we obtain: almost surely, 
+
+Z
+
+∥bg∗(x)∥2dx ≤ CKM h −1 log 2(N n ). (A.14) Together, it yields that almost surely, 
+
+Z
+
+∥bg∗(x) − g∗(x)∥2dx ≤ CKM h −1 log 2(N n ).
+
+Consequently, on the event ∆ c, we have: 
+
+E
+
+
+
+1{∆c}
+
+Z
+
+∥bg∗(x) − g∗(x)∥2dx 
+
+
+
+≤ C KM log 2(N n )(N n )5h .
+
+Finally, combining all bounds above, we conclude there exists a constant C > 0 such that 
+
+E
+
+Z 
+
+∥bg∗(x) − g∗(x)∥2dx 
+
+
+
+≤ CK 
+
+ K(log( N n ) + K)
+
+N n + KN nh + M log 2(N n )(N n )5h
+
+
+
+.
+
+Using the assumption K ≤ M ≤ [N n/ log 2(N n )] 1/2 and ( N n )−1K ≪ h ≪ log −1(N n ), we obtain the final bound. 
+
+45 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+A.10 Proof of Lemma 6.9 
+
+By definitions, bg(x) = bG′ bG( bG′T bG)−1 bG′S1n, and bg∗(x) = G′G(G′T G )−1G′S1n, Therefore, we can write bg(x) − bg∗(x) = I1 + I2 + I3, where 
+
+I1 = G′G(G′T G )−1( bG − G)′S1n,I2 = G′G( bG′T bG)−1 − (G′T G )−1 bG′S1n,I3 = ( bG′ bG − G′G)( bG′T bG)−1 bG′S1n.
+
+For I1, the definition of Q = G(G′G)−1 implies that 
+
+I1 = ( Q′T Q )−1(G′G)−1( bG − G)′S1n = R( bG − G)′S1n. (A.15) For I3, using bg(x) = bG′ bG( bG′T bG)−1 bG′S1n again, we deduce that 
+
+I3 = ( bG′ bG − G′G)( bG′ bG)−1 bg(x) = ∆ 1(G′G + ∆ 1)−1 bg(x). (A.16) For I2, using the equality that A−1 − B−1 = B−1(B − A)A−1, we have: 
+
+I2 = G′G(G′T G )−1(G′T G − bG′T bG)( bG′T bG)−1 bG′S1n
+
+= G′G(G′T G )−1(G′T G − bG′T bG)( bG′ bG)−1 bg(x),
+
+= ( Q′T Q )−1(G′G)−1(G′T G − bG′T bG)( bG′ bG)−1 bg(x)= −R∆2(G′G + ∆ 1)−1 bg(x). (A.17) Combining (A.15)-(A.16) gives 
+
+bg(x) − bg∗(x) = R( bG − G)′S1n + (∆ 1 − R∆2)( G′G + ∆ 1)−1 bg(x).
+
+This gives a linear equation on bg(x). The claim follows from solving this equation. 
+
+A.11 Proof of Lemma 6.10 
+
+We first present an auxiliary lemma as follows. 
+
+Lemma A.7. Under Assumption 3, there exists a constant C2 > 0 such that 
+
+E
+
+Z 
+
+[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ C2n(N h )−1.
+
+Proof of Lemma A.7: It is seen that for each 1 ≤ m ≤ M , n−1e′
+
+> m
+
+(S − E[S]) 1n can be written as a (centered) U-process in (6.2) indexed by x with 
+
+h(x; Xij , X ij ′ ) = Kh(x − Xij )1 {Xij ′ ∈ B m}.
+
+Hence, for each 1 ≤ m ≤ M , we shall aply Lemma 6.1. To this end, in the following, we will bound the quantities b2 and σ2 given in Lemma 6.1. First, we focus on b2. For each 1 ≤ m ≤ M and 1 ≤ i ≤ n,
+
+b2 
+
+> i
+
+= E
+
+Z 
+
+h2(x; xi1, x i2)dx 
+
+
+
+= E
+
+Z 
+
+K2
+
+> h
+
+(x − xi1)dx 
+
+
+
+· E [1 {xi2 ∈ B m}]
+
+46 Unmixing Nonparametric Densities 
+
+= h−1
+
+Z
+
+K2(z)dz · f hist  
+
+> i
+
+(m) ≤ Ch −1f hist  
+
+> i
+
+(m),
+
+where we have used the condition of the kernel (4.2) that R K2(z)dz < ∞ . With Lemma A.4 (b), it then implies: 
+
+b2 = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+b2 
+
+> i
+
+≤ Ch −1 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+f hist  
+
+> i
+
+(m) ≤ Ch −1M −1.
+
+Moreover, for any 1 ≤ m ≤ M and 1 ≤ i ≤ n, note that by Fubini’s theorem, 
+
+σ2 
+
+> i
+
+= E
+
+Z 
+
+(h(x; Xi1, X i2) − E[h(x; Xi1, X i2)]) 2dx 
+
+
+
+=
+
+Z
+
+Var[ h(x; Xi1, X i2)] dx 
+
+≤
+
+Z
+
+E[K2
+
+> h
+
+(x − Xi1)] dx · E [1 {Xi2 ∈ B m}] .
+
+This is the exactly the same bound in b2 
+
+> i
+
+above. Using the same argument, we obtain: 
+
+σ2 = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+σ2 
+
+> i
+
+≤ Ch −1M −1.
+
+Finally, using the bound in Lemma 6.1 and summing over m = 1 , . . . , M , it yields that 
+
+E
+
+Z 
+
+n−1[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ C(N nh )−1.
+
+Therefore, we obtain: 
+
+E
+
+Z 
+
+[S(x) − ES(x)] 1n 2dx 
+
+
+
+≤ Cn (N h )−1.
+
+We now focus on the main bounds. For simplicity, let ∆ G = bG − G. For the first bound, note that 
+
+bG′ bG = ( G + ∆ G)′(G + ∆ G) = G′G + G′∆G + (∆ G)′G + (∆ G)′∆G. 
+
+Then, we have: 
+
+∥∆1∥ = ∥ bG′ bG − G′G∥ ≤ 2∥G∥∥ ∆G∥ + ∥∆G∥2
+
+≤ C∥∆G∥
+
+r KM + ∥∆G∥
+
+!
+
+≤ C
+
+r KM ∥∆G∥,
+
+where we have used Lemma A.4 (c) and the assumption M δ 2 
+
+> n
+
+= o(K). For the second bound, letting ∆ T = T − E[T ], note that 
+
+R∆2 = ( Q′T Q )−1(G′G)−1( bG′T bG − G′T G )= ( Q′E[T ]Q + Q′∆T Q )−1(G′G)−1 (G + ∆ G)′T (G + ∆ G) − G′T G 
+
+= ( Q′E[T ]Q + Q′∆T Q )−1(G′G)−1(G′T ∆G + (∆ G)′T G + (∆ G)′T ∆G)
+
+47 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+=: ( Q′E[T ]Q + Q′∆T Q )−1(G′G)−1(J1 + J2 + J3).
+
+In the following, we analyze J1, J 2, J 3 and ( Q′E[T ]Q + Q′∆T Q )−1 respectively. First, for J1, it is seen that 
+
+J1 = G′T ∆G = G′(∆ T + E[T ])∆ G = G′E[T ]∆ G + G′∆T ∆G. 
+
+According to Assumption 3, Lemma A.4 (a) and (c) as well as the assumption that ∥T −
+
+E[T ]∥ ≤ M −1n, we further have: 
+
+∥J1∥ ≤ ∥ G′GΠ′ΠG′∥∥ ∆G∥ + ∥G∥∥ ∆T ∥∥ ∆G∥≤ Cn 
+
+r KM 3 +
+
+r KM 3
+
+!
+
+∥∆G∥ = 2 Cn 
+
+r KM 3 ∥∆G∥.
+
+Similarly, the same bound also holds for J2. Also, it holds that 
+
+J3 = (∆ G)′T ∆G = (∆ G)′(∆ T + E[T ])∆ G = (∆ G)′E[T ]∆ G + (∆ G)′∆T ∆G. 
+
+Then, we have: 
+
+∥J3∥ ≤ ∥ ∆G∥2  ∥GΠ′ΠG′∥ + ∥∆T ∥
+
+≤ Cn 
+
+ 1
+
+M + 1
+
+M
+
+
+
+∥∆G∥2 = 2 Cn 1
+
+M ∥∆G∥2.
+
+Thus, combining all the bounds above, we have: 
+
+∥J1 + J2 + J3∥ ≤ Cn 
+
+r KM 3 ∥∆G∥ + 1
+
+M ∥∆G∥2
+
+!
+
+≤ Cn 
+
+r KM 3 ∥∆G∥ 1 + 
+
+r MK ∥∆G∥
+
+!
+
+≤ Cn 
+
+r KM 3 ∥∆G∥,
+
+where in the last step, we have used the assumption M δ 2 
+
+> n
+
+= o(K). Next, we focus on ( Q′E[T ]Q + Q′∆T Q )−1. Note that (Q′E[T ]Q + Q′∆T Q )−1 = ( Q′E[T ]Q)−1(IK + Q′∆T Q (QE[T ]Q)−1)−1.
+
+Here, according to Assumption 3, Lemma A.4 (a) and (c), and the assumption that ∥Q′(T −
+
+E[T ]) Q∥ ≤ n/ (K log 1/2(N n )), it holds that 
+
+∥Q′∆T Q (Q′E[T ]Q)−1∥ ≤ n(K log 1/2(N n )) −1∥(Q′GΠ′ΠG′Q)−1∥≤ C log −1/2(N n ) = o(1) .
+
+Thus, letting F = Q′∆T Q (Q′EQ)−1, the Neumann series ( IK + F )−1 = P∞
+
+> k=0
+
+(−F )k con-verges absolutely in operator norm, and it yields that 
+
+∥(IK + F )−1∥ ≤ 
+
+> ∞
+
+X
+
+> k=0
+
+∥F ∥k = 11 − ∥ F ∥ .
+
+48 Unmixing Nonparametric Densities 
+
+Hence, with Assumption 3, Lemma A.4 (a) and (c), it holds that 
+
+∥(Q′E[T ]Q + Q′∆T Q )−1∥ = ∥(Q′E[T ]Q)−1(IK + Q′∆T Q (Q′E[T ]Q)−1)∥≤ C∥(Q′GΠ′ΠG′Q)−1∥ 11 − ∥ F ∥ ≤ C Kn .
+
+Eventually, putting all bounds above together, we obtain: 
+
+∥R∆2∥ ≤ C KnMK n
+
+r KM 3 ∥∆G∥ ≤ C
+
+r KM ∥∆G∥.
+
+For the third bound, note that 
+
+∥R( bG − G)′S1n∥ ≤ ∥ R∥∥ ∆G∥∥ S1n∥.
+
+We have already studied ∥R∥ above. It is seen that 
+
+∥R∥ = ∥(Q′E[T ]Q + Q′∆T Q )−1(G′G)−1∥ ≤ C KnMK = C Mn .
+
+It remains to study ∥S1n∥. Note that 
+
+E
+
+Z 
+
+∥S(x)1n∥2dx 
+
+
+
+≤
+
+Z
+
+∥E[S(x)] 1n∥2dx + E
+
+Z 
+
+∥(S(x) − E[S(x)]) 1n∥2dx 
+
+
+
+.
+
+According to Lemma A.7, we have: 
+
+E
+
+Z 
+
+∥(S(x) − E[S(x)]) 1n∥2dx 
+
+
+
+≤ Cn (N h )−1.
+
+Moreover, note that 
+
+∥E[S(x)] 1n∥2 =
+
+> M
+
+X
+
+> m=1
+
+ 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> j̸=j′
+
+E[Kh(x − Xij )] E[Uij ′m]
+
+
+
+> 2
+
+=
+
+> M
+
+X
+
+> m=1
+
+ 1
+
+N (N − 1) 
+
+> n
+
+X
+
+> i=1
+
+X 
+
+> j̸=j′
+
+E[Kh(x − Xi1)] f hist  
+
+> i
+
+(m)
+
+
+
+> 2
+
+=
+
+> M
+
+X
+
+> m=1
+> n
+
+X
+
+> i=1
+
+E[Kh(x − Xi1)] f hist  
+
+> i
+
+(m)
+
+!2
+
+.
+
+Here, it is seen that 
+
+E[Kh(x − Xi1)] = 
+
+Z
+
+h−1K
+
+ x − zh
+
+
+
+fi(z)dz =
+
+Z
+
+K(u)fi(uh + x)du. 
+
+We further have: 
+
+Z
+
+∥E[S(x)] 1n∥2dx 
+
+49 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+=
+
+> M
+
+X
+
+> m=1
+
+Z Z
+
+K(u)
+
+> n
+
+X
+
+> i=1
+
+fi(uh + x)f hist  
+
+> i
+
+(m)du 
+
+!2
+
+dx 
+
+=
+
+> M
+
+X
+
+> m=1
+
+Z Z Z
+
+K(u)K(u′)
+
+> n
+
+X
+
+> i=1
+
+fi(uh + x)f hist  
+
+> i
+
+(m)
+
+> n
+
+X
+
+> i′=1
+
+fi′ (u′h + x)f hist  
+
+> i′
+
+(m)dudu ′dx. 
+
+We first take integral with respect to x. Note that 
+
+Z
+
+fi(uh + x)fi′ (uh + x)dx ≤
+
+Z 
+
+f 2 
+
+> i
+
+(uh + x)dx 
+
+ 12 Z 
+
+f 2 
+
+> i′
+
+(uh + x)dx 
+
+ 12
+
+= O(1) ,
+
+where it holds that R f 2 
+
+> i
+
+(uh + x)dx = R f 2 
+
+> i
+
+(z)dz = O(1) since we assume R g2
+
+> k
+
+(z)dz = O(1) and fi(z) = PKk=1 πi(k)gk(z). Then, using the kernel condition (4.2) and Lemma A.4 (b), we have: 
+
+Z
+
+∥E[S(x)] 1n∥2dx ≤
+
+> M
+
+X
+
+> m=1
+
+Z
+
+K(u)du 
+
+Z
+
+K(u′)du ′
+
+> n
+
+X
+
+> i=1
+
+f hist  
+
+> i
+
+(m)
+
+> n
+
+X
+
+> i′=1
+
+f hist  
+
+> i′
+
+(m)
+
+≤ Cn 2M −1.
+
+Consequently, it holds that 
+
+E
+
+Z 
+
+∥S(x)1n∥2dx 
+
+
+
+≤ Cn 2  (N nh )−1 + M −1 ≤ Cn 2M −1.
+
+Putting the above bounds together, we have: 
+
+E
+
+Z 
+
+∥R( bG − G)′S(x)1n∥2dx 
+
+
+
+≤ C M 2
+
+n2 ∥∆G∥2n2M −1 ≤ CM ∥∆G∥2.
+
+A.12 Proof of Lemma 6.11 
+
+Recall that in Lemma 6.10, we let E be the event on which ∥T − E[T ]∥ ≤ M −1n and 
+
+∥Q′(T − E[T ]) Q∥ ≤ n/ (K log 1/2(N n )). Moreover, in Lemma A.5, it is seen that P(E) ≥
+
+1 − o(( N n )−5). In addition, let ∆ ∗ be the event on which the last assumption of Theorem 4.1 holds, i.e., on ∆ ∗, ∥ bG − G∥ ≤ δn with P(∆ ∗) ≥ 1 − o(( N n )−5). Our proof strategy is to divide the error into two parts as follows: 
+
+E
+
+Z 
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+= E
+
+
+
+1{E ∩ ∆∗}
+
+Z
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
++ E
+
+
+
+1{(E ∩ ∆∗)c}
+
+Z
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+.
+
+For the first term, recall Lemma 6.9 that 
+
+bg(x) = IK + ( R∆2 − ∆1)( G′G + ∆ 1)−1−1bg∗(x) + R( bG − G)′S1n
+
+.
+
+Thus, it enables us to apply Lemma A.6 with u = u(x) = bg(x), ν = ν(x) = bg∗(x), 
+
+E = ( R∆2 − ∆1)( G′G + ∆ 1)−1 and e = e(x) = R( bG − G)′S(x)1n. In the following, we will then study E and e(x). 
+
+50 Unmixing Nonparametric Densities 
+
+We focus on E first. According to Lemma 6.10, on E ∩ ∆∗, ∥R∆2 − ∆1∥ ≤ ∥ R∆2∥ +
+
+∥∆1∥ = o(1). Moreover, we have: (G′G + ∆ 1)−1 = ( G′G)−1(IK + ∆ 1(G′G)−1)−1,
+
+where ∥∆1(G′G)−1∥ ≤ CM K −1∥∆1∥ = o(1) with Lemma A.4 (c) and the assumption 
+
+M δ 2 
+
+> n
+
+= o(K). Then, letting H = ∆ 1(G′G)−1, the Neumann series ( IK +H)−1 = P∞
+
+> k=0
+
+(−H)k
+
+converges absolutely in operator norm, and it yields that 
+
+∥(IK + H)−1∥ ≤ 
+
+> ∞
+
+X
+
+> k=0
+
+∥H∥k = 11 − ∥ H∥ .
+
+It implies ∥(G′G + ∆ 1)−1∥ ≤ CM K −1 11−∥ H∥ ≤ CM K −1. With the above bounds and Lemma 6.10, we obtain: on the event E ∩ ∆∗,
+
+∥E∥ = ∥(R∆2 − ∆1)( G′G + ∆ 1)−1∥ ≤ C
+
+r MK δn.
+
+We then apply Lemma A.6 to obtain: on the event E ∩ ∆∗,
+
+∥bg∗(x) − bg(x)∥≤ C∥(R∆2 − ∆1)( G′G + ∆ 1)−1∥∥ bg∗(x) + R( bG − G)′S(x)1n∥ + ∥R( bG − G)′S(x)1n∥≤ C
+
+r MK δn∥bg∗(x) + R( bG − G)′S(x)1n∥ + ∥R( bG − G)′S(x)1n∥.
+
+Using Lemma 6.10 and the fact that ( a + b)2 ≤ 2( a2 + b2), it yields that on the event E ∩ ∆∗,
+
+E
+
+Z 
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+≤ C MK δ2
+
+> n
+
+
+
+E
+
+Z 
+
+∥bg∗(x)∥2dx 
+
+
+
++ E
+
+Z 
+
+∥R( bG − G)′S(x)1n∥2dx 
+
+ 
+
++ E
+
+Z 
+
+∥R( bG − G)′S(x)1n∥2dx 
+
+
+
+.
+
+According to Lemma 6.3 and Lemma 6.7, E R ∥bg∗(x)∥2dx  ≤ O(K)+ R ∥g(x)∥2dx = O(K). Furthermore, it is seen in Lemma 6.10 that on E ∩ ∆∗,
+
+E
+
+Z 
+
+∥R( bG − G)′S(x)1n∥2dx 
+
+
+
+≤ CM δ 2
+
+> n
+
+.
+
+It then holds that on the event E ∩ ∆∗,
+
+E
+
+
+
+1{E ∩ ∆∗}
+
+Z
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+≤ C
+
+ MK δ2
+
+> n
+
+ K + M δ 2
+
+> n
+
+ + M δ 2
+
+> n
+
+
+
+≤ CM δ 2
+
+> n
+
+,
+
+51 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+where we have used the assumption M δ 2 
+
+> n
+
+= o(K). Next, we consider the bound on ( E ∩ ∆∗)c = Ec ∪ (∆ ∗)c. Since P(( E ∩ ∆∗)c) ≤ P(Ec) + 
+
+P(∆ ∗) = o(( N n )−5), it suffices to directly bound 
+
+Z
+
+∥bg∗(x) − bg(x)∥2dx ≤
+
+Z
+
+∥bg∗(x)∥2dx +
+
+Z
+
+∥bg(x)∥2dx. 
+
+It is seen in (A.14) that almost surely 
+
+Z
+
+∥bg∗(x)∥2dx ≤ CKM h −1 log 2(N n ),
+
+for some constant C > 0. It then suffices to bound the second term. Note that by definition in (1.10), 
+
+bg(x) = bG′ bG( bG′T bG)−1 bG′S1n.
+
+Since bG is the estimated topic matrices in the induced topic model, by regularity, ∥ bG∥1 = 1. Then, we have ∥ bG∥ ≤ √K∥ bG∥1 = √K. Moreover, since we add the perturbation in (4.1) , it then implies ∥( bG′T bG)−1∥ ≤ C(Kn )−1M 2 log 2(N n ). Moreover, it is seen in (A.13) that almost surely, 
+
+Z
+
+∥S(x)1n∥2dx ≤ Ch −1n2,
+
+for some constant C > 0. Together, we have: almost surely, 
+
+Z
+
+∥bg(x)∥2dx ≤ CK 3(Kn )−2M 4 log 6(N n )h−1n2 = CKM 4h−1 log 4(N n ).
+
+Thus, combining the above two bounds, it holds almost surely that 
+
+Z
+
+∥bg∗(x) − bg(x)∥2dx ≤ C
+
+ KM log 2(N n )
+
+h + KM 4 log 4(N n )
+
+h
+
+
+
+≤ C KM 4 log 4(N n )
+
+h .
+
+Therefore, on the event ( E ∩ ∆∗)c,
+
+E
+
+
+
+1{(E ∩ ∆∗)c}
+
+Z
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+≤ C KM 4 log 4(N n )(N n )5h .
+
+Together, we obtain: 
+
+E
+
+Z 
+
+∥bg∗(x) − bg(x)∥2dx 
+
+
+
+≤ C
+
+
+
+M δ 2 
+
+> n
+
++ KM 4 log 4(N n )(N n )5h
+
+
+
+.
+
+A.13 Proof of Theorem 4.2 
+
+In this section, we will study the topic modeling ∥ bG − G∥ in Theorem 4.2. In Ke and Wang (2024a), the authors obtained the minimax optimal rates for the algorithm called Topic-SCORE of constructing the estimate bG. However, their results only considered a fixed K
+
+setting with all quantities related to K hidden in the constants. In view of this, we will 
+
+> 52
+
+Unmixing Nonparametric Densities 
+
+extend their results by giving a finer analysis via keeping track of K in all the bounds thus proving Theorem 4.2. For presentational convenience, restricted to this section only, we will adopt the notations in Ke and Wang (2024a) while making clear connections of their notations to ours when needed. In equation (2) of Ke and Wang (2024a), they considered the following mode: Let 
+
+X ∈ Rp×n be the word-count matrix. Introduce the empirical frequency matrix D =[d1, d 2, . . . , d n] ∈ Rp×n, defined by: 
+
+di(j) = N −1 
+
+> i
+
+Xi(j), 1 ≤ i ≤ n, 1 ≤ j ≤ p , 
+
+where E[di] = d0 
+
+> i
+
+= PKk=1 wi(k)Ak. Write D0 = [ d01, d 02, . . . , d 0
+
+> n
+
+] ∈ Rp×n. It follows that: 
+
+ED = D0 = AW. 
+
+Here, p is our M , the number of bins; N1 = N1 = . . . = Nn = N ; A ∈ Rp×K is our topic matrix Ghist = G; W ∈ RK×n is our mixed-membership matrix Π ′; D0 ∈ Rp×n is our matrix 
+
+F hist = F with d0 
+
+> i
+
+= f hist  
+
+> i
+
+= fi and di is our ( f hist  
+
+> i
+
+(1) , . . . , f hist  
+
+> i
+
+(M )) ′ for 1 ≤ i ≤ n.Now, define a matrix M (Equation (5) in Ke and Wang (2024a)) as 
+
+M = diag 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+di
+
+!
+
+.
+
+For each 1 ≤ k ≤ K, let ˆξk ∈ Rp denote the kth left singular vector of M −1/2D. Recall that 
+
+D0 = ED. In addition, define: 
+
+M0 := EM = diag 
+
+ 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+d0
+
+> i
+
+
+
+.
+
+Moreover, define 
+
+ξk : the kth eigenvector of M −1/20 E[DD ′]M −1/20 , 1 ≤ k ≤ K. 
+
+Write ˆΞ := [ ˆξ1, · · · , ˆξK ] and Ξ := [ ξ1, · · · , ξ K ]. Define ˆR ∈ Rp×(K−1) by: ˆR(j, k ) = ˆξk+1 (j)/ ˆξ1(j), 1 ≤ j ≤ p, 1 ≤ k ≤ K − 1. (A.18) Let ˆ r′
+
+> 1
+
+, ˆr′
+
+> 2
+
+, . . . , ˆr′ 
+
+> p
+
+denote the rows of ˆR. Then, they pointed out that ˆ rj is a ( K − 1)-dimensional embedding of the jth word in the vocabulary and that there is a simplex struc-ture associated with these word embeddings. Specifically, define the population counterpart of ˆR as R, where: 
+
+R(j, k ) = ξk+1 (j)/ξ 1(j), 1 ≤ j ≤ p, 1 ≤ k ≤ K − 1.
+
+Let r′
+
+> 1
+
+, r ′
+
+> 2
+
+, . . . , r ′ 
+
+> p
+
+denote the rows of R. All these rj are contained in a simplex S ⊂ RK−1
+
+that has K vertices v1, v 2, . . . , v K . If the jth word is an anchor word (an anchor word of topic k satisfies that Ak(j)̸ = 0 and Aℓ(j) = 0 for all other ℓ̸ = k), then rj is located at one of the vertices. Therefore, as long as each topic has at least one anchor word, they can apply a vertex hunting algorithm to recover the K vertices of S. As a result, applying 
+
+53 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+a vertex hunting algorithm on {ˆrj }pj=1 to obtain the estimates {ˆvk}Kk=1 and using the fact that in the oracle case, if jth word is an anchor word of topic k, rj = vk, they were able to further construct their estimate bG in Ke and Wang (2024a). Hence, the rest of this section is devoted to proving the following theorem. 
+
+Theorem A.1 (Estimation of A). Under the setting of Theorem 4.2, with probability 1 −
+
+o(( N n )−5), simultaneously for 1 ≤ j ≤ p:
+
+∥ˆaj − aj ∥1 ≤ ∥ aj ∥1 · C
+
+r Kp log( N n )
+
+nN .
+
+Furthermore, with probability 1 − o(( N n )−5),
+
+∥ bA − A∥ ≤ CK 
+
+r K log( N n )
+
+nN 
+
+L( bA, A ) ≤ CK 
+
+r pK log( N n )
+
+nN .
+
+To prove Theorem A.1, we first present the following key results. 
+
+Theorem A.2 (Entry-wise singular vector analysis) . Under the setting of Theorem A.1, there exists a constant C > 0 such that with probability 1−o(( N n )−5), there is an orthogonal matrix O ∈ RK×K satisfying that simultaneously for 1 ≤ j ≤ p:
+
+∥e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ ≤ C
+
+r hj Kp log( N n )
+
+nN ,
+
+where hj = PKk=1 Ak(j).
+
+Theorem A.3 (Word embeddings) . Under the setting of Theorem A.1, with probability 
+
+1 − o(( N n )−5), there exist an orthogonal matrix Ω ∈ R(K−1) ×(K−1) and a constant C > 0
+
+such that simultaneously for 1 ≤ j ≤ p:
+
+∥ˆrj − Ωrj ∥ ≤ C
+
+r Kp log( N n )
+
+nN .
+
+Theorem A.4 (Vertex hunting errors) . Under the setting of Theorem A.1, if we apply the Successive Projection Algorithm (SPA) to do vertex hunting, with probability 1−o(( N n )−5),up to a permutation of the K estimated vertices, there exists a constant C > 0 such that simultaneously for 1 ≤ k ≤ K,
+
+∥ˆvk − vk∥ ≤ C
+
+r Kp log( n)
+
+nN ,
+
+where V = [ v1, . . . , v K ] and bV = [ˆ v1, . . . , ˆvK ].
+
+Lemma A.8 (Lemmas D.1 and E.1 in Ke and Wang (2024b)) . Suppose the conditions in Theorem A.1 hold. Then, 
+
+KM 0(j, j ) ≍ hj ; and |M (j, j ) − M0(j, j )| ≤ C
+
+s
+
+log( N n )
+
+pN n ,
+
+> 54 Unmixing Nonparametric Densities
+
+for some constant C > 0, with probability 1 − o(( N n )−5), simultaneously for all 1 ≤ j ≤ p.Furthermore, with probability 1 − o(( N n )−5),
+
+M −1/2M 1/20 − Ip ≤ C
+
+r p log( N n )
+
+N n . (A.19) Note that all above results have been proven in Ke and Wang (2024a) and Ke and Wang (2024b) under the fixed K setting. As mentioned in the beginning of this section, we will extend their proofs by keeping track of K explicitly in all constants. Now, with the above results, we prove Theorem A.1. 
+
+Proof [Proof of Theorem A.1] We now provide a modified proof based on Ke and Wang (2024a) by clearly writing out all K terms. We refer readers to the proof of Theorem 3 in Ke and Wang (2024a) for more details. Recall the Topic-SCORE algorithm. Let bV = (ˆ v1, ˆv2, . . . , ˆvK ) and denote its population counterpart by V . We write: ˆQ =
+
+ 1 . . . 1ˆv1 . . . ˆvK
+
+
+
+, Q =
+
+ 1 . . . 1
+
+v1 . . . vK
+
+
+
+Theorem A.4 shows 
+
+∥ ˆV − V ∥ ≤ C
+
+r Kp log( N n )
+
+N n ,
+
+where we omit the permutation for simplicity here and throughout this proof. As a result: 
+
+∥ˆπ∗ 
+
+> j
+
+− π∗ 
+
+> j
+
+∥ = ˆQ−1
+
+ 1ˆrj
+
+
+
+− Q−1
+
+ 1Ωrj
+
+
+
+≤ ∥ ˆQ−1 − Q−1∥ · ∥ rj ∥ + ∥ ˆQ−1∥∥ ˆrj − Ωrj ∥≤ C
+
+r Kp log( N n )
+
+N n = o(1) where we used the fact that ∥Q−1 − ˆQ−1∥ = O(max k ∥vk − ˆvk∥) and ∥rj ∥ = O(1) for all 1 ≤ j ≤ p, whose details can be found in the proof of Lemma G.1 and Proof of Lemma D.3 in Ke and Wang (2024b) respectively (note that both Q, ˆQ and rj are well-normalized such that the bound of them remain unchanged), and Theorem A.4. Considering the truncation at 0, it is not hard to see that: 
+
+∥˜π∗ 
+
+> j
+
+− π∗ 
+
+> j
+
+∥ ≤ C∥ˆπ∗ 
+
+> j
+
+− π∗ 
+
+> j
+
+∥ ≤ C
+
+r Kp log( N n )
+
+N n = o(1); and furthermore: 
+
+∥ˆπj − πj ∥1 ≤ ∥˜π∗ 
+
+> j
+
+− π∗ 
+
+> j
+
+∥1
+
+∥˜π∗ 
+
+> j
+
+∥1
+
++ ∥π∗ 
+
+> j
+
+∥1 ∥˜π∗ 
+
+> j
+
+∥1 − ∥ π∗ 
+
+> j
+
+∥1
+
+∥˜π∗ 
+
+> j
+
+∥1∥π∗ 
+
+> j
+
+∥1
+
+≤ C∥˜π∗ 
+
+> j
+
+− π∗ 
+
+> j
+
+∥1 ≤ C
+
+r Kp log( N n )
+
+N n . (A.20) by noticing that πj = π∗ 
+
+> j
+
+in the oracle case. 
+
+> 55
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Recall ˜A = M 1/2diag( ˆξ1) ˆΠ =: (˜ a1, . . . , ˜ap)′. Let A∗ = M 1/20 diag( ξ1)Π = ( a∗
+
+> 1
+
+, . . . , a ∗
+
+> p
+
+)′.Note that A = A∗[diag( 1pA∗)] −1. We can derive: 
+
+∥˜aj − a∗ 
+
+> j
+
+∥1 ≤ pM (j, j ) ˆξ1(j)ˆ πj − pM0(j, j ) ξ1(j)πj 1
+
+≤ C pM (j, j ) − pM0(j, j ) · | ξ1(j)| · ∥ πj ∥1 + CpM0(j, j ) · | ˆξ1(j) − ξ1(j)| · ∥ πj ∥1
+
++ CpM0(j, j ) · | ξ1(j)| · ∥ ˆπj − πj ∥1
+
+≤ C
+
+r Kh j log( n)
+
+N n , (A.21) where we used (A.20), Theorem A.2 and also Lemma A.8. Write ˜A = ( ˜A1, . . . , ˜AK ) and 
+
+A∗ = ( A∗
+
+> 1
+
+, . . . , A ∗ 
+
+> K
+
+). We crudely bound: 
+
+∥ ˜Ak∥1 − ∥ A∗
+
+> k
+
+∥1 ≤
+
+> p
+
+X
+
+> j=1
+
+∥˜aj − a∗ 
+
+> j
+
+∥1 ≤ CK 
+
+r p log( n)
+
+N n = o(K−1/2) (A.22) simultaneously for all 1 ≤ k ≤ K, since hj ≍ K/p . By the study of oracle case in Lemma D.2 in Ke and Wang (2024b) and Proof of Lemma G.1 in Ke and Wang (2024b), it can be deduced that ∥A∗
+
+> k
+
+∥1 ≍ K−1/2 under the growing K setting. It then follows that ∥ ˜Ak∥1 ≍
+
+K−1/2 and 
+
+∥ˆaj − aj ∥1 = diag(1 /∥ ˜A1∥1, . . . , 1/∥ ˜AK ∥1)˜ aj − diag(1 /∥A∗
+
+> 1
+
+∥1, . . . , 1/∥A∗ 
+
+> K
+
+∥1)a∗ 
+
+> j1
+
+=
+
+> K
+
+X
+
+> k=1
+
+˜aj (k)
+
+∥ ˜Ak∥1
+
+− a∗ 
+
+> j
+
+(k)
+
+∥A∗
+
+> k
+
+∥1
+
+≤
+
+> K
+
+X
+
+> k=1
+
+˜aj (k) − a∗ 
+
+> j
+
+(k)
+
+∥A∗
+
+> k
+
+∥1
+
++ |a∗ 
+
+> j
+
+(k)| ∥ ˆAk∥1 − ∥ A∗
+
+> k
+
+∥1
+
+∥A∗
+
+> k
+
+∥1∥ ˜Ak∥1
+
+≤ CK 1/2∥˜aj − a∗ 
+
+> j
+
+∥1 + ∥a∗ 
+
+> j
+
+∥1 max  
+
+> k
+
+∥ ˜Ak∥1 − ∥ A∗
+
+> k
+
+∥1
+
+≤ CK 
+
+r hj log( n)
+
+N n = C∥aj ∥1
+
+r Kp log( n)
+
+N n .
+
+Here, we used (A.21), (A.22), hj ≍ K/p and the following estimate: 
+
+∥a∗ 
+
+> j
+
+∥1 = pM0(j, j ) |ξ1(j)|∥ π∗ 
+
+> j
+
+∥1 ≍ M −1/2phj ≍ K1/2p−1.
+
+Combining all j together, we immediately have the result for L( ˆA, A ). Using the inequality 
+
+∥ bA − A∥ ≤ √M ∥ bA′ − A′∥1 with the above bound, we obtain the result for the operator norm error. 
+
+A.13.1 Proof of Theorem A.2 
+
+To prove Theorem A.2, we introduce the following lemmas. 
+
+56 Unmixing Nonparametric Densities 
+
+Recall that ˆξk ∈ Rp is the kth left singular vector of M −1/2D. Define: 
+
+G := M −1/2DD ′M −1/2 − nN Ip, G0 := n · M −1/20 AΣW A′M −1/20 ,
+
+where Σ W = 1−N −1 
+
+> n
+
+W W ′.Since the identify matrix in G does not affect the eigenvectors, ˆξk is the kth eigenvector of G. Additionally, Ke and Wang (2024a) also showed that ξk is the kth eigenvector of G0
+
+and 
+
+G − G0 = M −1/2DD ′M −1/2 − M −1/20 E[DD ′]M −1/20 .
+
+Lemma A.9 (Lemmas F.2, F.3, and D.3 in Ke and Wang (2024b)) . Suppose the conditions in Theorem A.1 hold. Denote by λ1 ≥ λ1 ≥ . . . ≥ λK the non-zero eigenvalues of G0. There exists a constant C such that: 
+
+Cnβ n ≤ λk ≤ Cn, for 2 ≤ k ≤ K, and λ1 ≥ C−1n + max  
+
+> 2≤k≤K
+
+λK .
+
+Furthermore, recall that ξ1, ξ 2, . . . , ξ K are the associated eigenvectors of G0. Then: 
+
+C−1phj ≤ ξ1(j) ≤ Cphj , ∥e′ 
+
+> j
+
+Ξ∥ ≤ Cphj .
+
+Here, we point out the difference that under our setting, βn = 1. . Moreover, for 1 ≤ j ≤ p, M0(j, j ) ≍ hj ≍ K/p in Ke and Wang (2024a) while under our setting, hj ≍ K/p 
+
+but M0(j, j ) ≍ p−1. However, under our setting, all eigenvalues of Σ W is of order K−1 while it is assumed of constant order in Ke and Wang (2024a). Hence, both G and G0 are still well normalized under our setting such that the above bounds remain unchanged. We now prove Theorem A.2. 
+
+Lemma A.10. Under the setting of Theorem A.2. With probability 1 − o(( N n )−5):
+
+∥G − G0∥ ≤ C
+
+r Kpn log( N n )
+
+N ≪ nβ n; (A.23) 
+
+∥e′ 
+
+> j
+
+(G − G0)ˆΞ∥/n ≤ C
+
+r hj Kp log( N n )
+
+nN 
+
+
+
+1 + ∥H− 12 (ˆΞ − ΞO′)∥2→∞ 
+
+
+
++ o(βn) · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ ,
+
+(A.24) 
+
+simultaneously for all 1 ≤ j ≤ p.
+
+Next, we use Lemma A.9 and Lemma A.10 to prove Theorem A.2. Let ( ˆλk, ˆξk) and (ˆλk, ˆξk) be the k-th eigen-pairs of G and G0, respectively. Let ˆΛ = diag( ˆλ1, ˆλ2, . . . , ˆλK ) and Λ = diag( λ1, λ 2, . . . , λ K ). Following Equation (A18) in Ke and Wang (2024a), we have: 
+
+∥e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ ≤ ∥ e′ 
+
+> j
+
+Ξ(Ξ ′ ˆΞ − O′)∥ + ∥e′ 
+
+> j
+
+ΞΞ ′(G0 − G)ˆΞˆΛ−1∥ + ∥e′ 
+
+> j
+
+(G − G0)ˆΞˆΛ−1∥. (A.25) In the sequel, we bound the three terms on the RHS above one-by-one. First, by sine-theta theorem: 
+
+∥e′ 
+
+> j
+
+Ξ(Ξ ′ ˆΞ − O′)∥ ≤ C∥e′ 
+
+> j
+
+Ξ∥ ∥G − G0∥2
+
+|ˆλK − λK+1 |2 .
+
+57 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+For 1 ≤ k ≤ p, by Weyl’s inequality: 
+
+|ˆλk − λk| ≤ ∥ G − G0∥ ≪ nβ n (A.26) with probability 1 − o(( N n )−5), by employing (A.23) in Lemma A.10. In particular, λ1 ≍ n
+
+and Cnβ n < λ k ≤ Cn for 2 ≤ k ≤ K and λk = 0 otherwise (see Lemma A.9). Thereby, 
+
+|ˆλK − λK+1 | ≥ Cnβ n. Further using ∥e′ 
+
+> j
+
+Ξ∥ ≤ Cphj (see Lemma A.9), with the aid of Lemma A.10, we obtain that with probability 1 − o(( N n )−5): 
+
+∥e′ 
+
+> j
+
+Ξ(Ξ ′ ˆΞ − O′)∥ ≤ Cphj · Kp log( N n )
+
+N nβ 2
+
+> n
+
+(A.27) simultaneously for all 1 ≤ j ≤ p.Next, we similarly bound the second term: 
+
+∥e′ 
+
+> j
+
+ΞΞ ′(G0 − G)ˆΞˆΛ−1∥ ≤ Cnβ n
+
+∥e′ 
+
+> j
+
+Ξ∥∥ G − G0∥ ≤ C
+
+s
+
+hj Kp log( N n )
+
+N nβ 2
+
+> n
+
+. (A.28) Here we used the fact that ˆλK ≥ Cnβ n following from (A.26) and Lemma A.9. For the last term, we simply bound: 
+
+∥e′ 
+
+> j
+
+(G − G0)ˆΞˆΛ−1∥ ≤ C∥e′ 
+
+> j
+
+(G − G0)ˆΞ∥/(nβ n) . (A.29) Combining (A.27), (A.28), and (A.29) into (A.25), by (A.24) in Lemma A.10, we arrive at: 
+
+∥e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ ≤ C
+
+s
+
+hj Kp log( N n )
+
+N nβ 2
+
+> n
+
+
+
+1 + ∥H− 12 (ˆΞ − ΞO′)∥2→∞ 
+
+
+
++ o(1) · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ .
+
+Rearranging both sides above gives: 
+
+∥e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ ≤ C
+
+s
+
+hj Kp log( N n )
+
+N nβ 2
+
+> n
+
+
+
+1 + ∥H− 12 (ˆΞ − ΞO′)∥2→∞ 
+
+
+
+, (A.30) with probability 1 − o(( N n )−3), simultaneously for all 1 ≤ j ≤ p.To proceed, we multiply both sides in (A.30) by h−1/2 
+
+> j
+
+and take the maximum. It follows that: 
+
+∥H− 12 (ˆΞ − ΞO′)∥2→∞ ≤ C
+
+s
+
+Kp log( N n )
+
+N nβ 2
+
+> n
+
+
+
+1 + ∥H− 12 
+
+> 0
+
+(ˆΞ − ΞO′)∥2→∞ 
+
+
+
+.
+
+Note that pKp log( N n )/pN nβ 2 
+
+> n
+
+= o(1). We further rearrange both sides above and get: 
+
+∥H− 12 (ˆΞ − ΞO′)∥2→∞ ≤
+
+s
+
+Kp log( N n )
+
+N nβ 2
+
+> n
+
+= o(1) .
+
+58 Unmixing Nonparametric Densities 
+
+Plugging the above estimate into (A.30), we finally conclude the proof of Theorem A.2. Hence, it remains to prove Lemma A.10. This lemma has been proven in Lemma A3 in Ke and Wang (2024a) with a fixed K setting, where Equation (A24) in Ke and Wang (2024a) showed 
+
+G − G0 = E1 + E2 + E3 + E4,
+
+with Ei’s defined in Equation (A25) in Ke and Wang (2024a). As a result, to prove Lemma A.10, we present the following lemmas. 
+
+Lemma A.11. Suppose the conditions in Theorem A.2 hold. There exists a constant C > 0,such that with probability 1 − o(( N n )−5):
+
+∥Es∥ ≤ C√K
+
+r pn log( N n )
+
+N , for s = 1 , 2, 3 (A.31) 
+
+∥E4∥ = ∥M − 12 
+
+> 0
+
+(ZZ ′ − EZZ ′)M − 12 
+
+> 0
+
+∥ ≤ C√K max 
+
+nr pn log( N n )
+
+N 2 , p log( N n )
+
+N
+
+o
+
+. (A.32) 
+
+Lemma A.12. Suppose the conditions in Theorem A.2 hold. There exists a constant C > 0,such that with probability 1 − o(n−3), simultaneously for all 1 ≤ j ≤ p:
+
+∥e′ 
+
+> j
+
+Es ˆΞ∥/n ≤ C√K
+
+r hj p log( N n )
+
+N n , for s = 2 , 3 (A.33) 
+
+∥e′ 
+
+> j
+
+E4 ˆΞ∥/n ≤ C√K
+
+r hj p log( N n )
+
+N n 
+
+
+
+1 + ∥H− 12 
+
+> 0
+
+(ˆΞ − ΞO′)∥2→∞ 
+
+
+
+, (A.34) 
+
+with O = sgn( ˆΞ′Ξ) .
+
+Lemma A.13. Suppose the conditions in Theorem A.2 hold. There exists a constant C > 0,such that with probability 1 − o(( N n )−3), simultaneously for all 1 ≤ j ≤ p:
+
+∥e′ 
+
+> j
+
+E4(M 1/20 M −1/2 − Ip)ˆΞ∥/n ≤ C√Kphj · p log( N n )
+
+nN 
+
+
+
+1 + ∥H− 12 (ˆΞ − ΞO′)∥2→∞ 
+
+
+
+,
+
+(A.35) 
+
+e′
+
+> j
+
+ M 1/2M −1/20 − Ip
+
+ˆΞ ≤ C√K
+
+r log( N n )
+
+N n + o(βn) · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥; (A.36) 
+
+and furthermore: 
+
+∥e′ 
+
+> j
+
+E1 ˆΞ∥/n ≤ C√K
+
+r hj p log( N n )
+
+N n 
+
+
+
+1 + ∥H− 12 
+
+> 0
+
+(ˆΞ − ΞO′)∥2→∞ 
+
+
+
+(A.37) + o(βn) · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ . (A.38) Using Lemma A.11, Lemma A.12 and Lemma A.13 along with the fact that G − G0 =
+
+E1 + E2 + E3 + E4, we immediately obtain Lemma A.10. In the following, it then suffices to prove the above three technical lemmas. Note that they have been proven in Ke and Wang (2024a) as Lemmas A.4-4.6 without the extra √K in all the bounds under the fixed 
+
+59 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+K setting. Here, to avoid redundant proof arguments in Ke and Wang (2024a), we only highlight the changes under our growing K settings. 
+
+Proof [Proof of Lemma A.11] For ∥E2∥, according to Equation (A34) in Ke and Wang (2024a), it holds that 
+
+E2 = M −1/20 ZW ′A′M −1/20 .
+
+It is seen in Lemma A.8 that ∥M −1/20 ∥ ≍ p1/2. Moreover, we have ∥W ∥ ≍ pn/K and 
+
+∥A∥ ≍ pK/p . Here, Z is a p × n matrix such that Zi(j) = N −1 PNm=1 (Tim (j) − d0 
+
+> i
+
+(j)) with 
+
+Tim (j) ∼ Bernoulli( d0 
+
+> i
+
+(j)) and d0 
+
+> i
+
+(j) ≍ p−1. We now bound ∥ZW ′∥2. We apply the ϵ-net approach. Fix an 1 /4-net, N1/4, of the unit sphere RK . By (Vershynin, 2010, Lemma 5.2 and Lemma 5.4), |N 1/4| ≤ 9K and ∥ZW ′∥ = sup v∈RK :∥v∥=1 ∥ZW ′vk∥ ≤ 2 max v∈N 1/4 ∥ZW ′vk∥.For each v ∈ RK in N1/4, we have: 
+
+∥ZW ′v∥2 =
+
+> p
+
+X
+
+> j=1
+
+1
+
+N
+
+> n
+
+X
+
+> i=1
+> N
+
+X
+
+> m=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!
+
+(Tim (j) − d0 
+
+> i
+
+(j)) 
+
+!2
+
+.
+
+We then Bernstein inequality in Lemma A.3 to the sum in the square. Note that 1
+
+N 2
+
+> n
+
+X
+
+> i=1
+> N
+
+X
+
+> m=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!2
+
+Var[ Tim (j)] ≤ 1
+
+N
+
+> n
+
+X
+
+> i=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!2
+
+d0 
+
+> i
+
+(j).
+
+Hence, for any δ > 0, it holds that with probability 1 − δ, for some constant C > 0, 
+
+1
+
+N
+
+> n
+
+X
+
+> i=1
+> N
+
+X
+
+> m=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!
+
+(Tim (j) − d0 
+
+> i
+
+(j)) 
+
+≤ C
+
+vuut log(2 /δ )
+
+N
+
+> n
+
+X
+
+> i=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!2
+
+d0 
+
+> i
+
+(j) + log(2 /δ )
+
+N
+
+ .
+
+Applying the union bound for all v ∈ N 1/4 and all 1 ≤ j ≤ p, the above bound then holds with probability 1 − 9K pδ . Letting 9 K pδ = o(( N n )−5) with p ≤ N n , we have: 
+
+1
+
+N
+
+> n
+
+X
+
+> i=1
+> N
+
+X
+
+> m=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!
+
+(Tim (j) − d0 
+
+> i
+
+(j)) 
+
+≤ C
+
+vuut K + log( N n )
+
+N
+
+> n
+
+X
+
+> i=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!2
+
+d0 
+
+> i
+
+(j) + K + log( N n )
+
+N
+
+
+
+≤ C
+
+vuut K log( N n )
+
+N
+
+> n
+
+X
+
+> i=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!2
+
+d0 
+
+> i
+
+(j) + K log( N n )
+
+N
+
+ .
+
+60 Unmixing Nonparametric Densities 
+
+As a result, with probability 1 − o(( N n )−5), it holds that 
+
+∥ZW ′∥2 ≤ C
+
+ K log( N n )
+
+N
+
+> p
+
+X
+
+> j=1
+> n
+
+X
+
+> i=1
+> K
+
+X
+
+> k=1
+
+Wki vk
+
+!2
+
+d0 
+
+> i
+
+(j) + K2p log 2(N n )
+
+N 2
+
+
+
+≤ C
+
+ K log( N n )
+
+N ∥W ∥2 + K2p log 2(N n )
+
+N 2
+
+
+
+≤ Cn log( N n )
+
+N .
+
+Then, we have: 
+
+∥E2∥ ≤ Cp 1/2
+
+r n log( N n )
+
+N
+
+s
+
+Kp p1/2 = C
+
+r Kpn log( N n )
+
+N .
+
+Moreover, since E′ 
+
+> 3
+
+= E′ 
+
+> 2
+
+from Equation (A25) in Ke and Wang (2024a), the same bound holds. Next, for E4, in Equation (A39) in Ke and Wang (2024a), they used M0(j, j ) ≍ hj ≍
+
+K/p , which should be M0(j, j ) ≍ p−1 for our growing K setting. As a result, in Equation (A39), it suffices to prove 
+
+∥H− 12 (ZZ ′ − EZZ ′)H− 12 ∥ ≤ CK −1/2 max 
+
+nr pn log( n)
+
+N 2 , p log( n)
+
+N
+
+o
+
+. (A.39) In the following, we will point out where this additional K−1/2 comes from under our growing K setting. In Equation (A42) in Ke and Wang (2024a), they showed 
+
+E(˜ z′ 
+
+> i
+
+˜zi) = Ez′
+
+> i
+
+H−1zi = 1
+
+N 2
+
+> iNi
+
+X
+
+> m=1
+
+E(Tim − ETim )′H−1(Tim − ETim )= 1
+
+N 2
+
+> iNi
+
+X
+
+> m=1
+> p
+
+X
+
+> t=1
+
+E(Tim (t) − d0 
+
+> i
+
+(t)) 2h−1
+
+> t
+
+= 1
+
+N 2
+
+> iNi
+
+X
+
+> m=1
+> p
+
+X
+
+> t=1
+
+d0 
+
+> i
+
+(t) 1 − d0 
+
+> i
+
+(t)h−1 
+
+> t
+
+≤ pNi
+
+.
+
+Here, again, they used ht ≍ K/M but hid this K inside the constant. The finer bound should be pKN (recall in our setting, all Ni are of the same order of N ). Thus, whenever using Bernstein inequality, this bound appears in the variance bound yielding one more 
+
+K−1/2.Last, consider E1. According to Equation (A52) in Ke and Wang (2024a), bounding E1
+
+involves bounding M −1/20 DD ′M −1/20 = G0 + nN Ip + E2 + E3 + E4. Therefore, E1 inherits the additional √K term from E2, E 3 and E4.
+
+Proof [Proof of Lemma A.12] Due to the additional √K term under our growing K setting in all Ei terms of Lemma A.11 compared to Lemma A.4 in Ke and Wang (2024a), Lemma A.12 regarding all Ei terms inherits this additional √K term compared to Lemma A.5 in Ke and Wang (2024a). 
+
+61 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Proof [Proof of Lemma A.13] Again, due to the additional √K term under our growing K
+
+setting in all Ei terms of Lemma A.11 compared to Lemma A.4 in Ke and Wang (2024a), Lemma A.13 regarding all Ei terms inherits this additional √K term compared to Lemma A.6 in Ke and Wang (2024a). However, as for the last higher order o(βn) = o(1) term, in Proof of Lemma A.6 in Ke and Wang (2024a), they showed 
+
+e′
+
+> j
+
+ M 1/2M −1/20 − Ip
+
+(ˆΞ − ΞO′) ≤
+
+s
+
+M (j, j )
+
+M0(j, j ) − 1 · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥≤
+
+r p log( n)
+
+N n · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥
+
+= o(βn) · ∥ e′ 
+
+> j
+
+(ˆΞ − ΞO′)∥ ,
+
+using 
+
+q p log( n) 
+
+> N n
+
+= o(βn). When inheriting the additional √K, it becomes 
+
+q Kp log( n) 
+
+> N n
+
+=
+
+o(βn), which still remains unchanged under our assumption. 
+
+A.13.2 Proof of Theorem A.3 
+
+Proof [Proof of Theorem A.3] According to Theorem A.2, we can let O′ = diag( ω, Ω′), where ω ∈ {− 1, 1} and Ω ′ is an orthogonal matrix in RK−1,K −1. Let us write ˆΞ1 := ( ˆξ2, . . . , ˆξK ) and similarly for Ξ 1. Without loss of generality, we assume ω = 1. Therefore: 
+
+ξ1(j) − ˆξ1(j) ≤ C
+
+r Kh j p log( n)
+
+N n , e′ 
+
+> j
+
+(ˆΞ1 − Ξ1)Ω ′ ≤ C
+
+r Kh j p log( n)
+
+N n . (A.40) We rewrite: ˆr′ 
+
+> j
+
+− r′ 
+
+> j
+
+Ω′ = ˆΞ1(j) · ξ1(j) − ˆξ1(j)ˆξ1(j)ξ1(j) − e′ 
+
+> j
+
+(ˆΞ1 − Ξ1Ω′)
+
+ξ1(j) .
+
+Using Lemma A.9 together with (A.40), we conclude the proof. 
+
+A.13.3 Proof of Theorem A.4 
+
+Proof [Proof of Theorem A.4] Since the successive projection algorithm or any other vertex hunting algorithms we consider here is shown to be efficient, i.e., max 1≤k≤K ∥vk − ˆvk∥ =
+
+O(max 1≤j≤p ∥rj − ˆrj ∥). We then obtain the bound using Theorem A.3. 
+
+A.14 Proof of Theorem 4.3 
+
+Note that under the assumptions of Theorem 4.3, both Theorem 4.1 and Theorem 4.2 hold. Plugging δn of Theorem 4.2 in Theorem 4.1, with h ≍ [K/ (N n )] 12β+1 , we obtain the desired bound. 
+
+62 Unmixing Nonparametric Densities 
+
+Appendix B. Proof of the lower bound 
+
+B.1 Proof of Theorem 4.4 
+
+For the minimax lower bound, it suffices to prove the lower bound by considering a specific case of G and Π among the class. We fix a Π such that each πi with only one nonzero entry leading to Σ Π = K−1n and Assumption 3 (b). For G, we will apply the following minimax lower bound result in (Tsybakov, 2009, Theorem 2.7). 
+
+Lemma B.1. Suppose there exists a family of models {P(s)}Js=1 for J ≥ 2, where for each 
+
+s, the corresponding density vector g(s) = ( g(s)1 . . . . , g (s) 
+
+> K
+
+)′ ∈ G , and the following hold: (a). For all s̸ = s′,
+
+R ∥g(s)(x) − g(s′)(x)∥2dx 
+
+1/2
+
+≥ 2ε > 0.(b). 1
+
+> J
+
+PJs=1 KL (Ps, P0) ≤ α log J, for some α ∈ (0 , 1/8) , where P(s) denotes the probability measure associated with g(s) ∈ G and KL (·, ·) denotes the Kullback–Leibler divergence. Then, there exists a positive constant c(α) only depending on α such that 
+
+inf  
+
+> bg
+
+sup 
+
+> g∈G
+
+E
+
+Z 
+
+∥g(x) − bg(x)∥2dx 
+
+
+
+≥ c(α)ε2.
+
+It then suffices to verify the conditions (a) and (b) above by constructing such a class 
+
+{g(s)}Js=1 with ε2 = K   KN n 
+
+ 2β 
+
+> 2β+1
+
+. We divide the interval [ −K/ 2, K/ 2] evenly into K blocks 
+
+{S(k)}Kk=1 with S(k) := [ ak, a k + 1]. For each 1 ≤ k ≤ K, we first need to construct a base density g0,k such that (a) it is in the Nikol’ski class (i.e., satisfying Assumption 1); (b) there exists a region such that only density g0,k is nonzero while the rest densities are zero (for the existence of anchor region); (c) there exists a region where all densities g0,k are lower bounded away from zero (where we can perturb them to construct {g(s) 
+
+> k
+
+}). To achieve this, we will utilize the following three types of bump functions that are both infinitely-order smooth: 
+
+ϕ0(z; a) = exp 
+
+ 1
+
+z2 − a2
+
+
+
+1{− a < z < a },ϕ1(z; a) = exp 
+
+
+
+(z − a)2 + 1(z − a)2
+
+
+
+1{z > a },ϕ2(z; a) = exp 
+
+
+
+(z − a)2 + 1(z − a)2
+
+
+
+1{z < a }.
+
+Fix T > 0 and an interval [ −2T, 2T ]. To construct g0,k (x), we first put a bump ϕ0(x; 2 T ) in the middle symmetric around x = 0 such that there exists a constant c0 > 0 (depending on 
+
+T ) such that inf x∈[−T,T ] ϕ0(x, 2T ) ≥ c0 > 0. Next, we put a bump ϕ0(x − (2 T + 2 k − 1); 1) to the right, which centers at x = 2 T + 2 k − 1 over the interval [2 T + 2 k − 2, 2T + 2 k]. Further, for the right tail, we add a bump ϕ1(x; 2 T + 2 K), which is zero at x = 2 T + 2 K with an exponential tail decaying to zero. Then, we set all other values of g0,k (x) on [0 , +∞) except 
+
+> 63
+
+Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+these bumps to 0, and g0,k (x) = g0,k (−x) for x < 0 to make it symmetric around x = 0. In order to make it a density, we properly normalize it and define it as: 
+
+g0,k (x) = 15Z1
+
+ϕ0(x; 2 T ) + 15Z2
+
+[ϕ0(x − (2 T + 2 k − 1); 1) + ϕ0(x + (2 T + 2 k − 1); 1)] (B.1) + 15Z3
+
+[ϕ1(x; 2 T + 2 K) + ϕ2(x; −(2 T + 2 K))] ,
+
+where 
+
+Z1 =
+
+Z
+
+ϕ0(z; 2 T )dz, Z 2 =
+
+Z
+
+ϕ0(z; 1) dz, Z 3 =
+
+Z
+
+ϕ1(z; 2 T + 2 K)dz. 
+
+Here, it is seen that Ak = is the anchor region for density g0,k . In the following, we will make perturbations to this base density g0,k on the interval [ −T, T ]. Let ψ be a bump function belonging to the Nikol’ski class (i.e., satisfying Assumption 1) such that it is supported on [ −1, 1], R 10 ψ(x)dx = 0, R 10 ψ2(x)dx = 1 and ∥ψ∥∞ < ∞.Picking an integer B ≍ (N n/K ) 12β+1 , for each 1 ≤ b ≤ B, we let 
+
+ψb(x) := ψ (Bx − b) .
+
+Since B−1 = o(1), by picking a properly large T , it is seen that {ψb}Bb=1 have disjoint support within [ −T, T ] such that R ψb(u)du = 0 and R ψ2 
+
+> b
+
+(u)du = B−1. We will use ψb to perturb the base density g0,k for each 1 ≤ k ≤ K. The following lemma is a well-known result (e.g., see (Tsybakov, 2009, Lemma 2.9) for a proof). 
+
+Lemma B.2 (Varshamov–Gilbert) . For any integer A ≥ 8, there exists an integer J ≥ 2A/ 8,and vectors ν(0) , . . . , ν (J) ∈ { 0, 1}A such that ν(0) is a zero vector and that ∥ν(s) − ν(t)∥1 ≥
+
+A/ 8 for all 0 ≤ s̸ = t ≤ J.
+
+Recall that for each s, we have K densities {g(s) 
+
+> k
+
+}Kk=1 with B bumps {ψb} for each k. We then need a vector of length KB from the Varshamov–Gilbert lemma. Set A = KB then there exists an integer J ≥ 2KB/ 8 and a vector ω(s) = (( ω(s, 1) )′, . . . , (ω(s,K ))′)′ ∈ { 0, 1}KB ,where each ω(s,k ) = ( ω(s,k )1 , . . . , ω (s,k ) 
+
+> B
+
+)′ ∈ { 0, 1}B such that ∥ω(s) − ω(s′)∥1 ≥ KB/ 8 for any 
+
+s̸ = s′. Now, our construction is given by 
+
+g(s) 
+
+> k
+
+(x) = g0,k (x) + δ
+
+> B
+
+X
+
+> b=1
+
+ω(s,k ) 
+
+> b
+
+ψb(x), for some δ ≍ 32 
+
+ KN n 
+
+ β
+
+> 2β+1
+
+= o(1) .
+
+In the following, it suffices to verify the condition (a) and (b) in Lemma B.1. Before this, we first check all {g(s) 
+
+> k
+
+} are densities in the Nikol’ski class (i.e., satisfying Assumption 1). For each 1 ≤ k ≤ K, it is clear that R g(s) 
+
+> k
+
+(x)dx = R g0,k (x)dx = 1 due to R ψb(x)dx = 0. Outside [ −T, T ], g(s) 
+
+> k
+
+(x) = g0,k (x) ≥ 0 and inside [ −T, T ], since {ψb}
+
+have disjoint supports, we then have g(s) 
+
+> k
+
+(x) ≥ c0 − δ∥ψ∥∞ = c0 − o(1). Thus, all g(s) 
+
+> k
+
+’s are nonnegative and they are densities. Meanwhile, they all have constant integrals over anchor regions, i.e., [2 T + 2 k − 2, 2T + 2 k] ∪ [−2T − 2k + 2 , −2T − 2k], where only density g0,k is nonzero for 1 ≤ k ≤ K. Moreover, for any derivative order r > 0, it holds that 
+
+ψ(r) 
+
+> b
+
+(x) = Brψ(r)(Bx − b).
+
+64 Unmixing Nonparametric Densities 
+
+Hence, for each 1 ≤ k ≤ K, note that for each bump ψb, we have: 
+
+Z
+
+ψ(⌊β⌋) 
+
+> b
+
+(x + t) − ψ(⌊β⌋) 
+
+> b
+
+(x) 2
+
+dx 
+
+= B2⌊β⌋
+
+Z
+
+ψ(⌊β⌋)(Bx − b + Bt ) − ψ(⌊β⌋)(Bx − b) 2
+
+dx 
+
+≤ B2⌊β⌋− 1
+
+Z
+
+ψ(⌊β⌋)(u + Bt ) − ψ(⌊β⌋)(u) 2
+
+du 
+
+≤ CB 2⌊β⌋− 1|Bt |2β−2⌊β⌋ = CB 2β−1|t|2β−2⌊β⌋.
+
+Thus, we obtain: 
+
+R ψ(⌊β⌋) 
+
+> b
+
+(x + t) − ψ(⌊β⌋) 
+
+> b
+
+(x) 2
+
+dx 
+
+|t|2β−2⌊β⌋ ≤ CB 2β−1.
+
+Since we have B bumps in total, we have 
+
+> B
+
+X
+
+> b=1
+
+R ψ(⌊β⌋) 
+
+> b
+
+(x + t) − ψ(⌊β⌋) 
+
+> b
+
+(x) 2
+
+dx 
+
+|t|2β−2⌊β⌋ ≤ CB 2β .
+
+Since δ2B2β = O(1), this ensures each g(s) 
+
+> k
+
+belongs to the Nikol’ski class (i.e., satisfying Assumption 1) given g0,k is already in the Nikol’ski class. Next, for the condition (a) in Lemma B.1, due to the construction that all {ψb}Bb=1 have disjoint supports, it holds that for any s̸ = s′,
+
+> K
+
+X
+
+> k=1
+
+∥g(s) 
+
+> k
+
+− g(s′) 
+
+> k
+
+∥2 
+
+> L2
+
+= δ2
+
+> K
+
+X
+
+> k=1
+> B
+
+X
+
+> b=1
+
+(ω(s,k ) 
+
+> b
+
+− ω(s′,k ) 
+
+> b
+
+)2∥ψb(x)∥2 
+
+> L2
+
+,
+
+where we use the notation ∥·∥ L2 to denote the L2 norm of a function. Since ∥ψb(x)∥2 
+
+> L2
+
+= B−1
+
+and ∥ω(s) − ω(s′)∥1 = ∥ω(s) − ω(s′)∥22 ≥ KB/ 8 (they are in {0, 1}KB ) for any s̸ = s′, we then have: 
+
+> K
+
+X
+
+> k=1
+
+∥g(s) 
+
+> k
+
+− g(s′) 
+
+> k
+
+∥2 
+
+> L2
+
+≥ δ2B−1KB/ 8 = Kδ 2/8 ≥ 4Kδ 2 = 4 ε2.
+
+The condition (a) is satisfied. As for the condition (b) in Lemma B.1, for all 1 ≤ i ≤ n and each s, according to our model, we have: 
+
+f (s) 
+
+> i
+
+(x) = X
+
+> ℓ̸=k
+
+πi(ℓ)g0(x) + πi(k)g(s) 
+
+> k
+
+(x), f (0)  
+
+> i
+
+(x) = g0(x).
+
+It implies: 
+
+f (s) 
+
+> i
+
+(x) − f (0)  
+
+> i
+
+(x) = 
+
+> K
+
+X
+
+> k=1
+
+πi(k)( g(s) 
+
+> k
+
+(x) − g0(x)) = δ
+
+> K
+
+X
+
+> k=1
+
+πi(k)
+
+> B
+
+X
+
+> b=1
+
+ω(s,k ) 
+
+> b
+
+ψb(x) =: ∆ (s) 
+
+> i
+
+(x).
+
+65 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Note that the KL divergence between P(s) and P(0) is: KL( P(s), P(0) ) = 
+
+> n
+
+X
+
+> i=1
+> N
+
+X
+
+> j=1
+
+Z
+
+f (s) 
+
+> i
+
+(x) log f (s) 
+
+> i
+
+(x)
+
+f (0)  
+
+> i
+
+(x)
+
+!
+
+dx. 
+
+Since {ψb(x)} have disjoint supports, we have for all x ∈ [−T, T ], |∆(s) 
+
+> i
+
+(x)/f (0)  
+
+> i
+
+(x)| ≤ 
+
+δ∥ψ∥∞/c 0 = o(1). Then using the inequality log(1 + u) ≤ u − u2 
+
+> 2(1+ |u|)
+
+for |u| < 1, and noting that R ∆(s) 
+
+> i
+
+(x)dx = 0 such that the first term order vanishes, there exists a constant 
+
+C > 0 such that for all 1 ≤ i ≤ n and each s,
+
+Z
+
+f (s) 
+
+> i
+
+(x) log f (s) 
+
+> i
+
+(x)
+
+f (0)  
+
+> i
+
+(x)
+
+!
+
+dx ≤ C
+
+Z (∆ (s) 
+
+> i
+
+(x)) 2
+
+f (0)  
+
+> i
+
+(x) dx ≤ Cc −10 ∥∆(s) 
+
+> i
+
+∥2 
+
+> L2
+
+.
+
+It then remains to bound ∥∆(s) 
+
+> i
+
+∥2 
+
+> L2
+
+. Due to the disjoint support of the bumps {ψb}, we have: 
+
+∥∆(s) 
+
+> i
+
+∥2 
+
+> L2
+
+= δ
+
+> K
+
+X
+
+> k=1
+
+πi(k)
+
+> B
+
+X
+
+> b=1
+
+ω(s,k ) 
+
+> b
+
+ψb(x)
+
+> 2
+> L2
+
+= δ2
+
+> B
+
+X
+
+> b=1
+> K
+
+X
+
+> k=1
+
+πi(k)ω(s,k )
+
+> b
+
+!2
+
+1
+
+B
+
+≤ δ2.
+
+Therefore, the KL divergence between P(s) and P(0) satisfies: KL( P(s), P(0) ) = O(N nδ 2).
+
+Recall that δ ≍   KN n 
+
+ β 
+
+> 2β+1
+
+and B ≍ (N n/K ) 12β+1 . Then, it is seen that 1
+
+J
+
+> J
+
+X
+
+> s=1
+
+KL( Ps, P0) = O(N nδ 2) = O(KB ) = O(log J).
+
+Therefore, the condition (b) is also satisfied by picking the constant in B properly small. Finally, we need to show that the above constructed {g(s) 
+
+> k
+
+}Kk=1 satisfy Assumption 3 and (4.4) required in the upper bound Theorem 4.3 so that the lower bound ε2 in Lemma B.1 indeed provides a minimax lower bound for the class considered in the upper bound in Theorem 4.3. To show Assumption 3 is satisfied, we aim to utilize the proof of Lemma A.4 (c). Recall that 
+
+g(s) 
+
+> k
+
+(x) = g0,k (x) + δ
+
+> B
+
+X
+
+> b=1
+
+ω(s,k ) 
+
+> b
+
+ψb(x). (B.2) 
+
+66 Unmixing Nonparametric Densities 
+
+Consequently, letting G(s) = ( G(s)
+
+> mk
+
+), G0 = ( G0,mk ) and E(s) = ( E(s)
+
+> mk
+
+) be three matrices in 
+
+RM ×K , we have: 
+
+G(s) 
+
+> mk
+
+= G0,mk + δE (s)
+
+> mk
+
+, (B.3) where 
+
+G(s) 
+
+> mk
+
+=
+
+Z
+
+> Cm
+
+g(s) 
+
+> k
+
+(x)dx, G 0,mk =
+
+Z
+
+> Cm
+
+g0,k (x)dx, E (s) 
+
+> mk
+
+=
+
+> B
+
+X
+
+> b=1
+
+ω(s,k )
+
+> b
+
+Z
+
+> Cm
+
+ψb(x)dx. 
+
+Following the proof of Lemma A.4 (c), our plan to show Assumption 3 is satisfied is as follows: we construct a set of bins {C m}Mm=1 , and first show the main term G0 satisfying Lemma A.4 (c), and then show the perturbation is small enough. Thus, the eigenvalue bounds of Σ G(s) can lead to the eigenvalue bounds of Σ g(s) .Let hK (x) = PKk=1 g0,k (x). Since hK has a total mass R hK (x)dx = K, we then evenly divide the total mass K into M bins over R such that each bin contains mass equal to 
+
+K/M . Formally, let q1, q 2, . . . , q M −1 be the K/M, 2K/M, . . . , (M − 1) K/M -th quantile of 
+
+hK (x) respectively. Then, we set C1 = ( −∞ , q 1), CM = [ qM −1, +∞) and for 2 ≤ m ≤ M −1, 
+
+Cm = [ qm−1, q m). Hence, by construction, for all 1 ≤ k ≤ K,
+
+> M
+
+X
+
+> k=1
+
+Z
+
+> Cm
+
+g0,k (x)dx = K/M, 
+
+implying ∥G01K ∥∞ = K/M . As for Σ G0 , let G0,m : ∈ RK be its m-th row vector. Then, we have Σ G = MK
+
+PMm=1 G0,m :G′ 
+
+> 0,m
+
+as a sum of rank one matrices. For each 1 ≤ k ≤ K, let 
+
+Ak denote the anchor region of the density g0,k , where only g0,k is nonzero. We can then divide all bins Cm into three cases: (a) There exists 1 ≤ k ≤ K such that Cm ⊂ A k; (b) 
+
+Cm ∩  ∪Kk=1 Ak
+
+ = ∅, i.e., Cm does not overlap with any of the anchor region Ak; (c) there exists 1 ≤ k ≤ K such that Cm ∩ A k̸ = ∅ but there does not exist 1 ≤ k ≤ K such that 
+
+Cm ⊂ A k, i.e., Cm overlaps with some or more Ak but it does not contain in any Ak. We thus have: ΣG = MK
+
+> M
+
+X
+
+> m=1
+
+G0,m :G′ 
+
+> 0,m
+
+= MK
+
+X
+
+> m∈Case a
+
++ X
+
+> m∈Case b
+
++ X
+
+> m∈Case c
+
+!
+
+G0,m :G′
+
+> 0,m
+
+= Σ G,a + (Σ G,b + Σ G,c ) .
+
+In the following, we analyze them separately. For Σ G,a , since Cm ⊂ A k, G0,mk = R 
+
+> Cm
+
+g0,k (x)dx = KM and G0,mk ′ = 0 for any k′̸ = k. It then implies: ΣG,a = MK
+
+> K
+
+X
+
+> k=1
+
+X
+
+> m:Cm⊂A k
+
+K2
+
+M 2 eke′ 
+
+> k
+
+=
+
+> K
+
+X
+
+> k=1
+
+ KM |{ m : Cm ⊂ A k}| 
+
+
+
+eke′
+
+> k
+
+.
+
+Let ηk = R 
+
+> Ak
+
+g0,k (x)dx . Note that ηk ≍ 1 due to our construction (B.1). Hence, the number of such bins Cm contained in Ak |{ m : Cm ⊂ A k}| ≍ ηk MK . Therefore, there exist constant 
+
+C ≥ c > 0 such that ΣG,a = diag( σa, 1, σ a, 2, . . . , σ a,K ),
+
+67 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+where c ≤ σa,k ≤ C for all k. Hence, λmin (Σ G) ≥ λmin (Σ G,a ) ≥ c. As for the largest eigenvalue, we will then bound ∥ΣG,b + Σ G,c ∥.Consider Σ G,b . Note that outside ∪Kk=1 Ak, all densities g0,k (x) are equal by construction (B.1). Since R
+
+> Cm
+
+PKk=1 g0,k (x)dx = KM , it then holds that R 
+
+> Cm
+
+g0,k (x)dx = 1 
+
+> M
+
+for all 1 ≤ k ≤
+
+K. As a result, we obtain G0,mk = 1 
+
+> M
+
+for all 1 ≤ k ≤ K, and ΣG,b = MK
+
+X
+
+> m∈Case b
+
+1
+
+M 2 1K 1′ 
+
+> K
+
+.
+
+It then yields that 
+
+∥ΣG,b ∥ ≤ MK M 1
+
+M 2 K = 1 Finally, for Σ G,c , recall that Case (c) corresponds to m, where Cm partially overlaps with some or more Ak while not strictly contained in any Ak. Recall the construction of 
+
+g0,k in (B.1). We further divide Case (c) into three subcases. Case (c1): Cm ∩ A 1̸ = ∅ and 
+
+Cm ∩ [−2T, 2T ]̸ = ∅; Case (c2): for 1 ≤ k ≤ K − 1, Cm ∩ A k̸ = ∅ and Cm ∩ A k+1 ̸ = ∅; Case (c3): Cm ∩ A K̸ = ∅ and Cm ∩ (( −∞ , −2T − 2K) ∪ (2 T + 2 K, +∞)) ̸ = ∅. We first analyze Case (c1) as Case (c3) is similar to it. For Case (c1), according to the definition of g0,k in (B.1), the function ϕ0(x; 2 T ) from all g0,k (x)’s are nonzero on Cm ∩ [−2T, 2T ] and only g0,1(x) is nonzero on Cm ∩ A 1. Hence, we obtain: 
+
+G0,m : = cm1K + a1e1,
+
+where cm = 15Z1
+
+R  
+
+> Cm∩[−2T, 2T]
+
+ϕ0(x; 2 T ) and a1 = R 
+
+> Cm∩A 1
+
+g0,1(x)dx . Then, we have: 
+
+MK
+
+X
+
+> m∈Case c1
+
+G0,m :G′ 
+
+> 0,m :
+
+= MK (cm1K + a1e1)( cm1K + a1e1)′
+
+= MK (c2
+
+> m
+
+1K 1′ 
+
+> K
+
++ a1cm1K e′ 
+
+> 1
+
++ a1cme11′ 
+
+> K
+
++ a21e1e′
+
+> 1
+
+).
+
+Since cm ≤ 1/M, a 1 ≤ K/M , ∥1K 1′ 
+
+> K
+
+∥ = K, ∥1K e′
+
+> 1
+
+∥ = √K and ∥e1e′
+
+> 1
+
+∥ = 1, we then obtain: 
+
+MK
+
+X
+
+> m∈Case c1
+
+G0,m :G0,m : ≤ MK
+
+KM 2 + 2 K√KM 2 + K2
+
+M 2
+
+!
+
+= O(1) ,
+
+noting that M ≥ K. Similarly, we also obtain the same bound for Case (c3). 
+
+MK
+
+X
+
+> m∈Case c3
+
+G0,m :G0,m : = O(1) .
+
+Last, focus on Case (c2). Since only density g0,k is nonzero on Ak, for Cm ∩ A k̸ = ∅ and 
+
+Cm ∩ A k+1 ̸ = ∅, G0,mk = R 
+
+> Cm∩A k
+
+g0,k (x)dx and G0,m (k+1) = R 
+
+> Cm∩A k+1
+
+g0,k +1 (x)dx while 
+
+G0,mk ′ = 0 for k′ /∈ { k, k + 1 }. Hence, it yields that 
+
+G0,m : = akek + ak+1 ek+1 ,
+
+68 Unmixing Nonparametric Densities 
+
+where ak = R 
+
+> Cm∩A k
+
+g0,k (x)dx ≤ K/M for all 1 ≤ k ≤ K − 1. Then, we obtain: 
+
+MK
+
+X
+
+> m∈Case c2
+
+G0,m :G0,m : = MK
+
+> K−1
+
+X
+
+> k=1
+
+(akek + ak+1 ek+1 )( akek + ak+1 ek+1 )′.
+
+Let S = PK−1 
+
+> k=1
+
+(akek + ak+1 ek+1 )( akek + ak+1 ek+1 )′. It is seen that S is a symmetric tridiagonal matrix. The diagonal is S11 = a21, SKK = a2 
+
+> K
+
+and Skk = 2 a2 
+
+> kk
+
+for 2 ≤ k ≤ K − 1. The off-diagonal is Sk(k+1) = akak+1 . Hence, using the bound 
+
+∥S∥ ≤ max 
+
+> 1≤i≤kk
+
+X
+
+> j=1
+
+|Sij | = 4 
+
+ KM
+
+2
+
+,
+
+we obtain: 
+
+MK
+
+X
+
+> m∈Case c2
+
+G0,m :G0,m : ≤ 4 KM = O(1) .
+
+Combining all subcases (c1)-(c3) together, it yields that ∥ΣG,c ∥ = O(1). Since it is seen that 
+
+∥ΣG,b ∥ ≤ 1, we can conclude ∥ΣG,b + Σ G,c ∥ = O(1), implying λmax (Σ G) ≤ λmax (Σ G,a ) + 
+
+O(1) = O(1). Therefore, we have shown with bins {C m}Mm=1 , the main term matrix G0
+
+satisfies Lemma A.4 (c). Now, we consider the perturbation term δE (s). Recall (B.3) that 
+
+E(s) 
+
+> mk
+
+=
+
+> B
+
+X
+
+> b=1
+
+ω(s,k )
+
+> b
+
+Z
+
+> Cm
+
+ψb(x)dx. 
+
+Note that all bumps used for perturbation are supported within [ −T, T ] for some fixed T > 0. Hence, only Cm within [ −T, T ] makes R 
+
+> Cm
+
+ψb(x)dx nonzero. Since all densities g0,k on [ −T, T ]are bounded from above and away from zero. By the construction R
+
+> Cm
+
+PKk=1 g0,k (x)dx =
+
+K/M , it implies |C m| ≍ 1/M . Hence, due to the disjoint support of the bumps, we have: 
+
+|δE (s)
+
+> mk
+
+| = δ
+
+> B
+
+X
+
+> b=1
+
+ω(s,k )
+
+> b
+
+Z
+
+> Cm
+
+ψb(x)dx ≤
+
+Z
+
+> Cm
+
+δ
+
+> B
+
+X
+
+> b=1
+
+ω(s,k ) 
+
+> b
+
+ψb(x) dx 
+
+= O
+
+ δ∥ψ∥∞
+
+M
+
+
+
+= o
+
+ 1
+
+M
+
+
+
+.
+
+Then, it yields that 
+
+∥δE (s)1K ∥∞ = o
+
+ KM
+
+
+
+,
+
+∥δE (s)∥ = o
+
+√KM 1
+
+M
+
+
+
+= o
+
+r KM
+
+!
+
+= o(1) .
+
+Since G(s) = G0 + δE (s) and we already showed that G0 satisfies Lemma A.4 (c), G(s) also satisfies Lemma A.4 (c) under the bins {C m}Mm=1 . Hence, following the proof of Lemma 
+
+69 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+A.4 (c), the eigenvalue bounds of Σ G(s) imply the eigenvalue bounds of Σ g(s) such that Assumption 3 is satisfied. Moreover, according to Theorem 4.2, there exists an estimator 
+
+bG(s) such that (4.4) holds. Consequently, our constructed {g(s) 
+
+> k
+
+}Kk=1 satisfy the conditions of Theorem 4.3 in the upper bound, implying a valid minimax lower bound. 
+
+Appendix C. Extension to the case of a general d
+
+We now present the general version of our main result, Theorem 4.1, in dimension d > 1. 
+
+Theorem C.1. Fix d > 1. Consider the model (1.1) -(1.2) in Rd and Assumption 1 ′. Sup-pose the assumptions (i)-(iii) and (v) in Theorem 4.1 hold. In addition, suppose Qdj=1 hj →
+
+0 and N n Qdj=1 hj → ∞ . Now, consider the estimator bg+(x) in (4.1) using the above mul-tivariate product kernel Kprod  
+
+> h
+
+. Suppose K ≤ M ≤ [N n/ log 2(N n )] 1/2 and (N n )−1K ≪
+
+Qdj=1 hj ≪ log −1(N n ). Then, there exists a constant C0 > 0 such that 
+
+E
+
+Z 
+
+> Rd
+
+∥bg+(x) − g(x)∥2dx
+
+
+
+≤ C0 · K
+
+
+
+> d
+
+X
+
+> j=1
+
+h2βj 
+
+> j
+
++ KN n Qdj=1 hj
+
++ MK δ2 
+
+> n
+
++ K2
+
+N n 
+
+ .
+
+C.1 Proof of Theorem C.1 
+
+Note that as mentioned in Section 4.6. The last two terms of the bound in Theorem C.1 are irrelevant of the dimension. It thus suffices to prove the first two terms. The second term is obtained simply by replacing the bandwidth h by the product of bandwidths Qdj=1 hj due to the use of the product kernel in our method. Then, in the following, we will only prove the first term. The first term relates to the bias of KDE for a multivariate density. It is from a generalized version of Lemma 6.3, which we present as follows. 
+
+Lemma C.1 (Multivariate analogue of Lemma 6.3) . Let d > 1. For each 1 ≤ k ≤ K
+
+let gk : Rd → R be a probability density belonging to an anisotropic Nikol’ski class with smoothness vector β = ( β1, . . . , β d) and constant L > 0 in the sense that for each multi-index r = ( r1, . . . , r d) with 0 ≤ rj ≤ ⌊ βj ⌋ the mixed partial ∂rgk exists in L2(Rd) and for all t = ( t1, . . . , t d) ∈ Rd
+
+∂rgk(· + t) − ∂rgk(·) L2(Rd) ≤ L
+
+> d
+
+X
+
+> j=1
+
+|tj |βj −rj .
+
+Recall that the multivariate kernel is the product kernel 
+
+Kh(u) = 
+
+> d
+
+Y
+
+> j=1
+
+1
+
+hj
+
+Kj
+
+ uj
+
+hj
+
+
+
+, h = ( h1, . . . , h d),
+
+where the univariate kernel Kj has order ℓj = ⌊βj ⌋ in each coordinate (i.e. R umK(u) du = 0 
+
+for 1 ≤ m ≤ ℓj ) and satisfies the integrability condition R |u|βj |K(u)| du < ∞ for each j.Define the kernel-smoothed target: 
+
+g∗
+
+> k
+
+(x) = 
+
+Z
+
+Kh(u) gk(x + u) du. 
+
+70 Unmixing Nonparametric Densities 
+
+Then, there exists a constant C > 0 such that 
+
+> K
+
+X
+
+> k=1
+
+Z
+
+> Rd
+
+ g∗
+
+> k
+
+(x) − gk(x)2 dx ≤ C K 
+
+> d
+
+X
+
+> j=1
+
+h2βj 
+
+> j
+
+.
+
+Proof The proof follows the same high-level steps as the univariate case (Taylor expansion with cancellation of lower order terms by kernel moments and bounding the remainder by the anisotropic Nikol’ski condition), but we keep track of each coordinate’s smoothness. Fix k. Write the bias ∆k(x) := g∗
+
+> k
+
+(x) − gk(x) = 
+
+Z
+
+Kh(u) gk(x + u) − gk(x) du. 
+
+Let ℓj = ⌊βj ⌋ for j = 1 , . . . , d , and let ℓ = ( ℓ1, . . . , ℓ d). We perform a multivariate Taylor expansion with integral-form remainder. For any multi-index α = ( α1, . . . , α d) with 0 ≤
+
+αj ≤ ℓj , denote |α| = P 
+
+> j
+
+αj and ∂α the mixed partial derivative. The multivariate Taylor expansion about x up to order ℓ reads 
+
+gk(x + u) − gk(x) = X
+
+> 0<|α|≤| ℓ|
+
+uα
+
+α! ∂αgk(x) + Rℓ(x, u ),
+
+where uα = Qdj=1 uαj 
+
+> j
+
+and the remainder has the integral representation 
+
+Rℓ(x, u ) = X
+
+> |α|=|ℓ|
+
+|ℓ|
+
+α!
+
+Z 10
+
+(1 − τ )|ℓ|− 1
+
+∂αgk(x + τ u ) − ∂αgk(x)
+
+
+
+dτ u α.
+
+Because the kernel is a product kernel and each univariate kernel Kj has vanishing moments up to order ℓj in coordinate j, every polynomial term in the finite sum above integrates to zero against Kh(u). Concretely, for any multi-index α with 0 < α j ≤ ℓj for some j, by the product structure 
+
+Z
+
+Kh(u) uα du =
+
+> d
+
+Y
+
+> j=1
+
+ Z 1
+
+hj
+
+Kj
+
+ uj
+
+hj
+
+
+
+uαj 
+
+> j
+
+du j
+
+
+
+=
+
+> d
+
+Y
+
+> j=1
+
+hαj
+
+> j
+
+ Z
+
+vαj Kj (v) dv 
+
+
+
+= 0 ,
+
+because at least one coordinate integral vanishes. Hence all polynomial terms vanish and only the remainder contributes: ∆k(x) = 
+
+Z
+
+Kh(u) Rℓ(x, u ) du. 
+
+We now bound the L2(Rd) norm of ∆ k. Using Minkowski’s integral inequality (twice) and Fubini, 
+
+∥∆k∥L2 =
+
+Z
+
+Kh(u) Rℓ(·, u ) du L2 ≤
+
+Z
+
+|K h(u)| ∥ Rℓ(·, u )∥L2 du. 
+
+71 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi 
+
+Plug in the integral expression for Rℓ and use triangle inequality and Jensen inequality (integrating in τ ): 
+
+∥Rℓ(·, u )∥L2 ≤ Cℓ
+
+X
+
+> |α|=|ℓ|
+
+|uα|
+
+Z 10
+
+(1 − τ )|ℓ|− 1∥∂αgk(· + τ u ) − ∂αgk(·)∥L2 dτ, 
+
+where Cℓ is a combinatorial constant depending on ℓ. By the anisotropic Nikol’ski condition we have, for each such α,
+
+∥∂αgk(· + τ u ) − ∂αgk(·)∥L2 ≤ L
+
+> d
+
+X
+
+> j=1
+
+|τ u j |βj −αj ≤ L
+
+> d
+
+X
+
+> j=1
+
+|uj |βj −αj .
+
+Hence, there exists a constant C > 0 such that 
+
+∥Rℓ(·, u )∥L2 ≤ C X
+
+> |α|=|ℓ|
+
+|uα|
+
+> d
+
+X
+
+> j=1
+
+|uj |βj −αj ≤ C
+
+> d
+
+X
+
+> j=1
+
+|uj |βj · P (u),
+
+where P (u) is a polynomial factor in |u1|, . . . , |ud| whose degree depends only on ℓ and d.Concretely one can bound P (u) ≤ C′(1 + P 
+
+> j
+
+|uj |ℓj )|ℓ|− 1, which is harmless because of the integrability of the kernel moments assumed below. Now, return to the ∥∆k∥L2 bound: 
+
+∥∆k∥L2 ≤ C
+
+Z
+
+|K h(u)|
+
+> d
+
+X
+
+> j=1
+
+|uj |βj P (u) du ≤ C
+
+> d
+
+X
+
+> j=1
+
+Z dY
+
+> m=1
+
+1
+
+hm
+
+Kj
+
+  um
+
+> hm
+
+ |uj |βj P (u) du. 
+
+Change variables vm = um/h m. Then 
+
+∥∆k∥L2 ≤ C
+
+> d
+
+X
+
+> j=1
+
+hβj
+
+> j
+
+Z dY
+
+> m=1
+
+|K j (vm)| | vj |βj ˜P (v) dv ≤ C′′ 
+
+> d
+
+X
+
+> j=1
+
+hβj 
+
+> j
+
+,
+
+where ˜P (v) is the rescaled polynomial and the final integral is finite by the kernel integra-bility assumptions R |v|βj |K j (v)| dv < ∞ and bounded moments. Thus 
+
+∥∆k∥L2 ≤ C
+
+> d
+
+X
+
+> j=1
+
+hβj 
+
+> j
+
+.
+
+Squaring and summing over k = 1 , . . . , K gives 
+
+> K
+
+X
+
+> k=1
+
+∥∆k∥2 
+
+> L2
+
+≤ K · C2 dX
+
+> j=1
+
+hβj
+
+> j
+
+2
+
+≤ C′K
+
+> d
+
+X
+
+> j=1
+
+h2βj 
+
+> j
+
+,
+
+where the last inequality follows since ( P 
+
+> j
+
+aj )2 ≤ d P 
+
+> j
+
+a2 
+
+> j
+
+and constants are absorbed into 
+
+C′. This is the desired bound. 
+
+72 Unmixing Nonparametric Densities 
+
+References 
+
+Joshua Agterberg and Anru R Zhang. Estimating higher-order mixed memberships via the 2-to-infinity tensor perturbation bound. Journal of the American Statistical Association ,120(550):1214–1224, 2025. Tom M Apostol. Calculus, Volume 1 . John Wiley & Sons, 1991. Sanjeev Arora, Rong Ge, and Ankur Moitra. Learning topic models–going beyond svd. In 2012 IEEE 53rd annual symposium on foundations of computer science , pages 1–10. IEEE, 2012. Morgane Austern, Yuanchuan Guo, Zheng Tracy Ke, and Tianle Liu. Poisson-process topic model for integrating knowledge from pre-trained language models. arXiv preprint arXiv:2503.17809 , 2025. B Ayhan, C Kwan, and S Vance. On the use of a linear spectral unmixing technique for concentration estimation of apxs spectrum. J. Multidisciplinary Engineering Science and Technology , 2(9):2469–2474, 2015. Christian Bauckhage and Kasra Manshaei. Kernel archetypal analysis for clustering web search frequency time series. In 2014 22nd International Conference on Pattern Recog-nition , pages 1544–1549. IEEE, 2014. Xin Bing, Florentina Bunea, and Marten Wegkamp. A fast algorithm with minimax optimal guarantees for topic models with an unknown number of topics. Bernoulli , 26(3), 2020. Jos´ e M Bioucas-Dias, Antonio Plaza, Nicolas Dobigeon, Mario Parente, Qian Du, Paul Gader, and Jocelyn Chanussot. Hyperspectral unmixing overview: Geometrical, statis-tical, and sparse regression-based approaches. IEEE journal of selected topics in applied earth observations and remote sensing , 5(2):354–379, 2012. David M Blei and Michael I Jordan. Variational inference for dirichlet process mixtures. 
+
+Bayesian Analysis , 1(1), 2004. David M Blei, Andrew Y Ng, and Michael I Jordan. Latent dirichlet allocation. Journal of machine Learning research , 3(Jan):993–1022, 2003. Adele Cutler and Leo Breiman. Archetypal analysis. Technometrics , 36(4):338–347, 1994. Julien Demange-Chryst, Fran¸ cois Bachoc, J´ erˆ ome Morio, and Timoth´ e Krauth. Variational autoencoder with weighted samples for high-dimensional non-parametric adaptive impor-tance sampling. arXiv preprint arXiv:2310.09194 , 2023. Kushal K Dey, Chiaowen Joyce Hsiao, and Matthew Stephens. Visualizing the structure of rna-seq expression data using grade of membership models. PLoS genetics , 13(3): e1006599, 2017. Natalie Doss, Yihong Wu, Pengkun Yang, and Harrison H Zhou. Optimal estimation of high-dimensional gaussian location mixtures. The Annals of Statistics , 51(1):62–95, 2023. 
+
+> 73 Jianqing Fan, Zheng Tracy Ke, Zhaoyang Shi
+
+Michael D Escobar and Mike West. Bayesian density estimation and inference using mix-tures. Journal of the american statistical association , 90(430):577–588, 1995. Chao Gao, Yu Lu, and Harrison H Zhou. Rate-optimal graphon estimation. The Annals of Statistics , pages 2624–2652, 2015. Peter Hall, Simon J Sheather, MC Jones, and James Stephen Marron. On optimal data-based bandwidth selection in kernel density estimation. Biometrika , 78(2):263–269, 1991. Yuefeng Han, Rong Chen, Dan Yang, and Cun-Hui Zhang. Tensor factor model estimation by iterative projection. The Annals of Statistics , 52(6):2641–2667, 2024. Julian Katz-Samuels, Gilles Blanchard, and Clayton Scott. Decontamination of mutual contamination models. Journal of machine learning research , 20(41):1–57, 2019. Zheng Tracy Ke and Jiashun Jin. Special invited paper: The score normalization, especially for heterogeneous network and text data. Stat , 12(1):e545, 2023. Zheng Tracy Ke and Jingming Wang. Entry-wise eigenvector analysis and improved rates for topic modeling on short documents. Mathematics , 12(11):1682, 2024a. Zheng Tracy Ke and Minzhe Wang. Using SVD for topic modeling. Journal of the American Statistical Association , 119(545):434–449, 2024b. Olga Klopp, Maxim Panov, Suzanne Sigalla, and Alexandre B Tsybakov. Assigning topics to documents by successive projections. The Annals of Statistics , 51(5):1989–2014, 2023. Chiman Kwan, Bulent Ayhan, Genshe Chen, Jing Wang, Baohong Ji, and Chein-I Chang. A novel approach for spectral unmixing, classification, and concentration estimation of chemical and biological agents. IEEE Transactions on Geoscience and Remote Sensing ,44(2):409–419, 2006. John Lafferty, Han Liu, and Larry Wasserman. Concentration of measure. On-line. Avail-able: https://www. stat. cmu. edu/larry/= sml/Concentration. pdf , 2008. Chanwoo Lee and Miaoyan Wang. Statistical and computational efficiency for smooth tensor estimation with unknown permutations. Journal of the American Statistical Association ,120(551):1477–1490, 2025. Oleg Lepski. Multivariate density estimation under sup-norm loss: oracle approach, adap-tation and independence structure. Annals of Statistics , 41(2):1005–1034, 2013. OV Lepskii. Asymptotically minimax adaptive estimation. i: Upper bounds. optimally adaptive estimates. Theory of Probability & Its Applications , 36(4):682–697, 1992. Han Liu, Fang Han, Ming Yuan, John Lafferty, and Larry Wasserman. High-dimensional semiparametric gaussian copula graphical models. The Annals of Statistics , pages 2293– 2326, 2012. 
+
+> 74 Unmixing Nonparametric Densities
+
+Shujie Ma, Liangjun Su, and Yichong Zhang. Determining the number of communities in degree-corrected stochastic block models. Journal of machine learning research , 22(69): 1–63, 2021. Sergei Mikhailovich Nikol’skii. Approximation of functions of several variables and imbed-ding theorems . Springer Science & Business Media, 2012. Byeong U Park. A cross-validatory choice of smoothing parameter in adaptive location estimation. Journal of the American Statistical Association , 88(423):848–854, 1993. Alexandre B Tsybakov. Introduction to nonparametric estimation. revised and extended from the 2004 french original. translated by vladimir zaiats, 2009. Roman Vershynin. Introduction to the non-asymptotic analysis of random matrices. arXiv preprint arXiv:1011.3027 , 2010. Yuge Wang and Hongyu Zhao. Non-linear archetypal analysis of single-cell rna-seq data by deep autoencoders. PLoS computational biology , 18(4):e1010025, 2022. Larry Wasserman. All of nonparametric statistics . Springer Science & Business Media, 2006. Chenyue Wu and Esteban G Tabak. Prototypal analysis and prototypal regression. arXiv preprint arXiv:1701.08916 , 2017. Ruijia Wu, Linjun Zhang, and Tony T Cai. Sparse topic modeling: Computational efficiency, near-optimal algorithms, and statistical inference. Journal of the American Statistical Association , 118(543):1849–1861, 2023. Wei Biao Wu. Empirical processes of stationary sequences. Statistica Sinica , pages 313–333, 2008. Keyao Zhan, Xin Xiong, Zijian Guo, Tianxi Cai, and Molei Liu. Domain adaptation opti-mized for robustness in mixture populations. arXiv preprint arXiv:2407.20073 , 2024. Cun-Hui Zhang. Generalized maximum likelihood estimation of normal mixture densities. 
+
+Statistica Sinica , pages 1297–1318, 2009.
